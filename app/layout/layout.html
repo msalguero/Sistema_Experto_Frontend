@@ -1,0 +1,59 @@
+<div class="wrapper">
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-user"></i>
+              <span class="hidden-xs">Juan Perez</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="user-footer">
+                <div >
+                  <a href="#" >Profile</a>
+                </div>
+                <div >
+                  <a href="#" >Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  <aside class="main-sidebar">
+    <section class="sidebar">
+      <span class="header">MAIN NAVIGATION</span>
+      <ul class="sidebar-menu">
+        <li>
+          <i class="fa fa-fw fa-dashboard"></i>
+          <span>Investigations</span>
+        </li>
+      </ul>
+    </section>
+  </aside>
+
+  <div class="content-wrapper">
+  	<ui-view></ui-view>
+  </div>
+  
+  <aside class="control-sidebar control-sidebar-dark">
+
+    <div class="tab-content">
+      <div class="tab-pane" id="control-sidebar-home-tab">
+        
+
+      </div>
+    </div>
+  </aside>
+
+  <div class="control-sidebar-bg"></div>
+</div>

@@ -1,0 +1,57 @@
+.register .container {
+  margin-top: 5%;
+}
+.register .main {
+  margin-right: 20%;
+  margin-left: 20%;
+}
+.login .container {
+  margin-top: 5%;
+}
+.login .main {
+  margin-right: 20%;
+  margin-left: 20%;
+}
+.main-sidebar {
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  padding-top: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #222;
+  border-right: 1px solid #eee;
+  color: #9d9d9d;
+}
+.sidebar-menu {
+  list-style: none;
+  padding-left: 0px;
+}
+.main-sidebar .header {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.navbar-right {
+  margin-right: 0;
+}
+.content-wrapper {
+  top: 51px;
+  position: absolute;
+  left: 167px;
+}
+.sidebar-menu li {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.sidebar-menu li:hover {
+  background-color: #000;
+  color: #ffffff;
+}
