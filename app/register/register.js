@@ -5,12 +5,17 @@
   angular.module('InvestigationApp')
 
   .controller('Register', [
-    '$scope', '$state', 
-    function($scope, $state) {
+    '$scope', '$state', 'Account',
+    function($scope, $state, Account) {
       var ctrl = this;
-
+      $scope.user = {};
       $scope.submit = function(){
-      	$state.go("main.investigations");
+      	$scope.registerResult = Account.create($scope.user,
+        function() {
+          $state.go("login");
+        }, function(res) {
+          $scope.error = true;
+        });
       };
 
       $scope.login = function(){

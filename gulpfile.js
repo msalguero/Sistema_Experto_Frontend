@@ -17,6 +17,10 @@ gulp.task('clean', function() {
     gulp.src('./dist/*')
       .pipe(clean({force: true}));
 });
+gulp.task('clean-bundles', function(){
+  return gulp.src(['./app/main.js', './app/main.css'], {read: false})
+        .pipe(clean({force: true}));
+});
 gulp.task('minify-css', function() {
   var opts = {comments:true,spare:true};
   gulp.src(['./app/**/*.css', '!./app/bower_components/**'])
@@ -54,7 +58,7 @@ gulp.task('connectDist', function () {
 });
 
 gulp.task('scripts', function() {
-    gulp.src(['./app/**/*.js', '!./app/bower_components/**'])
+    gulp.src(['./app/**/*.js', '!./app/bower_components/**', '!./app/lb-services.js'])
     .pipe(concat('main.js'))
     .pipe(gulp.dest('./app'));
 });
@@ -66,14 +70,23 @@ gulp.task('less', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./app/**/*.less', ['less']);
-    gulp.watch(['./app/**/*.js', '!./app/bower_components/**'], ['scripts']);
-})
+    gulp.watch(['./app/**/*.less', './app/**/*.js', '!./app/bower_components/**'], ['bundle']);
+});
+
+gulp.task('bundle', function(){
+  runSequence(
+    ['clean-bundles'],
+    ['less', 'scripts']
+  );
+});
 
 // default task
-gulp.task('default',
-  ['less', 'scripts', 'connect', 'watch']
-);
+gulp.task('default', function(){
+  runSequence(
+    ['clean-bundles'],
+    ['less', 'scripts', 'connect', 'watch']
+  );
+});
 gulp.task('build', function() {
   runSequence(
     ['clean'],

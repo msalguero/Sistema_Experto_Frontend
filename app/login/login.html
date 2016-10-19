@@ -7,14 +7,18 @@
            	</div>
         </div> 
 		<div class="main-login main-center">
+			<div ng-show="error" class="alert alert-danger alert-dismissible" role="alert">
+			  <button ng-click="error = false" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  Invalid email/password combination. Please try again.
+			</div>
 			<form class="form-horizontal" method="post" action="#">
 
 				<div class="form-group">
-					<label for="email" class="cols-sm-2 control-label">Your Email</label>
+					<label for="email" class="cols-sm-2 control-label"> Email</label>
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+							<input ng-model="credentials.email" type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
 						</div>
 					</div>
 				</div>
@@ -24,7 +28,7 @@
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+							<input ng-model="credentials.password" type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
 						</div>
 					</div>
 				</div>

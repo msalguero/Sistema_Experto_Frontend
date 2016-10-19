@@ -5,17 +5,26 @@
   angular.module('InvestigationApp')
 
   .controller('Login', [
-    '$scope', '$state', 
-    function($scope, $state) {
+    '$rootScope', '$scope', '$state', 'Account',
+    function($rootScope, $scope, $state, Account) {
       var ctrl = this;
+      $scope.credentials = {};
+      $scope.error = false;
 
       $scope.submit = function(){
-      	$state.go("main.investigations");
+      	$scope.loginResult = Account.login($scope.credentials,
+        function(res) {
+          $rootScope.user = res.user;
+          $state.go("main.investigations");
+        }, function(res) {
+          $scope.error = true;
+        });
       };
 
       $scope.register = function(){
       	$state.go("register");
       };
+
     }
   ]);
 

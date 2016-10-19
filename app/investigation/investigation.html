@@ -1,3 +1,23 @@
 <div>
-invest
+	<button ng-click="Create()" type="button" class="btn btn-primary">Add new Investigation</button>
+	<div id="no-more-tables">
+        <table class="col-md-12 table-bordered table-striped table-condensed cf">
+    		<thead class="cf">
+    			<tr>
+    				<th>Name</th>
+    				<th>Description</th>
+    				<th>Website</th>
+    				<th>Creation Date</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr ng-repeat="investigation in investigations">
+    				<td>{{investigation.name}}</td>
+    				<td>{{investigation.description}}</td>
+    				<td>{{investigation.website}}</td>
+    				<td>{{investigation.create_time}}</td>
+    			</tr>
+    		</tbody>
+    	</table>
+    </div>
 </div>
