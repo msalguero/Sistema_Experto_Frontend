@@ -42,6 +42,13 @@
         controller: 'CreateInvestigation'
       };
 
+      var viewInvestigationState = { 
+        name: 'main.viewInvestigation', 
+        url: 'investigations/:id', 
+        templateUrl: "./investigation/View/investigation.html",
+        controller: 'ViewInvestigation'
+      };
+
       var registerState = { 
         name: 'register', 
         url: '/register', 
@@ -54,6 +61,7 @@
       $stateProvider.state(mainState);
       $stateProvider.state(investigationState);
       $stateProvider.state(createInvestigationState);
+      $stateProvider.state(viewInvestigationState);
     }
   ]);
 

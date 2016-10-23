@@ -41,6 +41,7 @@
   top: 51px;
   position: absolute;
   left: 167px;
+  width: 75%;
 }
 .sidebar-menu li {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -54,6 +55,9 @@
 .sidebar-menu li:hover {
   background-color: #000;
   color: #ffffff;
+}
+.glyphicon-remove {
+  color: red !important;
 }
 @media only screen and (max-width: 800px) {
   /* Force table to not be like tables anymore */
@@ -105,4 +109,18 @@
   #no-more-tables td:before {
     content: attr(data-title);
   }
+}
+.add-investigation-button {
+  margin-top: 5%;
+  margin-bottom: 2%;
+}
+.new-variable-button {
+  width: 20%;
+  display: inline;
+}
+.add-variable-button {
+  margin-top: 2%;
+}
+.panel .glyphicon-remove {
+  float: right;
 }

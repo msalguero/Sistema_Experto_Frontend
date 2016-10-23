@@ -22,6 +22,9 @@
           });
       };
 
+      $scope.investigations = function(){
+        $state.go("main.investigations");
+      };
     }
   ]);
 

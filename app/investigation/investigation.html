@@ -1,5 +1,5 @@
 <div>
-	<button ng-click="Create()" type="button" class="btn btn-primary">Add new Investigation</button>
+	<button ng-click="Create()" type="button" class=" add-investigation-button btn btn-primary">Add new Investigation</button>
 	<div id="no-more-tables">
         <table class="col-md-12 table-bordered table-striped table-condensed cf">
     		<thead class="cf">
@@ -8,14 +8,18 @@
     				<th>Description</th>
     				<th>Website</th>
     				<th>Creation Date</th>
+                    <th></th>
     			</tr>
     		</thead>
     		<tbody>
-    			<tr ng-repeat="investigation in investigations">
-    				<td>{{investigation.name}}</td>
-    				<td>{{investigation.description}}</td>
-    				<td>{{investigation.website}}</td>
-    				<td>{{investigation.create_time}}</td>
+    			<tr  ng-repeat="investigation in investigations">
+    				<td ng-click="ViewDetails(investigation.id)">{{investigation.name}}</td>
+    				<td ng-click="ViewDetails(investigation.id)">{{investigation.description}}</td>
+    				<td ng-click="ViewDetails(investigation.id)">{{investigation.website}}</td>
+    				<td ng-click="ViewDetails(investigation.id)">{{investigation.create_time}}</td>
+                    <td >
+                        <span ng-click="Delete(investigation.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+                    </td>
     			</tr>
     		</tbody>
     	</table>

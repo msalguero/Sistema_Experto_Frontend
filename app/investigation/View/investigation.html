@@ -1,0 +1,54 @@
+<div>
+	<h2>Investigation</h2>
+	<div class="form-group">
+      <label >Name: </label>
+      <span>{{investigation[0].name}}</span>
+    </div>
+    <div class="form-group">
+      <label >Description: </label>
+      <span>{{investigation[0].description}}</span>
+    </div>
+    <div class="form-group">
+      <label >Website: </label>
+      <span>{{investigation[0].website}}</span>
+    </div>
+    <div class="panel panel-default">
+    	<div ng-click="toggleVariablePanel()" class="panel-heading">
+    		<h3 class="panel-title">Variables</h3>
+    	</div>
+    	<div ng-show="variablePanelExpanded"  class="panel-body">
+    		<ul class="list-group" >
+		    	<li class="list-group-item" ng-repeat="variable in variables">
+		    		{{variable.name}}
+		    		<span ng-click="DeleteVariable(variable.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		    	</li>
+		    </ul>
+		    <div ng-show="newVariable.show">
+		    	<input  placeholder="Name" class="new-variable-button" ng-model="newVariable.name" type="text" class="form-control" >
+		    	<button ng-click="saveVariable()" type="button" class="btn btn-primary">Save</button>
+		    </div>
+		    
+		    <button class="add-variable-button" ng-click="addVariable()" type="button" class="btn btn-primary">Add Variable</button>
+    	</div>
+	</div>
+	<div class="panel panel-default">
+    	<div ng-click="toggleExpertPanel()" class="panel-heading">
+    		<h3 class="panel-title">Experts</h3>
+    	</div>
+    	<div ng-show="expertPanelExpanded"  class="panel-body">
+    		<div class="list-group">
+			  <div class="list-group-item " ng-repeat="expert in experts">
+			  	<span ng-click="DeleteExpert(expert.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			    <h4 class="list-group-item-heading">{{expert.name}}</h4>
+			    <p class="list-group-item-text">{{expert.email}}</p>
+			  </div>
+			</div>
+		    <div ng-show="newExpert.show">
+		    	<input placeholder="Name" class="new-variable-button" ng-model="newExpert.name" type="text" class="form-control" >
+		    	<input placeholder="Email" class="new-variable-button" ng-model="newExpert.email" type="text" class="form-control" >
+		    	<button ng-click="saveExpert()" type="button" class="btn btn-primary">Save</button>
+		    </div>
+		    <button class="add-variable-button" ng-click="addExpert()" type="button" class="btn btn-primary">Add Expert</button>
+    	</div>
+	</div>
+</div>

@@ -42,6 +42,13 @@
         controller: 'CreateInvestigation'
       };
 
+      var viewInvestigationState = { 
+        name: 'main.viewInvestigation', 
+        url: 'investigations/:id', 
+        templateUrl: "./investigation/View/investigation.html",
+        controller: 'ViewInvestigation'
+      };
+
       var registerState = { 
         name: 'register', 
         url: '/register', 
@@ -54,6 +61,7 @@
       $stateProvider.state(mainState);
       $stateProvider.state(investigationState);
       $stateProvider.state(createInvestigationState);
+      $stateProvider.state(viewInvestigationState);
     }
   ]);
 
@@ -75,6 +83,21 @@
 
       $scope.Create = function(){
         $state.go('main.createInvestigation');
+      };
+
+      $scope.ViewDetails = function(id){
+        console.log(id);
+        $state.go('main.viewInvestigation',{id: id} );
+      };
+
+      $scope.Delete = function(id){
+        Investigation.deleteById({ id: id })
+          .$promise
+          .then(function() { 
+            $scope.investigations = Investigation.find({
+                filter: { limit: 10 }
+              }); 
+          });
       };
     }
   ]);
@@ -104,6 +127,9 @@
           });
       };
 
+      $scope.investigations = function(){
+        $state.go("main.investigations");
+      };
     }
   ]);
 
@@ -184,6 +210,91 @@
             $state.go("main.investigations");
           });
       };
+    }
+  ]);
+
+}());
+(function () {
+
+'use strict';
+
+  angular.module('InvestigationApp')
+
+  .controller('ViewInvestigation', [
+    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert',
+    function($scope, $state, Investigation, $stateParams, Variable, Expert) {
+      var ctrl = this;
+      $scope.variablePanelExpanded = true;
+      $scope.expertPanelExpanded = true;
+      $scope.variables = [];
+      $scope.experts = [];
+
+      var loadExperts = function(){
+        $scope.experts = Expert.find();
+      }
+
+      var loadVariables = function(){
+        $scope.variables = Variable.find({ 
+          filter: { where: { investigationId: $stateParams.id } }
+        });
+      }
+
+      $scope.investigation = Investigation.find({ 
+        filter: { where: { id: $stateParams.id } }
+      });
+
+      loadExperts();
+      loadVariables();
+
+      $scope.newVariable = {"weight": 0, "investigationId": $stateParams.id};
+      $scope.newExpert = {};
+
+      $scope.toggleVariablePanel = function(){
+        $scope.variablePanelExpanded = !$scope.variablePanelExpanded;
+      }
+
+      $scope.toggleExpertPanel = function(){
+        $scope.expertPanelExpanded = !$scope.variablePanelExpanded;
+      }
+
+      $scope.addVariable = function(){
+        $scope.newVariable.show = true;
+      }
+
+      $scope.addExpert = function(){
+        $scope.newExpert.show = true;
+      }
+
+      $scope.saveVariable = function(){
+        Variable.create($scope.newVariable, 
+          function(){
+            $scope.newVariable.show = false;
+            $scope.newVariable.name = "";
+            loadVariables();
+          });
+      }
+
+      $scope.saveExpert = function(){
+        Expert.create($scope.newExpert, 
+          function(){
+            $scope.newExpert.show = false;
+            $scope.newExpert.name = "";
+            $scope.newExpert.email = "";
+            loadExperts();
+          });
+      }
+
+      $scope.DeleteVariable = function(id){
+        Variable.deleteById({ id: id })
+          .$promise
+          .then(loadVariables);
+      }
+
+      $scope.DeleteExpert = function(id){
+        Expert.deleteById({ id: id })
+          .$promise
+          .then(loadExperts);
+      }
     }
   ]);
 
