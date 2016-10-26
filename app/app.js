@@ -8,7 +8,8 @@
   .config([
     '$stateProvider',
     'LoopBackResourceProvider',
-    function($stateProvider, LoopBackResourceProvider) {
+    '$urlRouterProvider',
+    function($stateProvider, LoopBackResourceProvider,$urlRouterProvider) {
 
       LoopBackResourceProvider.setUrlBase('http://localhost:3000/api/');
 
@@ -55,6 +56,10 @@
         templateUrl: "./register/register.html",
         controller: 'Register'
       }
+
+
+      $urlRouterProvider.otherwise('/login');
+
 
       $stateProvider.state(registerState);
       $stateProvider.state(loginState);

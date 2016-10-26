@@ -8,7 +8,8 @@
   .config([
     '$stateProvider',
     'LoopBackResourceProvider',
-    function($stateProvider, LoopBackResourceProvider) {
+    '$urlRouterProvider',
+    function($stateProvider, LoopBackResourceProvider,$urlRouterProvider) {
 
       LoopBackResourceProvider.setUrlBase('http://localhost:3000/api/');
 
@@ -56,43 +57,16 @@
         controller: 'Register'
       }
 
+
+      $urlRouterProvider.otherwise('/login');
+
+
       $stateProvider.state(registerState);
       $stateProvider.state(loginState);
       $stateProvider.state(mainState);
       $stateProvider.state(investigationState);
       $stateProvider.state(createInvestigationState);
       $stateProvider.state(viewInvestigationState);
-    }
-  ]);
-
-}());
-(function () {
-
-'use strict';
-
-  angular.module('InvestigationApp')
-
-  .controller('Layout', [
-    '$rootScope', '$scope', '$state', 'Account',
-    function($rootScope, $scope, $state, Account) {
-      var ctrl = this;
-      if(!$rootScope.user)
-        $state.go("login");
-      else
-        $scope.userName = $rootScope.user.username;
-      $scope.logout = function(){
-        $rootScope.user = false;
-        Account.logout(
-          function() {
-            $state.go("login");
-          }, function(res) {
-            $scope.error = true;
-          });
-      };
-
-      $scope.investigations = function(){
-        $state.go("main.investigations");
-      };
     }
   ]);
 
@@ -129,6 +103,37 @@
                 filter: { limit: 10 }
               }); 
           });
+      };
+    }
+  ]);
+
+}());
+(function () {
+
+'use strict';
+
+  angular.module('InvestigationApp')
+
+  .controller('Layout', [
+    '$rootScope', '$scope', '$state', 'Account',
+    function($rootScope, $scope, $state, Account) {
+      var ctrl = this;
+      if(!$rootScope.user)
+        $state.go("login");
+      else
+        $scope.userName = $rootScope.user.username;
+      $scope.logout = function(){
+        $rootScope.user = false;
+        Account.logout(
+          function() {
+            $state.go("login");
+          }, function(res) {
+            $scope.error = true;
+          });
+      };
+
+      $scope.investigations = function(){
+        $state.go("main.investigations");
       };
     }
   ]);
