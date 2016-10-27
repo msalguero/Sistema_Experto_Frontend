@@ -8,12 +8,8 @@
     '$rootScope', '$scope', '$state', 'Account',
     function($rootScope, $scope, $state, Account) {
       var ctrl = this;
-      if(!$rootScope.user)
-        $state.go("login");
-      else
-        $scope.userName = $rootScope.user.username;
+      
       $scope.logout = function(){
-        $rootScope.user = false;
         Account.logout(
           function() {
             $state.go("login");
@@ -25,6 +21,18 @@
       $scope.investigations = function(){
         $state.go("main.investigations");
       };
+
+      $scope.init = function(){
+        Account.getCurrent(
+          function(response) {
+              var user = response;
+              $scope.userName = user.username;
+            }, function(res) {
+              $state.go("login");
+            });
+      }
+
+      $scope.init();
     }
   ]);
 
