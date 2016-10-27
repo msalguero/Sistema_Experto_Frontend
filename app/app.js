@@ -58,7 +58,7 @@
       }
 
 
-      $urlRouterProvider.otherwise('/login');
+      $urlRouterProvider.otherwise('/');
 
 
       $stateProvider.state(registerState);
@@ -68,6 +68,21 @@
       $stateProvider.state(createInvestigationState);
       $stateProvider.state(viewInvestigationState);
     }
-  ]);
+  ])
+
+
+
+  .run(function ($rootScope, Account, $state ) {
+    $rootScope.$on('$stateChangeStart', function (event, next) {
+      var authorizedUser = Account.isAuthenticated();
+      console.log("authorized User: "+ authorizedUser);
+      console.log("toState: "+next.name);
+      if (!authorizedUser && next.name !== 'login') {
+        $state.go("login");
+        
+      }
+
+    });
+  });
 
 }());
