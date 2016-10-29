@@ -37,11 +37,9 @@
 .navbar-right {
   margin-right: 0;
 }
-.content-wrapper {
-  top: 51px;
-  position: absolute;
-  left: 167px;
-  width: 75%;
+thead {
+  background-color: #3c8dbc;
+  color: whitesmoke;
 }
 .sidebar-menu li {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -68,6 +66,9 @@
   #no-more-tables td,
   #no-more-tables tr {
     display: block;
+  }
+  table.table-bordered.col-md-10.table-striped.table-condensed.cf {
+    float: none;
   }
   #no-more-tables {
     margin-left: 10%;
