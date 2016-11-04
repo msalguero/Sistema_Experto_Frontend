@@ -50,6 +50,20 @@
         controller: 'ViewInvestigation'
       };
 
+      var pollState = { 
+        name: 'main.poll', 
+        url: 'polls', 
+        templateUrl: "./poll/poll.html",
+        controller: 'PollList'
+      };
+
+      var createPollState = { 
+        name: 'main.createPoll', 
+        url: 'polls/create/:id', 
+        templateUrl: "./poll/Create/CreatePoll.html",
+        controller: 'CreatePoll'
+      };
+
       var registerState = { 
         name: 'register', 
         url: '/register', 
@@ -67,6 +81,8 @@
       $stateProvider.state(investigationState);
       $stateProvider.state(createInvestigationState);
       $stateProvider.state(viewInvestigationState);
+      $stateProvider.state(pollState);
+      $stateProvider.state(createPollState);
     }
   ])
 
@@ -97,9 +113,7 @@
     function($scope, $state, Investigation) {
       var ctrl = this;
 
-      $scope.investigations = Investigation.find({
-        filter: { limit: 10 }
-      });
+      $scope.investigations = Investigation.find({filter:{include:  ['Experts', 'variables']}});
 
       $scope.Create = function(){
         $state.go('main.createInvestigation');
@@ -110,13 +124,15 @@
         $state.go('main.viewInvestigation',{id: id} );
       };
 
+      $scope.CreatePoll = function(id){
+        $state.go('main.createPoll', {id: id});
+      }
+
       $scope.Delete = function(id){
         Investigation.deleteById({ id: id })
           .$promise
           .then(function() { 
-            $scope.investigations = Investigation.find({
-                filter: { limit: 10 }
-              }); 
+            $scope.investigations = Investigation.find({filter:{include:  ['Experts', 'variables']}}); 
           });
       };
     }
@@ -199,6 +215,47 @@
 
   angular.module('InvestigationApp')
 
+  .controller('PollList', [
+    '$scope', '$state', 'Poll',
+    function($scope, $state, Poll) {
+      var ctrl = this;
+
+      $scope.data = {
+        label: "75%",
+        percentage: 75
+      }
+
+      $scope.polls = Poll.find();
+
+      $scope.Create = function(){
+        $state.go('main.createPoll');
+      };
+
+      /*
+      $scope.ViewDetails = function(id){
+        console.log(id);
+        $state.go('main.viewInvestigation',{id: id} );
+      };
+
+      $scope.Delete = function(id){
+        Investigation.deleteById({ id: id })
+          .$promise
+          .then(function() { 
+            $scope.investigations = Investigation.find({
+                filter: { limit: 10 }
+              }); 
+          });
+      };*/
+    }
+  ]);
+
+}());
+(function () {
+
+'use strict';
+
+  angular.module('InvestigationApp')
+
   .controller('Register', [
     '$scope', '$state', 'Account',
     function($scope, $state, Account) {
@@ -258,7 +315,9 @@
       $scope.experts = [];
 
       var loadExperts = function(){
-        $scope.experts = Expert.find();
+        $scope.experts = Investigation.Experts({
+          id: $stateParams.id
+        });
       }
 
       var loadVariables = function(){
@@ -275,7 +334,7 @@
       loadVariables();
 
       $scope.newVariable = {"weight": 0, "investigationId": $stateParams.id};
-      $scope.newExpert = {};
+      $scope.newExpert = { "send_poll": true};
 
       $scope.toggleVariablePanel = function(){
         $scope.variablePanelExpanded = !$scope.variablePanelExpanded;
@@ -303,7 +362,9 @@
       }
 
       $scope.saveExpert = function(){
-        Expert.create($scope.newExpert, 
+        Investigation.Experts.create(
+           { id: $stateParams.id },
+          $scope.newExpert, 
           function(){
             $scope.newExpert.show = false;
             $scope.newExpert.name = "";
@@ -322,6 +383,49 @@
         Expert.deleteById({ id: id })
           .$promise
           .then(loadExperts);
+      }
+    }
+  ]);
+
+}());
+(function () {
+
+'use strict';
+
+  angular.module('InvestigationApp')
+
+  .controller('CreatePoll', [
+    '$scope', '$state', 'Poll', '$stateParams', 'Investigation',
+    function($scope, $state, Poll, $stateParams,  Investigation) {
+      var ctrl = this;
+      $scope.hideItemInput = true;
+      $scope.poll = {
+        questions:[]
+      };
+
+      $scope.itemInput = "";
+
+      $scope.submit = function(){
+        Investigation.polls.create(
+           { id: $stateParams.id },
+          $scope.poll, 
+          function(){
+            $state.go("main.investigations");
+          });
+      };
+
+      $scope.addItem = function(){
+        if(event.which === 13) {
+          $scope.poll.questions.push($scope.itemInput);
+          $scope.hideItemInput = true;
+          $scope.itemInput = "";
+          
+        }
+      };
+
+      $scope.showItemInput = function(){
+        $scope.hideItemInput = false;
+        setTimeout(function() { $( "#new-item-input" ).focus(); }, 100);
       }
     }
   ]);

@@ -14,7 +14,9 @@
       $scope.experts = [];
 
       var loadExperts = function(){
-        $scope.experts = Expert.find();
+        $scope.experts = Investigation.Experts({
+          id: $stateParams.id
+        });
       }
 
       var loadVariables = function(){
@@ -31,7 +33,7 @@
       loadVariables();
 
       $scope.newVariable = {"weight": 0, "investigationId": $stateParams.id};
-      $scope.newExpert = {};
+      $scope.newExpert = { "send_poll": true};
 
       $scope.toggleVariablePanel = function(){
         $scope.variablePanelExpanded = !$scope.variablePanelExpanded;
@@ -59,7 +61,9 @@
       }
 
       $scope.saveExpert = function(){
-        Expert.create($scope.newExpert, 
+        Investigation.Experts.create(
+           { id: $stateParams.id },
+          $scope.newExpert, 
           function(){
             $scope.newExpert.show = false;
             $scope.newExpert.name = "";

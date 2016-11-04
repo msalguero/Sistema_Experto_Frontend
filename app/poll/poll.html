@@ -1,0 +1,20 @@
+<div class="poll-list">
+	<button ng-click="Create()" type="button" class=" add-poll-button btn btn-primary">Add new Poll</button>
+	<div class="poll-list-container">
+		<div class="poll" ng-repeat="poll in polls">
+			<div class="header">
+				<span class="glyphicon glyphicon-list-alt"></span>
+			</div>
+			<div class="body">
+				<h3>{{poll.title}}</h3>
+				<p>{{poll.description}}</p>
+				<!--<span>Progress</span>
+				<div class="progress">
+				  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+				    <span>45% Complete</span>
+				  </div>
+				</div>-->
+			</div>
+		</div>
+	</div>
+</div>

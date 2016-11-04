@@ -1,27 +1,55 @@
-<div>
+<div class="investigation-list">
 	<button ng-click="Create()" type="button" class=" add-investigation-button btn btn-primary">Add new Investigation</button>
 	<div id="no-more-tables">
-        <table style="float:none;" class="col-md-10 table-bordered table-striped table-condensed cf">
-    		<thead class="cf">
-    			<tr>
-    				<th>Name</th>
-    				<th>Description</th>
-    				<th>Website</th>
-    				<th>Creation Date</th>
-                    <th></th>
-    			</tr>
-    		</thead>
-    		<tbody>
-    			<tr  ng-repeat="investigation in investigations">
-    				<td ng-click="ViewDetails(investigation.id)">{{investigation.name}}</td>
-    				<td ng-click="ViewDetails(investigation.id)">{{investigation.description}}</td>
-    				<td ng-click="ViewDetails(investigation.id)">{{investigation.website}}</td>
-    				<td ng-click="ViewDetails(investigation.id)">{{investigation.create_time}}</td>
-                    <td >
-                        <span ng-click="Delete(investigation.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
-                    </td>
-    			</tr>
-    		</tbody>
-    	</table>
+        <div class="investigation"  ng-repeat="investigation in investigations">
+            <div class="header">
+                <i class="glyphicon glyphicon-list-alt"></i>
+            </div>
+            <div class="body">
+                <div class="investigation-info">
+                    <h3>{{investigation.name}}</h3>
+                    <p>{{investigation.description}}</p>
+                    <span>{{investigation.website}}</span>
+                </div>
+                <div class="variables-section">
+                    <h4>Variables</h4>
+                    <span class="list-item" ng-repeat="variable in investigation.variables">
+                        {{variable.name}}
+                    </span>
+                    <span ng-show="investigation.variables.length === 0">
+                        There are no variables in investigation.
+                    </span>
+                </div>
+                <div class="experts-section">
+                    <h4>Experts</h4>
+                    <span class="list-item" ng-repeat="expert in investigation.Experts">
+                        {{expert.name}}
+                    </span>
+                    <span ng-show="investigation.Experts.length === 0">
+                        There are no experts in investigation.
+                    </span>
+                </div>
+                <div class="actions">
+                    <div ng-click="ViewDetails(investigation.id)" class="option">
+                        <i class="glyphicon glyphicon-wrench"></i>
+                        Manage
+                    </div>
+                    <div ng-click="CreatePoll(investigation.id)" class="option">
+                        <i class="glyphicon glyphicon-envelope"></i>
+                        Send Poll
+                    </div>
+                    <div ng-click="Delete(investigation.id)" class="option">
+                        <i class="glyphicon glyphicon-remove"></i>
+                        Delete
+                    </div>
+                </div>
+                <!--<span>Progress</span>
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                    <span>45% Complete</span>
+                  </div>
+                </div>-->
+            </div>
+        </div>
     </div>
 </div>

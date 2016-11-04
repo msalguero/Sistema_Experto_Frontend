@@ -50,6 +50,20 @@
         controller: 'ViewInvestigation'
       };
 
+      var pollState = { 
+        name: 'main.poll', 
+        url: 'polls', 
+        templateUrl: "./poll/poll.html",
+        controller: 'PollList'
+      };
+
+      var createPollState = { 
+        name: 'main.createPoll', 
+        url: 'polls/create/:id', 
+        templateUrl: "./poll/Create/CreatePoll.html",
+        controller: 'CreatePoll'
+      };
+
       var registerState = { 
         name: 'register', 
         url: '/register', 
@@ -67,6 +81,8 @@
       $stateProvider.state(investigationState);
       $stateProvider.state(createInvestigationState);
       $stateProvider.state(viewInvestigationState);
+      $stateProvider.state(pollState);
+      $stateProvider.state(createPollState);
     }
   ])
 
