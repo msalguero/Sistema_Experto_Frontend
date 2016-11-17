@@ -1,0 +1,12 @@
+<div class="remove-experts-container">
+	<div class="box">
+		<h4>Select experts that will continue on further analysis</h4>
+		<div class="expert-list">
+			<div class="expert" ng-repeat="expert in investigation.experts">
+				<input type="checkbox"/>
+				<span>{{expert.name}}</span>
+			</div>
+		</div>
+		<button class="btn btn-primary">Submit</button>
+	</div>
+</div>

@@ -3,7 +3,7 @@
 'use strict';
 
 
-  angular.module('InvestigationApp', ['ngAnimate', 'ui.router', 'lbServices'])
+  angular.module('InvestigationApp', ['ngAnimate', 'ui.router', 'lbServices', 'ui.sortable'])
 
   .config([
     '$stateProvider',
@@ -64,6 +64,27 @@
         controller: 'CreatePoll'
       };
 
+      var answerPollAbstractState = {
+          abstract: true,
+          name: 'answerPoll',
+          url: '/fill-poll/:pollId',
+          template: '<ui-view/>'
+      }
+
+      var answerPollState = { 
+        name: 'answerPoll.expert', 
+        url: '/expert/:expertId', 
+        templateUrl: "./poll/Answer/AnswerPoll.html",
+        controller: 'AnswerPoll'
+      };
+
+      var removeExpertsState = { 
+        name: 'main.removeExperts', 
+        url: 'remove-experts/:id', 
+        templateUrl: "./investigation/RemoveExperts/removeExperts.html",
+        controller: 'RemoveExperts'
+      };
+
       var registerState = { 
         name: 'register', 
         url: '/register', 
@@ -83,6 +104,9 @@
       $stateProvider.state(viewInvestigationState);
       $stateProvider.state(pollState);
       $stateProvider.state(createPollState);
+      $stateProvider.state(answerPollAbstractState);
+      $stateProvider.state(answerPollState);
+      $stateProvider.state(removeExpertsState);
     }
   ])
 

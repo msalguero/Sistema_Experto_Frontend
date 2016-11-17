@@ -19,7 +19,15 @@
         Investigation.polls.create(
            { id: $stateParams.id },
           $scope.poll, 
-          function(){
+          function(poll){
+            console.log(poll);
+            Investigation.prototype$updateAttributes(
+               {id:    $stateParams.id},
+               {step: 2}
+            );
+            Poll.sendEmails(
+              { id: poll.id }
+            );
             $state.go("main.investigations");
           });
       };

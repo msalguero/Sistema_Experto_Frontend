@@ -12,10 +12,23 @@
       $scope.expertPanelExpanded = true;
       $scope.variables = [];
       $scope.experts = [];
+      $scope.pollsAnsweredByExperts = 0;
+      $scope.steps = [
+        {title: "Create Investigation", description: "Create and fill investigation data"},
+        {title: "Ranking Poll", description: "Ranking poll to eliminate experts"},
+        {title: "Dichotomic Poll", description: ""},
+        {title: "Likert Poll", description: ""}
+      ];
 
       var loadExperts = function(){
-        $scope.experts = Investigation.Experts({
+        $scope.experts = Investigation.experts({
           id: $stateParams.id
+        }, function(){
+          console.log($scope.experts);
+          $scope.experts.forEach(function(entry) {
+            if(entry.filled_poll)
+            $scope.pollsAnsweredByExperts++;
+          });
         });
       }
 
@@ -61,7 +74,7 @@
       }
 
       $scope.saveExpert = function(){
-        Investigation.Experts.create(
+        Investigation.experts.create(
            { id: $stateParams.id },
           $scope.newExpert, 
           function(){
@@ -82,6 +95,13 @@
         Expert.deleteById({ id: id })
           .$promise
           .then(loadExperts);
+      }
+
+      $scope.CreatePoll = function(){
+        $state.go('main.createPoll', {id: $stateParams.id});
+      }
+      $scope.ClosePoll = function(){
+        $state.go('main.removeExperts', {id: $stateParams.id});
       }
     }
   ]);

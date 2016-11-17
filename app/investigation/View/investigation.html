@@ -1,18 +1,42 @@
 <div class="view-investigation-container">
 	<h2>Investigation</h2>
-	<div class="form-group">
-      <label >Name: </label>
-      <span>{{investigation[0].name}}</span>
-    </div>
-    <div class="form-group">
-      <label >Description: </label>
-      <span>{{investigation[0].description}}</span>
-    </div>
-    <div class="form-group">
-      <label >Website: </label>
-      <span>{{investigation[0].website}}</span>
-    </div>
-    <div class="panel panel-default">
+	<step-progress-bar steps="steps" active-step="1"></step-progress-bar>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+		      <label >Name: </label>
+		      <span>{{investigation[0].name}}</span>
+		    </div>
+		    <div class="form-group">
+		      <label >Description: </label>
+		      <span>{{investigation[0].description}}</span>
+		    </div>
+		    <div class="form-group">
+		      <label >Website: </label>
+		      <span>{{investigation[0].website}}</span>
+		    </div>
+		</div>
+		<div class="col-md-6" >
+			<div class="panel panel-warning">
+				<div  class="panel-heading">
+		    		<h5 class="panel-title">Next Step</h3>
+		    	</div>
+		    	<div ng-if="investigation[0].step !== '2'" class="panel-body">
+		    		<h4>Ranking Poll</h4>
+		    		<p>Create a ranking poll to remove experts that don't show consensus.</p>
+		    		<button ng-click="CreatePoll()" class="btn btn-warning">Send Poll</button>
+		    		<a >Skip Step</a>
+		    	</div>
+		    	<div ng-if="investigation[0].step === '2'" class="panel-body">
+		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered</h4>
+		    		<p>Wait for experts to answer Poll.</p>
+		    		<button ng-click="ClosePoll()" class="btn btn-warning">Close Poll with current answers</button>
+		    	</div>
+
+			</div>
+		</div>
+	</div>
+    <div class="panel panel-primary">
     	<div ng-click="toggleVariablePanel()" class="panel-heading">
     		<h3 class="panel-title">Variables</h3>
     	</div>
@@ -31,7 +55,7 @@
 		    <button class="add-variable-button btn btn-primary" ng-click="addVariable()" type="button" class="btn btn-primary">Add Variable</button>
     	</div>
 	</div>
-	<div class="panel panel-default">
+	<div class="panel panel-primary">
     	<div ng-click="toggleExpertPanel()" class="panel-heading">
     		<h3 class="panel-title">Experts</h3>
     	</div>

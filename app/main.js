@@ -3,7 +3,7 @@
 'use strict';
 
 
-  angular.module('InvestigationApp', ['ngAnimate', 'ui.router', 'lbServices'])
+  angular.module('InvestigationApp', ['ngAnimate', 'ui.router', 'lbServices', 'ui.sortable'])
 
   .config([
     '$stateProvider',
@@ -64,6 +64,27 @@
         controller: 'CreatePoll'
       };
 
+      var answerPollAbstractState = {
+          abstract: true,
+          name: 'answerPoll',
+          url: '/fill-poll/:pollId',
+          template: '<ui-view/>'
+      }
+
+      var answerPollState = { 
+        name: 'answerPoll.expert', 
+        url: '/expert/:expertId', 
+        templateUrl: "./poll/Answer/AnswerPoll.html",
+        controller: 'AnswerPoll'
+      };
+
+      var removeExpertsState = { 
+        name: 'main.removeExperts', 
+        url: 'remove-experts/:id', 
+        templateUrl: "./investigation/RemoveExperts/removeExperts.html",
+        controller: 'RemoveExperts'
+      };
+
       var registerState = { 
         name: 'register', 
         url: '/register', 
@@ -83,6 +104,9 @@
       $stateProvider.state(viewInvestigationState);
       $stateProvider.state(pollState);
       $stateProvider.state(createPollState);
+      $stateProvider.state(answerPollAbstractState);
+      $stateProvider.state(answerPollState);
+      $stateProvider.state(removeExpertsState);
     }
   ])
 
@@ -113,7 +137,7 @@
     function($scope, $state, Investigation) {
       var ctrl = this;
 
-      $scope.investigations = Investigation.find({filter:{include:  ['Experts', 'variables']}});
+      $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}});
 
       $scope.Create = function(){
         $state.go('main.createInvestigation');
@@ -124,15 +148,11 @@
         $state.go('main.viewInvestigation',{id: id} );
       };
 
-      $scope.CreatePoll = function(id){
-        $state.go('main.createPoll', {id: id});
-      }
-
       $scope.Delete = function(id){
         Investigation.deleteById({ id: id })
           .$promise
           .then(function() { 
-            $scope.investigations = Investigation.find({filter:{include:  ['Experts', 'variables']}}); 
+            $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}}); 
           });
       };
     }
@@ -283,6 +303,35 @@
 
   angular.module('InvestigationApp')
 
+  .directive('stepProgressBar', function() {
+
+		return {
+			restrict: 'E',
+			scope: {
+			  steps: '=steps',
+			  activeStep: '=activeStep'
+			},
+			link: function (scope, element, attrs) {
+	  			console.log(attrs);
+				scope.$watch(attrs.activeStep, function(value) {
+				  
+				});
+				scope.getNumber = function(num) {
+					console.log(num);
+					return new Array(num);   
+				};
+			},
+			templateUrl: './directives/StepProgressBar/stepProgressBar.html'
+	    };
+	});
+
+}());
+(function () {
+
+'use strict';
+
+  angular.module('InvestigationApp')
+
   .controller('CreateInvestigation', [
     '$scope', '$state', 'Investigation',
     function($scope, $state, Investigation) {
@@ -305,6 +354,25 @@
 
   angular.module('InvestigationApp')
 
+  .controller('RemoveExperts', [
+    '$scope', '$state', '$stateParams' , 'Investigation',
+    function($scope, $state, $stateParams, Investigation) {
+      var ctrl = this;
+
+      $scope.investigation = Investigation.findById({
+        id: $stateParams.id,
+        filter:{include:  ['experts']}
+      });
+    }
+  ]);
+
+}());
+(function () {
+
+'use strict';
+
+  angular.module('InvestigationApp')
+
   .controller('ViewInvestigation', [
     '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert',
     function($scope, $state, Investigation, $stateParams, Variable, Expert) {
@@ -313,10 +381,23 @@
       $scope.expertPanelExpanded = true;
       $scope.variables = [];
       $scope.experts = [];
+      $scope.pollsAnsweredByExperts = 0;
+      $scope.steps = [
+        {title: "Create Investigation", description: "Create and fill investigation data"},
+        {title: "Ranking Poll", description: "Ranking poll to eliminate experts"},
+        {title: "Dichotomic Poll", description: ""},
+        {title: "Likert Poll", description: ""}
+      ];
 
       var loadExperts = function(){
-        $scope.experts = Investigation.Experts({
+        $scope.experts = Investigation.experts({
           id: $stateParams.id
+        }, function(){
+          console.log($scope.experts);
+          $scope.experts.forEach(function(entry) {
+            if(entry.filled_poll)
+            $scope.pollsAnsweredByExperts++;
+          });
         });
       }
 
@@ -362,7 +443,7 @@
       }
 
       $scope.saveExpert = function(){
-        Investigation.Experts.create(
+        Investigation.experts.create(
            { id: $stateParams.id },
           $scope.newExpert, 
           function(){
@@ -384,6 +465,50 @@
           .$promise
           .then(loadExperts);
       }
+
+      $scope.CreatePoll = function(){
+        $state.go('main.createPoll', {id: $stateParams.id});
+      }
+      $scope.ClosePoll = function(){
+        $state.go('main.removeExperts', {id: $stateParams.id});
+      }
+    }
+  ]);
+
+}());
+(function () {
+
+'use strict';
+
+  angular.module('InvestigationApp')
+
+  .controller('AnswerPoll', [
+    '$scope', '$state', 'Poll', '$stateParams', 'Result', 'Expert',
+    function($scope, $state, Poll, $stateParams, Result, Expert) {
+      var ctrl = this;
+      $scope.hideItemInput = true;
+      $scope.poll = Poll.findById({ 
+        id: $stateParams.pollId 
+      });
+
+      $scope.result = {
+        "answers": [],
+        "expertId": $stateParams.expertId ,
+        "pollId": $stateParams.pollId 
+      }
+
+      $scope.itemInput = "";
+
+      $scope.submit = function(){
+        $scope.result.answers = $scope.poll.questions;
+        Result.create($scope.result, function(){
+          $scope.pollFilled = true;
+          Expert.prototype$updateAttributes(
+               {id:    $stateParams.expertId},
+               {filled_poll: true}
+            );
+        });
+      };
     }
   ]);
 
@@ -409,7 +534,15 @@
         Investigation.polls.create(
            { id: $stateParams.id },
           $scope.poll, 
-          function(){
+          function(poll){
+            console.log(poll);
+            Investigation.prototype$updateAttributes(
+               {id:    $stateParams.id},
+               {step: 2}
+            );
+            Poll.sendEmails(
+              { id: poll.id }
+            );
             $state.go("main.investigations");
           });
       };

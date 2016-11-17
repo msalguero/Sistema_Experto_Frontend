@@ -22,10 +22,10 @@
                 </div>
                 <div class="experts-section">
                     <h4>Experts</h4>
-                    <span class="list-item" ng-repeat="expert in investigation.Experts">
+                    <span class="list-item" ng-repeat="expert in investigation.experts">
                         {{expert.name}}
                     </span>
-                    <span ng-show="investigation.Experts.length === 0">
+                    <span ng-show="investigation.experts.length === 0">
                         There are no experts in investigation.
                     </span>
                 </div>
@@ -33,10 +33,6 @@
                     <div ng-click="ViewDetails(investigation.id)" class="option">
                         <i class="glyphicon glyphicon-wrench"></i>
                         Manage
-                    </div>
-                    <div ng-click="CreatePoll(investigation.id)" class="option">
-                        <i class="glyphicon glyphicon-envelope"></i>
-                        Send Poll
                     </div>
                     <div ng-click="Delete(investigation.id)" class="option">
                         <i class="glyphicon glyphicon-remove"></i>

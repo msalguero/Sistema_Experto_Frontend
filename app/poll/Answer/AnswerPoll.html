@@ -1,0 +1,59 @@
+<div class="answer-poll-container">
+	<div class="form-container">
+		<div ng-show="!pollFilled">
+			<h2>{{poll.title}}</h2>
+			<p>{{poll.instructions}}</p>
+			<div ng-show="true">
+				<ul class="list-group" ui-sortable ng-model="poll.questions">
+				  <li class="draggable-question list-group-item" ng-repeat="item in poll.questions">{{ item }}</li>
+				</ul>
+			</div>
+			<div class="row" ng-show="false">
+				<table>
+					<thead>
+						<tr class="Answers" aria-hidden="true">  
+							<td width="61%">  &nbsp;  </td>    
+							<th width="21%">No es importante </th>  
+							<th width="13%">Importante </th>  
+						</tr>
+					</thead>
+					<tbody >
+						<tr  ng-repeat="item in poll.questions">
+							<th>{{ item }}</th>
+							<td><input type="radio" name="{{item}}" value="notImportant"> </td>
+							<td><input type="radio" name="{{item}}" value="important"> </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="row" ng-show="false">
+				<table>
+					<thead>
+						<tr class="Answers" aria-hidden="true">  
+							<td width="61%">  &nbsp;  </td>    
+							<th width="21%">No es importante </th>
+							<th width="21%">Es un poco importante </th>
+							<th width="21%">Es importante </th>  
+							<th width="13%">Es muy Importante </th>  
+							<th width="21%">Es lo mas importante </th>
+						</tr>
+					</thead>
+					<tbody >
+						<tr  ng-repeat="item in poll.questions">
+							<th>{{ item }}</th>
+							<td><input type="radio" name="{{item}}" value="notImportant"> </td>
+							<td><input type="radio" name="{{item}}" value="important"> </td>
+							<td><input type="radio" name="{{item}}" value="important"> </td>
+							<td><input type="radio" name="{{item}}" value="important"> </td>
+							<td><input type="radio" name="{{item}}" value="important"> </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<button class="btn btn-primary" ng-click="submit()">Submit</button>
+		</div>
+		<div ng-show="pollFilled">
+			Thanks for filling the poll!
+		</div>
+	</div>
+</div>

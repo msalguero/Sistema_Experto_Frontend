@@ -9,7 +9,7 @@
     function($scope, $state, Investigation) {
       var ctrl = this;
 
-      $scope.investigations = Investigation.find({filter:{include:  ['Experts', 'variables']}});
+      $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}});
 
       $scope.Create = function(){
         $state.go('main.createInvestigation');
@@ -20,15 +20,11 @@
         $state.go('main.viewInvestigation',{id: id} );
       };
 
-      $scope.CreatePoll = function(id){
-        $state.go('main.createPoll', {id: id});
-      }
-
       $scope.Delete = function(id){
         Investigation.deleteById({ id: id })
           .$promise
           .then(function() { 
-            $scope.investigations = Investigation.find({filter:{include:  ['Experts', 'variables']}}); 
+            $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}}); 
           });
       };
     }
