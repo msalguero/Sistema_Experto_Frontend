@@ -208,6 +208,37 @@
 
   angular.module('InvestigationApp')
 
+  .controller('Login', [
+    '$rootScope', '$scope', '$state', 'Account',
+    function($rootScope, $scope, $state, Account) {
+      var ctrl = this;
+      $scope.credentials = {};
+      $scope.error = false;
+
+      $scope.submit = function(){
+      	$scope.loginResult = Account.login($scope.credentials,
+        function(res) {
+          $rootScope.user = res.user;
+          $state.go("main.investigations");
+        }, function(res) {
+          $scope.error = true;
+        });
+      };
+
+      $scope.register = function(){
+      	$state.go("register");
+      };
+
+    }
+  ]);
+
+}());
+(function () {
+
+'use strict';
+
+  angular.module('InvestigationApp')
+
   .controller('PollList', [
     '$scope', '$state', 'Poll',
     function($scope, $state, Poll) {
@@ -276,29 +307,27 @@
 
   angular.module('InvestigationApp')
 
-  .controller('Login', [
-    '$rootScope', '$scope', '$state', 'Account',
-    function($rootScope, $scope, $state, Account) {
-      var ctrl = this;
-      $scope.credentials = {};
-      $scope.error = false;
+  .directive('stepProgressBar', function() {
 
-      $scope.submit = function(){
-      	$scope.loginResult = Account.login($scope.credentials,
-        function(res) {
-          $rootScope.user = res.user;
-          $state.go("main.investigations");
-        }, function(res) {
-          $scope.error = true;
-        });
-      };
-
-      $scope.register = function(){
-      	$state.go("register");
-      };
-
-    }
-  ]);
+		return {
+			restrict: 'E',
+			scope: {
+			  steps: '=steps',
+			  activeStep: '=activeStep'
+			},
+			link: function (scope, element, attrs) {
+	  			console.log(attrs);
+				scope.$watch(attrs.activeStep, function(value) {
+				  
+				});
+				scope.getNumber = function(num) {
+					console.log(num);
+					return new Array(num);   
+				};
+			},
+			templateUrl: './directives/StepProgressBar/stepProgressBar.html'
+	    };
+	});
 
 }());
 (function () {
@@ -537,34 +566,5 @@
       }
     }
   ]);
-
-}());
-(function () {
-
-'use strict';
-
-  angular.module('InvestigationApp')
-
-  .directive('stepProgressBar', function() {
-
-		return {
-			restrict: 'E',
-			scope: {
-			  steps: '=steps',
-			  activeStep: '=activeStep'
-			},
-			link: function (scope, element, attrs) {
-	  			console.log(attrs);
-				scope.$watch(attrs.activeStep, function(value) {
-				  
-				});
-				scope.getNumber = function(num) {
-					console.log(num);
-					return new Array(num);   
-				};
-			},
-			templateUrl: './directives/StepProgressBar/stepProgressBar.html'
-	    };
-	});
 
 }());

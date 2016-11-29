@@ -74,7 +74,7 @@
   border-radius: 5px;
   overflow: hidden;
   max-height: 1000px;
-  min-height: 500px;
+  min-height: 300px;
   padding: 20px;
 }
 .investigation-list .investigation .header {
@@ -108,6 +108,13 @@
 }
 .investigation-list .investigation .body .investigation-info h3 {
   margin-top: 0px;
+}
+.investigation-list .investigation .body .investigation-info p {
+  font-size: 17px;
+}
+.investigation-list .investigation .body .investigation-info span {
+  font-size: 15px;
+  font-style: italic;
 }
 .investigation-list .investigation .body .meta-info-wrapper {
   margin: 0px;
