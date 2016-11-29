@@ -11,7 +11,7 @@
     '$urlRouterProvider',
     function($stateProvider, LoopBackResourceProvider,$urlRouterProvider) {
 
-      LoopBackResourceProvider.setUrlBase('http://localhost:3000/api/');
+      LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
 
 
       var loginState = {
@@ -126,6 +126,7 @@
   });
 
 }());
+
 (function () {
 
 'use strict';
@@ -138,7 +139,10 @@
       var ctrl = this;
 
       $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}});
-
+      $scope.investigations.$promise.then((data)=>{
+        $scope.expertsCount = data.length;
+        console.log( data );
+      })
       $scope.Create = function(){
         $state.go('main.createInvestigation');
       };
@@ -194,37 +198,6 @@
       }
 
       $scope.init();
-    }
-  ]);
-
-}());
-(function () {
-
-'use strict';
-
-  angular.module('InvestigationApp')
-
-  .controller('Login', [
-    '$rootScope', '$scope', '$state', 'Account',
-    function($rootScope, $scope, $state, Account) {
-      var ctrl = this;
-      $scope.credentials = {};
-      $scope.error = false;
-
-      $scope.submit = function(){
-      	$scope.loginResult = Account.login($scope.credentials,
-        function(res) {
-          $rootScope.user = res.user;
-          $state.go("main.investigations");
-        }, function(res) {
-          $scope.error = true;
-        });
-      };
-
-      $scope.register = function(){
-      	$state.go("register");
-      };
-
     }
   ]);
 
@@ -303,27 +276,29 @@
 
   angular.module('InvestigationApp')
 
-  .directive('stepProgressBar', function() {
+  .controller('Login', [
+    '$rootScope', '$scope', '$state', 'Account',
+    function($rootScope, $scope, $state, Account) {
+      var ctrl = this;
+      $scope.credentials = {};
+      $scope.error = false;
 
-		return {
-			restrict: 'E',
-			scope: {
-			  steps: '=steps',
-			  activeStep: '=activeStep'
-			},
-			link: function (scope, element, attrs) {
-	  			console.log(attrs);
-				scope.$watch(attrs.activeStep, function(value) {
-				  
-				});
-				scope.getNumber = function(num) {
-					console.log(num);
-					return new Array(num);   
-				};
-			},
-			templateUrl: './directives/StepProgressBar/stepProgressBar.html'
-	    };
-	});
+      $scope.submit = function(){
+      	$scope.loginResult = Account.login($scope.credentials,
+        function(res) {
+          $rootScope.user = res.user;
+          $state.go("main.investigations");
+        }, function(res) {
+          $scope.error = true;
+        });
+      };
+
+      $scope.register = function(){
+      	$state.go("register");
+      };
+
+    }
+  ]);
 
 }());
 (function () {
@@ -562,5 +537,34 @@
       }
     }
   ]);
+
+}());
+(function () {
+
+'use strict';
+
+  angular.module('InvestigationApp')
+
+  .directive('stepProgressBar', function() {
+
+		return {
+			restrict: 'E',
+			scope: {
+			  steps: '=steps',
+			  activeStep: '=activeStep'
+			},
+			link: function (scope, element, attrs) {
+	  			console.log(attrs);
+				scope.$watch(attrs.activeStep, function(value) {
+				  
+				});
+				scope.getNumber = function(num) {
+					console.log(num);
+					return new Array(num);   
+				};
+			},
+			templateUrl: './directives/StepProgressBar/stepProgressBar.html'
+	    };
+	});
 
 }());

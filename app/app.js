@@ -11,7 +11,7 @@
     '$urlRouterProvider',
     function($stateProvider, LoopBackResourceProvider,$urlRouterProvider) {
 
-      LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/');
+      LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
 
 
       var loginState = {
