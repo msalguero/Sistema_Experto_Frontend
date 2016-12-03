@@ -10,7 +10,10 @@
       var ctrl = this;
 
       $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}});
-
+      $scope.investigations.$promise.then((data)=>{
+        $scope.expertsCount = data.length;
+        console.log( data );
+      })
       $scope.Create = function(){
         $state.go('main.createInvestigation');
       };

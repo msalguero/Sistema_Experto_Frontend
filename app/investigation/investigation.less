@@ -1,80 +1,97 @@
+
+
 .investigation-list{
+	#grid-container{
+		box-sizing: border-box;
+	}
+
+	#no-more-tables{
+		overflow: auto;
+		position: relative;
+	}
+
+	#content{
+		margin: 20px;
+	}
+
 	.investigation{
-		box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)!important;
-		background-color: white;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+	    background-color: white;
 	    margin: 1%;
-	    display: inline-block;
-	    width: 97%;
+	    display: inline-table;
 	    border-radius: 5px;
-	    height: 130px;
-    	overflow: hidden;
+	    overflow: hidden;
+	    max-height: 1000px;
+	    
 	    .header{
-	    	background-color: #3c8dbc;
-	    	display: inline-flex;
-		    min-height: 130px;
-		    width: 14%;
-		    border-top-left-radius: 5px;
-		    border-bottom-left-radius: 5px;
-	    	.glyphicon{
-	    		margin-left: 28%;
-			    margin-top: 28%;
-			    font-size: -webkit-xxx-large;
-			    color: whitesmoke;
+            background-color: white;
+		    width: 100%;
+		    display: inline-block;
+
+	    	
+	    	h2{
+	    		color: slategray;
+    			font-size: 15px;
+    			margin: 0px;
+	    	}
+	    	h1{
+		        color: #616161;
+			    font-family: "Times New Roman", Georgia, Serif;
+			    font-weight: normal;
+			    font-size: 30px;
+			    align-self: flex-end;
+			    margin: 0px;
 	    	}
 	    }
 	    .body{
-			margin-left: 2%;
-			display: inline-flex;
-			vertical-align: top;
-			width: 83%;
 			.progress{
 				width: 60%;
 			}
-			.investigation-info{
-				border-right: 1px solid #c3c1c1;
-			    width: 28%;
-			    margin-top: 20px;
-			    h3{
-			    	margin-top: 0px;
-			    }
-			}
-			.variables-section{
-				border-right: 1px solid #c3c1c1;
-			    margin-top: 15px;
-			    width: 20%;
-    			text-align: center;
-			    h4{
-			    	margin-top: 0px;
-			    }
-			}
-			.experts-section{
-				border-right: 1px solid #c3c1c1;
-			    width: 20%;
-    			text-align: center;
-			    margin-top: 15px;
-			    h4{
-			    	margin-top: 0px;
-			    }
-			}
-			.list-item{
-				border-radius: 5px;
-			    border: 1px #c3c1c1 solid;
-			    margin-right: 2%;
-			    background: linear-gradient(white, #ecf0f5);
-			    padding: 3px;
-			}
-			.actions{
-				padding-left: 2%;
-			    width: 15%;
-			    padding-top: 2%;
-			    .option{
-			    	margin-bottom: 15%;
-			    	font-size: medium;
-			    }
-			    .option:hover{
-					background-color: #ecf0f5;
-					cursor: pointer;
+			
+			.meta-info-wrapper{
+				display: flex;
+			    border: 1px solid #E0E0E0;
+			    border-radius: 4px;
+			    margin-bottom: 20px;
+    			margin-top: 20px;
+
+				.variables-section{
+					justify-content: center;
+    				align-items: center;
+				    text-align: center;
+					width: 50%;
+    				display: flex;
+
+				    h4{
+				    	text-align: left;
+				    	font-size: 13px;
+				    }
 				}
+				.experts-section{
+					justify-content: center;
+    				align-items: center;
+					text-align: center;
+				    width: 50%;
+			        display: flex;
+				    h4{
+				    	text-align: left;
+				    	font-size: 13px;
+				    }
+
+				}
+				.big-number{
+					font-size: 40px;
+					color: #9A99A1;
+					font-weight: bold;
+					margin: 5px;
+				}
+
+				.meta-info-text{
+
+				}
+			}
+			.meta-info-wrapper:hover{
+				border: 1px solid #FF3D00;
 			}
 	    }
 	}
@@ -85,6 +102,43 @@
 	}	
 }
 
+.actions{
+    border-top-color: #E0F7FA;
+    border-top-width: 1px;
+    border-top-style: solid;
+	margin: 1%;
+	padding: 10px;
+	text-align: center;
+	padding-bottom: 20px;
+    padding-top: 20px;
+
+	.option1{
+		color: #616161;
+	}
+	.option1:hover{
+		color: #D500F9;
+		cursor: pointer;
+	}
+
+	.option2{
+		color: #616161;
+	}
+	.option2:hover{
+		color: #FF9100;
+		cursor: pointer;
+	}
+
+	.option3{
+		color: #616161;
+		cursor: pointer;
+	}
+	.option3:hover{
+		color: #FF1744;
+		cursor: pointer;
+	}
+    
+}
+
 .new-investigation-container{
 	margin-top: 4%;
     margin-left: 1%;
@@ -92,6 +146,23 @@
     	padding-top:2%;
     }
 }
+
+.investigation-info{
+		margin-top: 0px;
+	    h3{
+	    	margin-top: 0px;
+	    }
+	    p{
+	    	font-size: 17px;
+	    	margin: 0px;
+	    	color: slategray;
+	    }
+
+	    span{
+	    	font-size: 15px;
+	    	font-style: italic;
+	    }
+	}
 
 @import "View/viewInvestigation.less";
 @import "RemoveExperts/removeExperts.less";
