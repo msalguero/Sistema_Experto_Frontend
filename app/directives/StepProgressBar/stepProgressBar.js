@@ -13,12 +13,11 @@
 			  activeStep: '=activeStep'
 			},
 			link: function (scope, element, attrs) {
-	  			console.log(attrs);
 				scope.$watch(attrs.activeStep, function(value) {
-				  
+					//$( "#" + (value-1)  ).removeClass( "active" ).addClass( "complete" );
+				   //$( "#" + value  ).removeClass( "disable" ).addClass( "active" );
 				});
 				scope.getNumber = function(num) {
-					console.log(num);
 					return new Array(num);   
 				};
 			},

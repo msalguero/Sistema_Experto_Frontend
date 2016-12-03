@@ -3,12 +3,12 @@
 		<div ng-show="!pollFilled">
 			<h2>{{poll.title}}</h2>
 			<p>{{poll.instructions}}</p>
-			<div ng-show="true">
+			<div ng-show="poll.type === '1'">
 				<ul class="list-group" ui-sortable ng-model="poll.questions">
 				  <li class="draggable-question list-group-item" ng-repeat="item in poll.questions">{{ item }}</li>
 				</ul>
 			</div>
-			<div class="row" ng-show="false">
+			<div class="row" ng-show="poll.type === '2'">
 				<table>
 					<thead>
 						<tr class="Answers" aria-hidden="true">  
@@ -26,7 +26,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="row" ng-show="false">
+			<div class="row" ng-show="poll.type === '3'">
 				<table>
 					<thead>
 						<tr class="Answers" aria-hidden="true">  

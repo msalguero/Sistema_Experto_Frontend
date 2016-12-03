@@ -3,7 +3,7 @@
 'use strict';
 
 
-  angular.module('InvestigationApp', ['ngAnimate', 'ui.router', 'lbServices', 'ui.sortable'])
+  angular.module('InvestigationApp', ['ngAnimate', 'ngAria', 'ui.router', 'lbServices', 'ui.sortable', 'ngMaterial'])
 
   .config([
     '$stateProvider',
@@ -59,7 +59,7 @@
 
       var createPollState = { 
         name: 'main.createPoll', 
-        url: 'polls/create/:id', 
+        url: 'polls/create/:id&:type', 
         templateUrl: "./poll/Create/CreatePoll.html",
         controller: 'CreatePoll'
       };
@@ -115,8 +115,6 @@
   .run(function ($rootScope, Account, $state ) {
     $rootScope.$on('$stateChangeStart', function (event, next) {
       var authorizedUser = Account.isAuthenticated();
-      console.log("authorized User: "+ authorizedUser);
-      console.log("toState: "+next.name);
       if (!authorizedUser && next.name !== 'login') {
         $state.go("login");
         

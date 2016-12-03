@@ -5,26 +5,28 @@
   angular.module('InvestigationApp')
 
   .controller('ViewInvestigation', [
-    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert',
-    function($scope, $state, Investigation, $stateParams, Variable, Expert) {
+    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert', '$mdDialog',
+    function($scope, $state, Investigation, $stateParams, Variable, Expert, $mdDialog) {
       var ctrl = this;
       $scope.variablePanelExpanded = true;
       $scope.expertPanelExpanded = true;
       $scope.variables = [];
       $scope.experts = [];
       $scope.pollsAnsweredByExperts = 0;
+      $scope.activeStep = {
+        value: 1
+      };
       $scope.steps = [
         {title: "Create Investigation", description: "Create and fill investigation data"},
-        {title: "Ranking Poll", description: "Ranking poll to eliminate experts"},
-        {title: "Dichotomic Poll", description: ""},
-        {title: "Likert Poll", description: ""}
+        {title: "Select Experts", description: "Ranking poll to eliminate experts"},
+        {title: "Find Dimensions", description: ""},
+        {title: "Assign Weights", description: ""}
       ];
 
       var loadExperts = function(){
         $scope.experts = Investigation.experts({
           id: $stateParams.id
         }, function(){
-          console.log($scope.experts);
           $scope.experts.forEach(function(entry) {
             if(entry.filled_poll)
             $scope.pollsAnsweredByExperts++;
@@ -40,13 +42,18 @@
 
       $scope.investigation = Investigation.find({ 
         filter: { where: { id: $stateParams.id } }
+      }, function(investigation){
+        if(investigation[0].step === 3){
+          $scope.activeStep.value = 2;
+        }
       });
 
       loadExperts();
       loadVariables();
 
       $scope.newVariable = {"weight": 0, "investigationId": $stateParams.id};
-      $scope.newExpert = { "send_poll": true};
+      $scope.newDimension = {};
+      $scope.newExpert = { "send_poll": true, "filled_poll":false};
 
       $scope.toggleVariablePanel = function(){
         $scope.variablePanelExpanded = !$scope.variablePanelExpanded;
@@ -61,7 +68,7 @@
       }
 
       $scope.addExpert = function(){
-        $scope.newExpert.show = true;
+        showDialog();
       }
 
       $scope.saveVariable = function(){
@@ -81,6 +88,7 @@
             $scope.newExpert.show = false;
             $scope.newExpert.name = "";
             $scope.newExpert.email = "";
+            $mdDialog.hide();
             loadExperts();
           });
       }
@@ -91,17 +99,56 @@
           .then(loadVariables);
       }
 
+      $scope.addDimension = function(id){
+        $scope.newDimension.show = true;
+      }
+
+      $scope.saveDimension = function(variable){
+        if(variable.dimensions)
+          variable.dimensions.push($scope.newDimension.name);
+        else
+          variable.dimensions = [$scope.newDimension.name];
+        Variable.prototype$updateAttributes(
+               {id:    variable.id},
+               {dimensions: variable.dimensions}
+            , function(){
+              $scope.newDimension.show = false;
+              $scope.newDimension.name = "";
+              loadVariables();
+            });
+      }
+
       $scope.DeleteExpert = function(id){
         Expert.deleteById({ id: id })
           .$promise
           .then(loadExperts);
       }
 
-      $scope.CreatePoll = function(){
-        $state.go('main.createPoll', {id: $stateParams.id});
+      $scope.CreatePoll = function(type){
+        $state.go('main.createPoll', {id: $stateParams.id, type: type});
       }
       $scope.ClosePoll = function(){
         $state.go('main.removeExperts', {id: $stateParams.id});
+      }
+
+      $scope.closeDialog = function() {
+        $mdDialog.hide();
+      }
+
+      function showDialog() {
+        $scope.alert = $mdDialog.alert({
+          contentElement: '#add-expert-dialog',
+          parent: angular.element(document.body),
+          ok: 'Close'
+        });
+
+        $mdDialog
+          .show( $scope.alert )
+          .finally(function() {
+            $scope.alert = undefined;
+            $("body").css({"overflow":""});
+          });
+          $("body").css({"overflow":"initial"});
       }
     }
   ]);

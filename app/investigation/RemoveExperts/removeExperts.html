@@ -3,10 +3,10 @@
 		<h4>Select experts that will continue on further analysis</h4>
 		<div class="expert-list">
 			<div class="expert" ng-repeat="expert in investigation.experts">
-				<input type="checkbox"/>
+				<input ng-model="expert.checked" type="checkbox"/>
 				<span>{{expert.name}}</span>
 			</div>
 		</div>
-		<button class="btn btn-primary">Submit</button>
+		<button ng-click="submit()" class="btn btn-primary">Submit</button>
 	</div>
 </div>

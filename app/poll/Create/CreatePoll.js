@@ -10,10 +10,17 @@
       var ctrl = this;
       $scope.hideItemInput = true;
       $scope.poll = {
-        questions:[]
+        questions:[],
+        type: $stateParams.type
       };
-
+      console.log($stateParams);
       $scope.itemInput = "";
+      $scope.type = $stateParams.type;
+
+      if($scope.type === "1")
+        $scope.pollName = "Ranking";
+      else if($scope.type === "2")
+        $scope.pollName = "Dichotomic";
 
       $scope.submit = function(){
         Investigation.polls.create(
@@ -28,7 +35,7 @@
             Poll.sendEmails(
               { id: poll.id }
             );
-            $state.go("main.investigations");
+            $state.go('main.viewInvestigation',{id: $stateParams.id} );
           });
       };
 
@@ -45,6 +52,19 @@
         $scope.hideItemInput = false;
         setTimeout(function() { $( "#new-item-input" ).focus(); }, 100);
       }
+
+      var loadVariables = function(){
+         Investigation.variables({
+          id: $stateParams.id
+        }, function(variables){
+          console.log(variables);
+          $scope.poll.questions = variables.map(function(variable){
+            return variable.name;
+          });
+        });
+      }
+
+      loadVariables();
     }
   ]);
 

@@ -1,6 +1,6 @@
 <div class="view-investigation-container">
 	<h2>Investigation</h2>
-	<step-progress-bar steps="steps" active-step="1"></step-progress-bar>
+	<step-progress-bar steps="steps" active-step="activeStep.value"></step-progress-bar>
 	<div class="row">
 		<div class="col-md-6">
 			<div class="form-group">
@@ -21,10 +21,10 @@
 				<div  class="panel-heading">
 		    		<h5 class="panel-title">Next Step</h3>
 		    	</div>
-		    	<div ng-if="investigation[0].step !== '2'" class="panel-body">
-		    		<h4>Ranking Poll</h4>
+		    	<div ng-if="investigation[0].step === '1'" class="panel-body">
+		    		<h4>Select Experts</h4>
 		    		<p>Create a ranking poll to remove experts that don't show consensus.</p>
-		    		<button ng-click="CreatePoll()" class="btn btn-warning">Send Poll</button>
+		    		<button ng-click="CreatePoll(1)" class="btn btn-warning">Send Poll</button>
 		    		<a >Skip Step</a>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '2'" class="panel-body">
@@ -32,7 +32,11 @@
 		    		<p>Wait for experts to answer Poll.</p>
 		    		<button ng-click="ClosePoll()" class="btn btn-warning">Close Poll with current answers</button>
 		    	</div>
-
+		    	<div ng-if="investigation[0].step === '3'" class="panel-body">
+		    		<h4>Find Dimensions</h4>
+		    		<p>Send poll to find the expert accepted dimensions.</p>
+		    		<button ng-click="CreatePoll(2)" class="btn btn-warning">Send Poll</button>
+		    	</div>
 			</div>
 		</div>
 	</div>
@@ -43,8 +47,22 @@
     	<div ng-show="variablePanelExpanded"  class="panel-body">
     		<ul class="list-group" >
 		    	<li class="list-group-item" ng-repeat="variable in variables">
+		    		<span ng-click="variable.showDimension = !variable.showDimension"
+		    				ng-class="variable.showDimension ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span>
 		    		{{variable.name}}
 		    		<span ng-click="DeleteVariable(variable.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		    		<span ng-click="addDimension(variable)" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		    		<div class="dimension-container" ng-show="variable.showDimension">
+		    			<ul class="list-group">
+			    			<li class="list-group-item" ng-repeat="dimension in variable.dimensions">
+			    				{{dimension}}
+			    			</li>
+			    		</ul>
+			    		<div ng-show="newDimension.show">
+					    	<input  placeholder="Name" class="new-variable-button" ng-model="newDimension.name" type="text" class="form-control" >
+					    	<button ng-click="saveDimension(variable)" type="button" class="btn btn-primary">Save</button>
+					    </div>
+		    		</div>
 		    	</li>
 		    </ul>
 		    <div ng-show="newVariable.show">
@@ -67,12 +85,32 @@
 			    <p class="list-group-item-text">{{expert.email}}</p>
 			  </div>
 			</div>
-		    <div ng-show="newExpert.show">
-		    	<input placeholder="Name" class="new-variable-button" ng-model="newExpert.name" type="text" class="form-control" >
-		    	<input placeholder="Email" class="new-variable-button" ng-model="newExpert.email" type="text" class="form-control" >
-		    	<button ng-click="saveExpert()" type="button" class="btn btn-primary">Save</button>
-		    </div>
 		    <button class="add-variable-button btn btn-primary" ng-click="addExpert()" type="button" class="btn btn-primary">Add Expert</button>
     	</div>
+	</div>
+	<div style="visibility: hidden">
+	  <div class="md-dialog-container" id="add-expert-dialog">
+	    <md-dialog>
+	      <div class="expert-dialog">
+	      	<h4>Add Expert</h4>
+	      	<p>Name</p>
+	      	<input ng-model="newExpert.name">
+	      	<p>Email</p>
+	      	<input ng-model="newExpert.email">
+	      	<p>Field</p>
+	      	<input ng-model="newExpert.field">
+	      	<p>Workplace</p>
+	      	<input ng-model="newExpert.workplace">
+	      	<p>Years of Experience</p>
+	      	<input ng-model="newExpert.years_experience">
+	      	<p>Work Title</p>
+	      	<input ng-model="newExpert.job_position">
+	      	<div class="dialog-button">
+	      		<button class="btn btn-primary" ng-click="saveExpert()">Save</button>
+	      		<button class="btn btn-danger" ng-click="closeDialog()">Cancel</button>
+	      	</div>
+	      </div>
+	    </md-dialog>
+	  </div>
 	</div>
 </div>

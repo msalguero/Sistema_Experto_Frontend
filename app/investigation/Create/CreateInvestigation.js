@@ -8,7 +8,7 @@
     '$scope', '$state', 'Investigation',
     function($scope, $state, Investigation) {
       var ctrl = this;
-      $scope.investigation = {};
+      $scope.investigation = {step:1};
 
       $scope.submit = function(){
         Investigation.create($scope.investigation, 

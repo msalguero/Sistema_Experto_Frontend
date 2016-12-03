@@ -163,8 +163,36 @@
 .view-investigation-container .add-variable-button {
   margin-top: 2%;
 }
+.view-investigation-container .dimension-container {
+  margin-top: 2%;
+}
 .view-investigation-container .panel .glyphicon-remove {
   float: right;
+  cursor: pointer;
+  background-color: red;
+  color: white !important;
+  padding: 4px;
+  border-radius: 27%;
+  margin-right: 2%;
+}
+.view-investigation-container .panel .glyphicon-plus {
+  float: right;
+  cursor: pointer;
+  background-color: blue;
+  color: white;
+  padding: 4px;
+  border-radius: 27%;
+  margin-right: 1%;
+}
+.view-investigation-container .panel-primary {
+  width: 49%;
+  display: inline-table;
+}
+.expert-dialog {
+  padding: 5%;
+}
+.expert-dialog .dialog-button {
+  margin-top: 2%;
 }
 .remove-experts-container {
   margin-top: 4%;
@@ -182,6 +210,10 @@
 }
 .remove-experts-container .box .expert-list .expert {
   margin-bottom: 2%;
+}
+.new-investigation-container textarea,
+.new-investigation-container input {
+  width: 40%;
 }
 .poll-list {
   margin-top: 4%;

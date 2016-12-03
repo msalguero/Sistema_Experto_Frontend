@@ -3,7 +3,7 @@
 'use strict';
 
 
-  angular.module('InvestigationApp', ['ngAnimate', 'ui.router', 'lbServices', 'ui.sortable'])
+  angular.module('InvestigationApp', ['ngAnimate', 'ngAria', 'ui.router', 'lbServices', 'ui.sortable', 'ngMaterial'])
 
   .config([
     '$stateProvider',
@@ -59,7 +59,7 @@
 
       var createPollState = { 
         name: 'main.createPoll', 
-        url: 'polls/create/:id', 
+        url: 'polls/create/:id&:type', 
         templateUrl: "./poll/Create/CreatePoll.html",
         controller: 'CreatePoll'
       };
@@ -115,8 +115,6 @@
   .run(function ($rootScope, Account, $state ) {
     $rootScope.$on('$stateChangeStart', function (event, next) {
       var authorizedUser = Account.isAuthenticated();
-      console.log("authorized User: "+ authorizedUser);
-      console.log("toState: "+next.name);
       if (!authorizedUser && next.name !== 'login') {
         $state.go("login");
         
@@ -312,12 +310,11 @@
 			  activeStep: '=activeStep'
 			},
 			link: function (scope, element, attrs) {
-	  			console.log(attrs);
 				scope.$watch(attrs.activeStep, function(value) {
-				  
+					//$( "#" + (value-1)  ).removeClass( "active" ).addClass( "complete" );
+				   //$( "#" + value  ).removeClass( "disable" ).addClass( "active" );
 				});
 				scope.getNumber = function(num) {
-					console.log(num);
 					return new Array(num);   
 				};
 			},
@@ -336,7 +333,7 @@
     '$scope', '$state', 'Investigation',
     function($scope, $state, Investigation) {
       var ctrl = this;
-      $scope.investigation = {};
+      $scope.investigation = {step:1};
 
       $scope.submit = function(){
         Investigation.create($scope.investigation, 
@@ -355,14 +352,27 @@
   angular.module('InvestigationApp')
 
   .controller('RemoveExperts', [
-    '$scope', '$state', '$stateParams' , 'Investigation',
-    function($scope, $state, $stateParams, Investigation) {
+    '$scope', '$state', '$stateParams' , 'Investigation', 'Expert',
+    function($scope, $state, $stateParams, Investigation, Expert) {
       var ctrl = this;
 
       $scope.investigation = Investigation.findById({
         id: $stateParams.id,
         filter:{include:  ['experts']}
       });
+
+      $scope.submit =function(){
+        for (var i = 0; i < $scope.investigation.experts.length; i++) {
+          if(!$scope.investigation.experts[i].checked){
+            Expert.deleteById({ id: $scope.investigation.experts[i].id });
+          }
+        }
+        Investigation.prototype$updateAttributes(
+           {id:    $stateParams.id},
+           {step: 3}
+        );
+        $state.go('main.viewInvestigation',{id: $stateParams.id} );
+      }
     }
   ]);
 
@@ -374,26 +384,28 @@
   angular.module('InvestigationApp')
 
   .controller('ViewInvestigation', [
-    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert',
-    function($scope, $state, Investigation, $stateParams, Variable, Expert) {
+    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert', '$mdDialog',
+    function($scope, $state, Investigation, $stateParams, Variable, Expert, $mdDialog) {
       var ctrl = this;
       $scope.variablePanelExpanded = true;
       $scope.expertPanelExpanded = true;
       $scope.variables = [];
       $scope.experts = [];
       $scope.pollsAnsweredByExperts = 0;
+      $scope.activeStep = {
+        value: 1
+      };
       $scope.steps = [
         {title: "Create Investigation", description: "Create and fill investigation data"},
-        {title: "Ranking Poll", description: "Ranking poll to eliminate experts"},
-        {title: "Dichotomic Poll", description: ""},
-        {title: "Likert Poll", description: ""}
+        {title: "Select Experts", description: "Ranking poll to eliminate experts"},
+        {title: "Find Dimensions", description: ""},
+        {title: "Assign Weights", description: ""}
       ];
 
       var loadExperts = function(){
         $scope.experts = Investigation.experts({
           id: $stateParams.id
         }, function(){
-          console.log($scope.experts);
           $scope.experts.forEach(function(entry) {
             if(entry.filled_poll)
             $scope.pollsAnsweredByExperts++;
@@ -409,13 +421,18 @@
 
       $scope.investigation = Investigation.find({ 
         filter: { where: { id: $stateParams.id } }
+      }, function(investigation){
+        if(investigation[0].step === 3){
+          $scope.activeStep.value = 2;
+        }
       });
 
       loadExperts();
       loadVariables();
 
       $scope.newVariable = {"weight": 0, "investigationId": $stateParams.id};
-      $scope.newExpert = { "send_poll": true};
+      $scope.newDimension = {};
+      $scope.newExpert = { "send_poll": true, "filled_poll":false};
 
       $scope.toggleVariablePanel = function(){
         $scope.variablePanelExpanded = !$scope.variablePanelExpanded;
@@ -430,7 +447,7 @@
       }
 
       $scope.addExpert = function(){
-        $scope.newExpert.show = true;
+        showDialog();
       }
 
       $scope.saveVariable = function(){
@@ -450,6 +467,7 @@
             $scope.newExpert.show = false;
             $scope.newExpert.name = "";
             $scope.newExpert.email = "";
+            $mdDialog.hide();
             loadExperts();
           });
       }
@@ -460,17 +478,56 @@
           .then(loadVariables);
       }
 
+      $scope.addDimension = function(id){
+        $scope.newDimension.show = true;
+      }
+
+      $scope.saveDimension = function(variable){
+        if(variable.dimensions)
+          variable.dimensions.push($scope.newDimension.name);
+        else
+          variable.dimensions = [$scope.newDimension.name];
+        Variable.prototype$updateAttributes(
+               {id:    variable.id},
+               {dimensions: variable.dimensions}
+            , function(){
+              $scope.newDimension.show = false;
+              $scope.newDimension.name = "";
+              loadVariables();
+            });
+      }
+
       $scope.DeleteExpert = function(id){
         Expert.deleteById({ id: id })
           .$promise
           .then(loadExperts);
       }
 
-      $scope.CreatePoll = function(){
-        $state.go('main.createPoll', {id: $stateParams.id});
+      $scope.CreatePoll = function(type){
+        $state.go('main.createPoll', {id: $stateParams.id, type: type});
       }
       $scope.ClosePoll = function(){
         $state.go('main.removeExperts', {id: $stateParams.id});
+      }
+
+      $scope.closeDialog = function() {
+        $mdDialog.hide();
+      }
+
+      function showDialog() {
+        $scope.alert = $mdDialog.alert({
+          contentElement: '#add-expert-dialog',
+          parent: angular.element(document.body),
+          ok: 'Close'
+        });
+
+        $mdDialog
+          .show( $scope.alert )
+          .finally(function() {
+            $scope.alert = undefined;
+            $("body").css({"overflow":""});
+          });
+          $("body").css({"overflow":"initial"});
       }
     }
   ]);
@@ -525,10 +582,17 @@
       var ctrl = this;
       $scope.hideItemInput = true;
       $scope.poll = {
-        questions:[]
+        questions:[],
+        type: $stateParams.type
       };
-
+      console.log($stateParams);
       $scope.itemInput = "";
+      $scope.type = $stateParams.type;
+
+      if($scope.type === "1")
+        $scope.pollName = "Ranking";
+      else if($scope.type === "2")
+        $scope.pollName = "Dichotomic";
 
       $scope.submit = function(){
         Investigation.polls.create(
@@ -543,7 +607,7 @@
             Poll.sendEmails(
               { id: poll.id }
             );
-            $state.go("main.investigations");
+            $state.go('main.viewInvestigation',{id: $stateParams.id} );
           });
       };
 
@@ -560,6 +624,19 @@
         $scope.hideItemInput = false;
         setTimeout(function() { $( "#new-item-input" ).focus(); }, 100);
       }
+
+      var loadVariables = function(){
+         Investigation.variables({
+          id: $stateParams.id
+        }, function(variables){
+          console.log(variables);
+          $scope.poll.questions = variables.map(function(variable){
+            return variable.name;
+          });
+        });
+      }
+
+      loadVariables();
     }
   ]);
 
