@@ -47,7 +47,8 @@ gulp.task('connect', function () {
   connect.server({
     root: 'app/',
     port: 8888,
-    livereload: true
+    livereload: true,
+    fallback: 'app/index.html'
   });
 });
 gulp.task('connectDist', function () {
@@ -100,7 +101,8 @@ gulp.task('serveprod', function() {
   connect.server({
     root: 'app/',
     port: process.env.PORT || 5000, // localhost:5000
-    livereload: false
+    livereload: false,
+    fallback: 'app/index.html'
   });
 });
 
