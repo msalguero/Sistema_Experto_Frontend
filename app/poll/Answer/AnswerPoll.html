@@ -7,8 +7,10 @@
 				<ul class="list-group" ui-sortable ng-model="poll.questions">
 				  <li class="draggable-question list-group-item" ng-repeat="item in poll.questions">{{ item }}</li>
 				</ul>
+				<button class="btn btn-primary" ng-click="submit()">Submit</button>
 			</div>
 			<div class="row" ng-show="poll.type === '2'">
+				<h3>{{ currentVariable.name }}</h3>
 				<table>
 					<thead>
 						<tr class="Answers" aria-hidden="true">  
@@ -18,13 +20,16 @@
 						</tr>
 					</thead>
 					<tbody >
-						<tr  ng-repeat="item in poll.questions">
+						<tr  ng-repeat="item in currentVariable.dimensions track by $index">
 							<th>{{ item }}</th>
 							<td><input type="radio" name="{{item}}" value="notImportant"> </td>
-							<td><input type="radio" name="{{item}}" value="important"> </td>
+							<td><input type="radio" ng-model="radioButtons[$index]"  name="{{item}}" value="important"> </td>
 						</tr>
 					</tbody>
 				</table>
+				<button ng-show="!isFirstVariable" class="btn btn-primary" ng-click="back()">Back</button>
+				<button ng-show="!isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="next()">Next</button>
+				<button ng-show="isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="submit()">Submit</button>
 			</div>
 			<div class="row" ng-show="poll.type === '3'">
 				<table>
@@ -50,7 +55,6 @@
 					</tbody>
 				</table>
 			</div>
-			<button class="btn btn-primary" ng-click="submit()">Submit</button>
 		</div>
 		<div ng-show="pollFilled">
 			Thanks for filling the poll!

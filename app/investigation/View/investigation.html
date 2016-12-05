@@ -19,12 +19,12 @@
 		<div class="col-md-6" >
 			<div class="panel panel-warning">
 				<div  class="panel-heading">
-		    		<h5 class="panel-title">Next Step</h3>
+		    		<h5 class="panel-title">Current Step</h3>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '1'" class="panel-body">
 		    		<h4>Select Experts</h4>
-		    		<p>Create a ranking poll to remove experts that don't show consensus.</p>
-		    		<button ng-click="CreatePoll(1)" class="btn btn-warning">Send Poll</button>
+		    		<p>Add variables and experts to research study. Click on Next Step to create a ranking poll to remove experts that don't show consensus in their answers or click on skip step to continue without sending the poll.</p>
+		    		<button ng-click="CreatePoll(1)" class="btn btn-warning">Next Step</button>
 		    		<a >Skip Step</a>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '2'" class="panel-body">
@@ -34,8 +34,14 @@
 		    	</div>
 		    	<div ng-if="investigation[0].step === '3'" class="panel-body">
 		    		<h4>Find Dimensions</h4>
-		    		<p>Send poll to find the expert accepted dimensions.</p>
-		    		<button ng-click="CreatePoll(2)" class="btn btn-warning">Send Poll</button>
+		    		<p>Add Dimensions to the variables. And click Next Step to send poll to all experts in order to 
+		    			find the most important dimensions and discard the non important dimensions.</p>
+		    		<button ng-click="CreatePoll(2)" class="btn btn-warning">Next Step</button>
+		    	</div>
+		    	<div ng-if="investigation[0].step === '4'" class="panel-body">
+		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered</h4>
+		    		<p>Wait for experts to answer Poll.</p>
+		    		<button ng-click="ClosePoll()" class="btn btn-warning">Close Poll with current answers</button>
 		    	</div>
 			</div>
 		</div>
@@ -47,20 +53,21 @@
     	<div ng-show="variablePanelExpanded"  class="panel-body">
     		<ul class="list-group" >
 		    	<li class="list-group-item" ng-repeat="variable in variables">
-		    		<span ng-click="variable.showDimension = !variable.showDimension"
+		    		<span ng-show="investigation[0].step >== '3'" ng-click="variable.showDimension = !variable.showDimension"
 		    				ng-class="variable.showDimension ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span>
 		    		{{variable.name}}
 		    		<span ng-click="DeleteVariable(variable.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-		    		<span ng-click="addDimension(variable)" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		    		<span ng-show="investigation[0].step >== '3'" ng-click="addDimension(variable)" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 		    		<div class="dimension-container" ng-show="variable.showDimension">
 		    			<ul class="list-group">
 			    			<li class="list-group-item" ng-repeat="dimension in variable.dimensions">
 			    				{{dimension}}
 			    			</li>
 			    		</ul>
-			    		<div ng-show="newDimension.show">
-					    	<input  placeholder="Name" class="new-variable-button" ng-model="newDimension.name" type="text" class="form-control" >
-					    	<button ng-click="saveDimension(variable)" type="button" class="btn btn-primary">Save</button>
+			    		<div ng-show="variable.showNewDimension">
+					    	<input  placeholder="Name" class="new-variable-button" ng-model="variable.newDimensionName" type="text" class="form-control" >
+					    	<button ng-click="saveDimension(variable)" type="button" class="btn btn-primary">Save Dimension</button>
+					    	<button ng-click="cancelSaveDimension(variable)" type="button" class="btn btn-danger">Cancel</button>
 					    </div>
 		    		</div>
 		    	</li>

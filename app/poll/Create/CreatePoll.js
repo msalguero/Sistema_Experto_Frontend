@@ -27,15 +27,19 @@
            { id: $stateParams.id },
           $scope.poll, 
           function(poll){
-            console.log(poll);
+            var nextStep = 2;
+            if($scope.type === "2")
+              nextStep = 4;
+
             Investigation.prototype$updateAttributes(
                {id:    $stateParams.id},
-               {step: 2}
-            );
+               {step: nextStep},
+            function(){
+              $state.go('main.viewInvestigation',{id: $stateParams.id} );
+            });
             Poll.sendEmails(
               { id: poll.id }
             );
-            $state.go('main.viewInvestigation',{id: $stateParams.id} );
           });
       };
 
