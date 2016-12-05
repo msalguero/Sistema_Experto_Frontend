@@ -1,5 +1,7 @@
 <div class="investigation-list">
-	<button ng-click="Create()" type="button" class=" add-investigation-button btn btn-primary">Add new Investigation</button>
+    <div class="button-banner">
+        <button ng-click="Create()" type="button" class=" add-investigation-button btn btn-primary">Add new Research Study</button>
+    </div>
 	<div id="grid-container">
         <div id="no-more-tables">
             <div class="investigation col-md-4"   ng-repeat="investigation in investigations">
@@ -7,7 +9,7 @@
                 <div id="content">
                     <div class="header">
                         <h2>Current Status</h2>
-                        <h1>{{investigation.name}}</h1>
+                        <h1 class="investigation-name">{{investigation.name}}</h1>
                         <span>{{investigation.website}}</span>
                         <span ng-show="investigation.website === undefined">
                            No website
@@ -46,7 +48,7 @@
                 </div>
                 <div class="actions row">
                         <div class="col-md-4" >
-                            <span class="option1 glyphicon glyphicon glyphicon-tasks" aria-hidden="true"></span>
+                            <span ng-click="editInvestigation(investigation)" class="option1 glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>
                         </div>
                         <div class="col-md-4 option2" ng-click="ViewDetails(investigation.id)" >
                             <span class="option2 glyphicon glyphicon glyphicon-wrench" aria-hidden="true"></span>
@@ -62,5 +64,24 @@
                 You have 0 Investigations
             </div>
         </div>
+    </div>
+    <div style="visibility: hidden">
+      <div class="md-dialog-container" id="edit-investigation-dialog">
+        <md-dialog>
+          <div class="expert-dialog">
+            <h4>Edit Research studies</h4>
+            <p>Name</p>
+            <input ng-model="editInvestigationModel.name">
+            <p>Description</p>
+            <input ng-model="editInvestigationModel.description">
+            <p>Website</p>
+            <input ng-model="editInvestigationModel.website">
+            <div class="dialog-button">
+                <button class="btn btn-primary" ng-click="updateInvestigation()">Update</button>
+                <button class="btn btn-danger" ng-click="closeDialog()">Cancel</button>
+            </div>
+          </div>
+        </md-dialog>
+      </div>
     </div>
 </div>

@@ -43,7 +43,7 @@
       $scope.investigation = Investigation.find({ 
         filter: { where: { id: $stateParams.id } }
       }, function(investigation){
-        if(investigation[0].step === 3){
+        if(investigation[0].step === 3 || investigation[0].step === 4){
           $scope.activeStep.value = 2;
         }
       });
@@ -99,23 +99,29 @@
           .then(loadVariables);
       }
 
-      $scope.addDimension = function(id){
-        $scope.newDimension.show = true;
+      $scope.addDimension = function(variable){
+        variable.showDimension = true;
+        variable.showNewDimension = true;
       }
 
       $scope.saveDimension = function(variable){
         if(variable.dimensions)
-          variable.dimensions.push($scope.newDimension.name);
+          variable.dimensions.push(variable.newDimensionName);
         else
-          variable.dimensions = [$scope.newDimension.name];
+          variable.dimensions = [variable.newDimensionName];
         Variable.prototype$updateAttributes(
                {id:    variable.id},
                {dimensions: variable.dimensions}
             , function(){
-              $scope.newDimension.show = false;
-              $scope.newDimension.name = "";
+              variable.showNewDimension = false;
+              variable.newDimensionName = "";
               loadVariables();
             });
+      }
+
+      $scope.cancelSaveDimension = function(variable){
+        variable.showNewDimension = false;
+        variable.newDimensionName = "";
       }
 
       $scope.DeleteExpert = function(id){

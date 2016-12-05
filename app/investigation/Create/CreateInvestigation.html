@@ -1,6 +1,5 @@
 <div class="new-investigation-container">
-  <h2>Create New Investigation</h2>
-  <p>Fill in the new investigation information</p>
+  <h2>Create New Research Study</h2>
   <form>
     <div class="form-group">
       <label >Name:</label>
@@ -13,6 +12,10 @@
     <div class="form-group">
       <label >Website:</label>
       <input ng-model="investigation.website" type="text" class="form-control" >
+    </div>
+    <div class="form-group">
+      <label >References:</label>
+      <input ng-model="investigation.references" type="text" class="form-control" >
     </div>
     <button ng-click="submit()" type="button" class="btn btn-primary">Submit</button>
   </form>

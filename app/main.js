@@ -132,9 +132,10 @@
   angular.module('InvestigationApp')
 
   .controller('InvestigationList', [
-    '$scope', '$state', 'Investigation',
-    function($scope, $state, Investigation) {
+    '$scope', '$state', 'Investigation', '$mdDialog',
+    function($scope, $state, Investigation, $mdDialog) {
       var ctrl = this;
+      $scope.editInvestigationModel = {};
 
       $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}});
       $scope.investigations.$promise.then((data)=>{
@@ -156,6 +157,37 @@
           .then(function() { 
             $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}}); 
           });
+      };
+
+      $scope.editInvestigation = function(investigation){
+        $scope.editInvestigationModel = angular.copy(investigation);
+        $scope.alert = $mdDialog.alert({
+          contentElement: '#edit-investigation-dialog',
+          parent: angular.element(document.body),
+          ok: 'Close'
+        });
+
+        $mdDialog
+          .show( $scope.alert )
+          .finally(function() {
+            $scope.alert = undefined;
+            $("body").css({"overflow":""});
+          });
+          $("body").css({"overflow":"initial"});
+      };
+
+      $scope.updateInvestigation = function(){
+        Investigation.prototype$updateAttributes(
+               {id:    $scope.editInvestigationModel.id},
+               $scope.editInvestigationModel,
+            function(){
+               $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}}); 
+            });
+        $mdDialog.hide();
+      };
+
+      $scope.closeDialog = function(){
+        $mdDialog.hide();
       };
     }
   ]);
@@ -315,8 +347,8 @@
 			},
 			link: function (scope, element, attrs) {
 				scope.$watch(attrs.activeStep, function(value) {
-					//$( "#" + (value-1)  ).removeClass( "active" ).addClass( "complete" );
-				   //$( "#" + value  ).removeClass( "disable" ).addClass( "active" );
+				   $( "#" + (value-1)  ).removeClass( "active" ).addClass( "complete" );
+				   $( "#" + value  ).removeClass( "disable" ).addClass( "active" );
 				});
 				scope.getNumber = function(num) {
 					return new Array(num);   
@@ -426,7 +458,7 @@
       $scope.investigation = Investigation.find({ 
         filter: { where: { id: $stateParams.id } }
       }, function(investigation){
-        if(investigation[0].step === 3){
+        if(investigation[0].step === 3 || investigation[0].step === 4){
           $scope.activeStep.value = 2;
         }
       });
@@ -482,23 +514,29 @@
           .then(loadVariables);
       }
 
-      $scope.addDimension = function(id){
-        $scope.newDimension.show = true;
+      $scope.addDimension = function(variable){
+        variable.showDimension = true;
+        variable.showNewDimension = true;
       }
 
       $scope.saveDimension = function(variable){
         if(variable.dimensions)
-          variable.dimensions.push($scope.newDimension.name);
+          variable.dimensions.push(variable.newDimensionName);
         else
-          variable.dimensions = [$scope.newDimension.name];
+          variable.dimensions = [variable.newDimensionName];
         Variable.prototype$updateAttributes(
                {id:    variable.id},
                {dimensions: variable.dimensions}
             , function(){
-              $scope.newDimension.show = false;
-              $scope.newDimension.name = "";
+              variable.showNewDimension = false;
+              variable.newDimensionName = "";
               loadVariables();
             });
+      }
+
+      $scope.cancelSaveDimension = function(variable){
+        variable.showNewDimension = false;
+        variable.newDimensionName = "";
       }
 
       $scope.DeleteExpert = function(id){
@@ -544,13 +582,30 @@
   angular.module('InvestigationApp')
 
   .controller('AnswerPoll', [
-    '$scope', '$state', 'Poll', '$stateParams', 'Result', 'Expert',
-    function($scope, $state, Poll, $stateParams, Result, Expert) {
+    '$scope', '$state', 'Poll', '$stateParams', 'Result', 'Expert', 'Variable',
+    function($scope, $state, Poll, $stateParams, Result, Expert, Variable) {
       var ctrl = this;
+      var currentVariableNumber = 0;
+      $scope.isFirstVariable = true;
+      $scope.answers = [];
+      $scope.radioButtons = [];
+
+      var init = function(poll){
+        if(poll.type = "2"){
+          $scope.variables = Variable.find({ 
+            filter: { where: { investigationId: poll.investigationId } }
+          }, function(){
+            $scope.currentVariable = $scope.variables[currentVariableNumber];
+          });
+        }
+      }
+
       $scope.hideItemInput = true;
       $scope.poll = Poll.findById({ 
         id: $stateParams.pollId 
-      });
+      }, init);
+
+
 
       $scope.result = {
         "answers": [],
@@ -570,6 +625,54 @@
             );
         });
       };
+
+      $scope.next = function(){
+        setAnswers();
+        getAnswers();
+        console.log($scope.answers);
+        console.log($scope.radioButtons);
+
+        $scope.currentVariable = $scope.variables[++currentVariableNumber];
+        if(currentVariableNumber + 1 === $scope.variables.length){
+          $scope.isFinalVariable = true;
+        }
+        $scope.isFirstVariable = false;
+      }
+      $scope.back = function(){
+        getAnswers();
+        console.log($scope.answers);
+        console.log($scope.radioButtons);
+        $scope.currentVariable = $scope.variables[--currentVariableNumber];
+        if(currentVariableNumber === 0){
+          $scope.isFirstVariable = true;
+        }
+        $scope.isFinalVariable = false;
+      }
+
+      var getAnswerIndex = function(){
+        var answerIndex = 0;
+        for (var i = 0; i < currentVariableNumber; i++) {
+          answerIndex += $scope.variables[i].dimensions.length;
+        };
+        return answerIndex;
+      }
+
+      var setAnswers = function(){
+        var answerIndex = getAnswerIndex();
+        for (var i = 0; i < $scope.radioButtons.length; i++) {
+          $scope.answers[i+answerIndex] = $scope.radioButtons[i];
+        };
+        $scope.radioButtons.length = 0;
+      }
+
+      var getAnswers = function(){
+        var answerIndex = getAnswerIndex();
+        if(answerIndex + $scope.radioButtons.length > $scope.answers.length)
+          return;
+        for (var i = 0; i < $scope.radioButtons.length; i++) {
+          $scope.radioButtons[i] = $scope.answers[i+answerIndex];
+        };
+      }
     }
   ]);
 
@@ -603,15 +706,19 @@
            { id: $stateParams.id },
           $scope.poll, 
           function(poll){
-            console.log(poll);
+            var nextStep = 2;
+            if($scope.type === "2")
+              nextStep = 4;
+
             Investigation.prototype$updateAttributes(
                {id:    $stateParams.id},
-               {step: 2}
-            );
+               {step: nextStep},
+            function(){
+              $state.go('main.viewInvestigation',{id: $stateParams.id} );
+            });
             Poll.sendEmails(
               { id: poll.id }
             );
-            $state.go('main.viewInvestigation',{id: $stateParams.id} );
           });
       };
 

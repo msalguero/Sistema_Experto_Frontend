@@ -5,9 +5,10 @@
   angular.module('InvestigationApp')
 
   .controller('InvestigationList', [
-    '$scope', '$state', 'Investigation',
-    function($scope, $state, Investigation) {
+    '$scope', '$state', 'Investigation', '$mdDialog',
+    function($scope, $state, Investigation, $mdDialog) {
       var ctrl = this;
+      $scope.editInvestigationModel = {};
 
       $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}});
       $scope.investigations.$promise.then((data)=>{
@@ -29,6 +30,37 @@
           .then(function() { 
             $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}}); 
           });
+      };
+
+      $scope.editInvestigation = function(investigation){
+        $scope.editInvestigationModel = angular.copy(investigation);
+        $scope.alert = $mdDialog.alert({
+          contentElement: '#edit-investigation-dialog',
+          parent: angular.element(document.body),
+          ok: 'Close'
+        });
+
+        $mdDialog
+          .show( $scope.alert )
+          .finally(function() {
+            $scope.alert = undefined;
+            $("body").css({"overflow":""});
+          });
+          $("body").css({"overflow":"initial"});
+      };
+
+      $scope.updateInvestigation = function(){
+        Investigation.prototype$updateAttributes(
+               {id:    $scope.editInvestigationModel.id},
+               $scope.editInvestigationModel,
+            function(){
+               $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}}); 
+            });
+        $mdDialog.hide();
+      };
+
+      $scope.closeDialog = function(){
+        $mdDialog.hide();
       };
     }
   ]);
