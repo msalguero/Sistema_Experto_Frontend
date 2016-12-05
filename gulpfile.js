@@ -84,12 +84,21 @@ gulp.task('bundle', function(){
 gulp.task('default', function(){
   runSequence(
     ['clean-bundles'],
-    ['less', 'scripts', 'connect', 'watch']
+    ['less', 'scripts']
   );
 });
+
+gulp.task('serveprod', function() {
+  connect.server({
+    root: 'app/',
+    port: process.env.PORT || 5000, // localhost:5000
+    livereload: false
+  });
+});
+
 gulp.task('build', function() {
   runSequence(
     ['clean'],
-    ['less', 'scripts', 'minify-css', 'minify-js', 'copy-html-files', 'copy-bower-components', 'connectDist']
+    ['less', 'scripts', 'minify-css', 'minify-js', 'copy-html-files', 'copy-bower-components', 'serveprod']
   );
 });
