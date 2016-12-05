@@ -99,8 +99,7 @@
 }
 .investigation-list .investigation .header h1 {
   color: #616161;
-  font-family: "Times New Roman", Georgia, Serif;
-  font-weight: normal;
+  font-weight: 600;
   font-size: 30px;
   align-self: flex-end;
   margin: 0px;

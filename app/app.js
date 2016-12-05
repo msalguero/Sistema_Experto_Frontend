@@ -9,9 +9,11 @@
     '$stateProvider',
     'LoopBackResourceProvider',
     '$urlRouterProvider',
-    function($stateProvider, LoopBackResourceProvider,$urlRouterProvider) {
+    '$locationProvider',
+    function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider) {
 
       LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
+
 
 
       var loginState = {
@@ -107,6 +109,11 @@
       $stateProvider.state(answerPollAbstractState);
       $stateProvider.state(answerPollState);
       $stateProvider.state(removeExpertsState);
+
+      $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+      });
     }
   ])
 

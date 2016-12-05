@@ -10,7 +10,7 @@
                     <div class="header">
                         <h2>Current Status</h2>
                         <h1 class="investigation-name">{{investigation.name}}</h1>
-                        <span>{{investigation.website}}</span>
+                        <a href="http://{{investigation.website}}">{{investigation.website}}</a>
                         <span ng-show="investigation.website === undefined">
                            No website
                         </span>
