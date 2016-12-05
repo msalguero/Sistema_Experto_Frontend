@@ -89,6 +89,13 @@ gulp.task('default', function(){
   );
 });
 
+gulp.task('start', function(){
+  runSequence(
+    ['clean-bundles'],
+    ['less', 'scripts', 'connect']
+  );
+});
+
 gulp.task('serveprod', function() {
   connect.server({
     root: 'app/',

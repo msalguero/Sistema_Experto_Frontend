@@ -3,7 +3,7 @@
         <button ng-click="Create()" type="button" class=" add-investigation-button btn btn-primary">Add new Research Study</button>
     </div>
 	<div id="grid-container">
-        <div id="no-more-tables">
+        <div id="no-more-tables row">
             <div class="investigation col-md-4"   ng-repeat="investigation in investigations">
 
                 <div id="content">
@@ -17,11 +17,6 @@
                     </div>
                     <div class="body">
                         <div class="investigation-info">
-                            <!-- <p>{{investigation.description}}</p>
-                            <p ng-show="investigation.description === undefined">
-                               No description
-                            </p> -->
-                            
                         </div>
                         <div class="row meta-info-wrapper">
                             <div class="col-md-4 variables-section">
@@ -57,8 +52,6 @@
                             <span class="option3 glyphicon glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </div>
                     </div>
-
-
             </div>
             <div ng-show="investigation.length === 0">
                 You have 0 Investigations
