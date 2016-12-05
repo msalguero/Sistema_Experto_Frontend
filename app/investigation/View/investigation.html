@@ -53,11 +53,11 @@
     	<div ng-show="variablePanelExpanded"  class="panel-body">
     		<ul class="list-group" >
 		    	<li class="list-group-item" ng-repeat="variable in variables">
-		    		<span ng-show="investigation[0].step >== '3'" ng-click="variable.showDimension = !variable.showDimension"
+		    		<span ng-show="investigation[0].step >= '3'" ng-click="variable.showDimension = !variable.showDimension"
 		    				ng-class="variable.showDimension ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span>
 		    		{{variable.name}}
 		    		<span ng-click="DeleteVariable(variable.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-		    		<span ng-show="investigation[0].step >== '3'" ng-click="addDimension(variable)" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		    		<span ng-show="investigation[0].step >= '3'" ng-click="addDimension(variable)" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 		    		<div class="dimension-container" ng-show="variable.showDimension">
 		    			<ul class="list-group">
 			    			<li class="list-group-item" ng-repeat="dimension in variable.dimensions">
