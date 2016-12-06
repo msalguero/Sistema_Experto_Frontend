@@ -9,28 +9,48 @@
     function($scope, $state, Investigation, $mdDialog) {
       var ctrl = this;
       $scope.editInvestigationModel = {};
+      $scope.deleteInvestigationModel = {};
 
-      $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}});
-      $scope.investigations.$promise.then((data)=>{
-        $scope.expertsCount = data.length;
-        console.log( data );
-      })
+      $scope.investigations = [];
       $scope.Create = function(){
         $state.go('main.createInvestigation');
       };
 
       $scope.ViewDetails = function(id){
-        console.log(id);
         $state.go('main.viewInvestigation',{id: id} );
       };
 
+      var loadInvestigations = function(){
+        Investigation.find({filter:{include:  ['experts', 'variables']}},
+          function(investigations){
+            $scope.investigations = investigations.slice().reverse();
+          });
+      }
+
+      loadInvestigations();
       $scope.Delete = function(id){
         Investigation.deleteById({ id: id })
           .$promise
-          .then(function() { 
-            $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}}); 
-          });
+          .then(loadInvestigations);
+        $mdDialog.hide();
       };
+
+      $scope.DeleteDialog = function(investigation){
+        $scope.deleteInvestigationModel = angular.copy(investigation);
+        $scope.alert = $mdDialog.alert({
+          contentElement: '#delete-investigation-dialog',
+          parent: angular.element(document.body),
+          ok: 'Close'
+        });
+
+        $mdDialog
+          .show( $scope.alert )
+          .finally(function() {
+            $scope.alert = undefined;
+            $("body").css({"overflow":""});
+          });
+          $("body").css({"overflow":"initial"});
+      }
 
       $scope.editInvestigation = function(investigation){
         $scope.editInvestigationModel = angular.copy(investigation);
@@ -53,9 +73,7 @@
         Investigation.prototype$updateAttributes(
                {id:    $scope.editInvestigationModel.id},
                $scope.editInvestigationModel,
-            function(){
-               $scope.investigations = Investigation.find({filter:{include:  ['experts', 'variables']}}); 
-            });
+               loadInvestigations);
         $mdDialog.hide();
       };
 

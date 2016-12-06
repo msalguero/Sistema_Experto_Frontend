@@ -43,7 +43,6 @@
       $scope.investigation = Investigation.find({ 
         filter: { where: { id: $stateParams.id } }
       }, function(investigation){
-        console.log(investigation[0]);
         if(investigation[0].step === "3" || investigation[0].step === "4"){
           $scope.activeStep.value++;
         }
@@ -61,7 +60,7 @@
       }
 
       $scope.toggleExpertPanel = function(){
-        $scope.expertPanelExpanded = !$scope.variablePanelExpanded;
+        $scope.expertPanelExpanded = !$scope.expertPanelExpanded;
       }
 
       $scope.addVariable = function(){

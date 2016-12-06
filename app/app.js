@@ -121,7 +121,6 @@
 
   .run(function ($rootScope, Account, $state ) {
     $rootScope.$on('$stateChangeStart', function (event, next) {
-      console.log(next);
       var authorizedUser = Account.isAuthenticated();
       if (!authorizedUser && next.name !== 'login') {
         $state.go("login");
