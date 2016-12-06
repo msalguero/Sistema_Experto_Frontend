@@ -216,8 +216,10 @@
   padding-top: 2%;
 }
 .view-investigation-container .new-variable-button {
-  width: 20%;
+  width: 86%;
   display: inline;
+  border-radius: 5px;
+  border-style: groove;
 }
 .view-investigation-container .add-variable-button {
   margin-top: 2%;
@@ -238,6 +240,15 @@
   float: right;
   cursor: pointer;
   background-color: blue;
+  color: white;
+  padding: 4px;
+  border-radius: 27%;
+  margin-right: 1%;
+}
+.view-investigation-container .panel .glyphicon-ok {
+  float: right;
+  cursor: pointer;
+  background-color: green;
   color: white;
   padding: 4px;
   border-radius: 27%;

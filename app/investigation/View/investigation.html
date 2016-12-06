@@ -23,19 +23,18 @@
 		    	</div>
 		    	<div ng-if="investigation[0].step === '1'" class="panel-body">
 		    		<h4>Select Experts</h4>
-		    		<p>Add variables and experts to research study. Click on Next Step to create a ranking poll to remove experts that don't show consensus in their answers or click on skip step to continue without sending the poll.</p>
+		    		<p>Add variables and experts to research study. Variables will be used in the poll as items for the experts to rank. The result of the experts' answers will determine which experts show agreement. Click on <b>Next Step</b> to create the ranking poll or click on <b>Skip Step</b> to select experts without sending the poll. This step uses Kendall's Coefficient Algorithm.</p>
 		    		<button ng-click="CreatePoll(1)" class="btn btn-warning">Next Step</button>
 		    		<a >Skip Step</a>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '2'" class="panel-body">
 		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered</h4>
-		    		<p>Wait for experts to answer Poll.</p>
+		    		<p>Wait for experts to answer Poll. If you don't want to wait any longer or if you have enough data click on <b>Close poll with current answers</b> to finish.</p>
 		    		<button ng-click="ClosePoll()" class="btn btn-warning">Close Poll with current answers</button>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '3'" class="panel-body">
 		    		<h4>Find Dimensions</h4>
-		    		<p>Add Dimensions to the variables. And click Next Step to send poll to all experts in order to 
-		    			find the most important dimensions and discard the non important dimensions.</p>
+		    		<p>Add Dimensions to the variables. Using the + buttons add dimensions, then click <b>Next Step</b> to send poll to all experts in order to find the most important dimensions and discard the non important ones. This step uses Fleiss' Kappa Algorithm. The poll will be sent again to the experts if agreement is not achieved.</p>
 		    		<button ng-click="CreatePoll(2)" class="btn btn-warning">Next Step</button>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '4'" class="panel-body">
@@ -66,8 +65,8 @@
 			    		</ul>
 			    		<div ng-show="variable.showNewDimension">
 					    	<input  placeholder="Name" class="new-variable-button" ng-model="variable.newDimensionName" type="text" class="form-control" >
-					    	<button ng-click="saveDimension(variable)" type="button" class="btn btn-primary">Save Dimension</button>
-					    	<button ng-click="cancelSaveDimension(variable)" type="button" class="btn btn-danger">Cancel</button>
+					    	<button ng-click="cancelSaveDimension(variable)" type="button" class="glyphicon glyphicon-remove"></button>
+					    	<button ng-click="saveDimension(variable)" type="button" class="glyphicon glyphicon-ok"></button>
 					    </div>
 		    		</div>
 		    	</li>
@@ -104,13 +103,13 @@
 	      	<input ng-model="newExpert.name">
 	      	<p>Email</p>
 	      	<input ng-model="newExpert.email">
-	      	<p>Field</p>
+	      	<p>Field of Expertise</p>
 	      	<input ng-model="newExpert.field">
 	      	<p>Workplace</p>
 	      	<input ng-model="newExpert.workplace">
 	      	<p>Years of Experience</p>
 	      	<input ng-model="newExpert.years_experience">
-	      	<p>Work Title</p>
+	      	<p>Job Position</p>
 	      	<input ng-model="newExpert.job_position">
 	      	<div class="dialog-button">
 	      		<button class="btn btn-primary" ng-click="saveExpert()">Save</button>

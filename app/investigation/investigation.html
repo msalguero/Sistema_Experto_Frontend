@@ -42,13 +42,13 @@
 
                 </div>
                 <div class="actions row">
-                        <div class="col-md-4" >
+                        <div data-toggle="tooltip" title="Edit" class="col-md-4" >
                             <span ng-click="editInvestigation(investigation)" class="option1 glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>
                         </div>
-                        <div class="col-md-4 option2" ng-click="ViewDetails(investigation.id)" >
+                        <div data-toggle="tooltip" title="Work" class="col-md-4 option2" ng-click="ViewDetails(investigation.id)" >
                             <span class="option2 glyphicon glyphicon glyphicon-wrench" aria-hidden="true"></span>
                         </div>
-                        <div class="col-md-4" ng-click="Delete(investigation.id)">
+                        <div data-toggle="tooltip" title="Delete" class="col-md-4" ng-click="DeleteDialog(investigation)">
                             <span class="option3 glyphicon glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </div>
                     </div>
@@ -71,6 +71,19 @@
             <input ng-model="editInvestigationModel.website">
             <div class="dialog-button">
                 <button class="btn btn-primary" ng-click="updateInvestigation()">Update</button>
+                <button class="btn btn-danger" ng-click="closeDialog()">Cancel</button>
+            </div>
+          </div>
+        </md-dialog>
+      </div>
+    </div>
+    <div style="visibility: hidden">
+      <div class="md-dialog-container" id="delete-investigation-dialog">
+        <md-dialog>
+          <div class="expert-dialog">
+            <h4>Delete {{deleteInvestigationModel.name}}</h4>
+            <div class="dialog-button">
+                <button class="btn btn-primary" ng-click="Delete(deleteInvestigationModel.id)">Delete</button>
                 <button class="btn btn-danger" ng-click="closeDialog()">Cancel</button>
             </div>
           </div>

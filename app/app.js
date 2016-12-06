@@ -13,7 +13,7 @@
     function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider) {
 
       LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
-
+      // LoopBackResourceProvider.setUrlBase('http://0.0.0.0:3000/api');
 
 
       var loginState = {
@@ -121,7 +121,6 @@
 
   .run(function ($rootScope, Account, $state ) {
     $rootScope.$on('$stateChangeStart', function (event, next) {
-      console.log(next);
       var authorizedUser = Account.isAuthenticated();
       if (!authorizedUser && next.name !== 'login') {
         $state.go("login");
