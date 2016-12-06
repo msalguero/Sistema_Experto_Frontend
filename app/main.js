@@ -658,6 +658,7 @@
       $scope.submit = function(){
         $scope.result.answers = $scope.poll.questions;
         Result.create($scope.result, function(){
+          
           $scope.pollFilled = true;
           Expert.prototype$updateAttributes(
                {id:    $stateParams.expertId},
