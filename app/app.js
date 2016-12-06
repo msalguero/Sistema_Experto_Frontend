@@ -9,9 +9,11 @@
     '$stateProvider',
     'LoopBackResourceProvider',
     '$urlRouterProvider',
-    function($stateProvider, LoopBackResourceProvider,$urlRouterProvider) {
+    '$locationProvider',
+    function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider) {
 
       LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
+
 
 
       var loginState = {
@@ -107,6 +109,11 @@
       $stateProvider.state(answerPollAbstractState);
       $stateProvider.state(answerPollState);
       $stateProvider.state(removeExpertsState);
+
+      $locationProvider.html5Mode({
+        enabled: true,
+        requireBase: false
+      });
     }
   ])
 
@@ -114,6 +121,7 @@
 
   .run(function ($rootScope, Account, $state ) {
     $rootScope.$on('$stateChangeStart', function (event, next) {
+      console.log(next);
       var authorizedUser = Account.isAuthenticated();
       if (!authorizedUser && next.name !== 'login') {
         $state.go("login");
@@ -121,6 +129,10 @@
       }
 
     });
-  });
+  })
+
+  // .use(function(req, res){
+  //   res.sendFile('index.html', {root : './'})
+  // });
 
 }());

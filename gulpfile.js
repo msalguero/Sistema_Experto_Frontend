@@ -47,7 +47,8 @@ gulp.task('connect', function () {
   connect.server({
     root: 'app/',
     port: 8888,
-    livereload: true
+    livereload: true,
+    fallback: 'app/index.html'
   });
 });
 gulp.task('connectDist', function () {
@@ -80,16 +81,34 @@ gulp.task('bundle', function(){
   );
 });
 
+
 // default task
 gulp.task('default', function(){
   runSequence(
     ['clean-bundles'],
-    ['less', 'scripts', 'connect', 'watch']
+    ['less', 'scripts']
   );
 });
+
+gulp.task('start', function(){
+  runSequence(
+    ['clean-bundles'],
+    ['less', 'scripts', 'connect']
+  );
+});
+
+gulp.task('serveprod', function() {
+  connect.server({
+    root: 'app/',
+    port: process.env.PORT || 5000, // localhost:5000
+    livereload: false,
+    fallback: 'app/index.html'
+  });
+});
+
 gulp.task('build', function() {
   runSequence(
     ['clean'],
-    ['less', 'scripts', 'minify-css', 'minify-js', 'copy-html-files', 'copy-bower-components', 'connectDist']
+    ['less', 'scripts', 'minify-css', 'minify-js', 'copy-html-files', 'copy-bower-components', 'serveprod']
   );
 });
