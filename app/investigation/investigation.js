@@ -5,12 +5,12 @@
   angular.module('InvestigationApp')
 
   .controller('InvestigationList', [
-    '$scope', '$state', 'Investigation', '$mdDialog',
-    function($scope, $state, Investigation, $mdDialog) {
+    '$scope', '$state', 'Investigation', '$mdDialog', 'Account',
+    function($scope, $state, Investigation, $mdDialog, Account) {
       var ctrl = this;
       $scope.editInvestigationModel = {};
       $scope.deleteInvestigationModel = {};
-
+      var userId;
       $scope.investigations = [];
       $scope.Create = function(){
         $state.go('main.createInvestigation');
@@ -21,13 +21,19 @@
       };
 
       var loadInvestigations = function(){
-        Investigation.find({filter:{include:  ['experts', 'variables']}},
+        Investigation.find({filter:{where: { accountId: userId }, include:  ['experts', 'variables']}},
           function(investigations){
             $scope.investigations = investigations.slice().reverse();
           });
       }
 
-      loadInvestigations();
+      Account.getCurrent(
+          function(response) {
+              var user = response;
+              userId = user.id;
+              loadInvestigations();
+            });
+      
       $scope.Delete = function(id){
         Investigation.deleteById({ id: id })
           .$promise
