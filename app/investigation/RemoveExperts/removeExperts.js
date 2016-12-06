@@ -22,9 +22,12 @@
         }
         Investigation.prototype$updateAttributes(
            {id:    $stateParams.id},
-           {step: 3}
+           {step: 3},
+           function(){
+            $state.go('main.viewInvestigation',{id: $stateParams.id} );
+           }
         );
-        $state.go('main.viewInvestigation',{id: $stateParams.id} );
+        
       }
     }
   ]);

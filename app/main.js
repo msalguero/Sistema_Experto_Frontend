@@ -346,10 +346,7 @@
 			  activeStep: '=activeStep'
 			},
 			link: function (scope, element, attrs) {
-				scope.$watch(attrs.activeStep, function(value) {
-				   $( "#" + (value-1)  ).removeClass( "active" ).addClass( "complete" );
-				   $( "#" + value  ).removeClass( "disable" ).addClass( "active" );
-				});
+
 				scope.getNumber = function(num) {
 					return new Array(num);   
 				};
@@ -405,9 +402,12 @@
         }
         Investigation.prototype$updateAttributes(
            {id:    $stateParams.id},
-           {step: 3}
+           {step: 3},
+           function(){
+            $state.go('main.viewInvestigation',{id: $stateParams.id} );
+           }
         );
-        $state.go('main.viewInvestigation',{id: $stateParams.id} );
+        
       }
     }
   ]);
@@ -458,8 +458,9 @@
       $scope.investigation = Investigation.find({ 
         filter: { where: { id: $stateParams.id } }
       }, function(investigation){
-        if(investigation[0].step === 3 || investigation[0].step === 4){
-          $scope.activeStep.value = 2;
+        console.log(investigation[0]);
+        if(investigation[0].step === "3" || investigation[0].step === "4"){
+          $scope.activeStep.value++;
         }
       });
 
@@ -557,6 +558,7 @@
       }
 
       function showDialog() {
+
         $scope.alert = $mdDialog.alert({
           contentElement: '#add-expert-dialog',
           parent: angular.element(document.body),

@@ -43,8 +43,9 @@
       $scope.investigation = Investigation.find({ 
         filter: { where: { id: $stateParams.id } }
       }, function(investigation){
-        if(investigation[0].step === 3 || investigation[0].step === 4){
-          $scope.activeStep.value = 2;
+        console.log(investigation[0]);
+        if(investigation[0].step === "3" || investigation[0].step === "4"){
+          $scope.activeStep.value++;
         }
       });
 
@@ -142,6 +143,7 @@
       }
 
       function showDialog() {
+
         $scope.alert = $mdDialog.alert({
           contentElement: '#add-expert-dialog',
           parent: angular.element(document.body),
