@@ -93,7 +93,7 @@ gulp.task('default', function(){
 gulp.task('start', function(){
   runSequence(
     ['clean-bundles'],
-    ['less', 'scripts', 'connect']
+    ['less', 'scripts', 'connect','watch']
   );
 });
 

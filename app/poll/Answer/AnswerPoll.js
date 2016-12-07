@@ -14,7 +14,7 @@
       $scope.radioButtons = [];
 
       var init = function(poll){
-        if(poll.type = "2"){
+        if(poll.type === "2"){
           $scope.variables = Variable.find({ 
             filter: { where: { investigationId: poll.investigationId } }
           }, function(){
@@ -28,7 +28,7 @@
         id: $stateParams.pollId 
       }, init);
 
-
+      console.log("POLL:", $scope.poll);
 
       $scope.result = {
         "answers": [],

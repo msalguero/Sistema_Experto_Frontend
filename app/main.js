@@ -12,8 +12,8 @@
     '$locationProvider',
     function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider) {
 
-      LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
-
+      // LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
+      LoopBackResourceProvider.setUrlBase('http://0.0.0.0:3000/api');
 
 
       var loginState = {
@@ -631,7 +631,7 @@
       $scope.radioButtons = [];
 
       var init = function(poll){
-        if(poll.type = "2"){
+        if(poll.type === "2"){
           $scope.variables = Variable.find({ 
             filter: { where: { investigationId: poll.investigationId } }
           }, function(){
@@ -645,7 +645,7 @@
         id: $stateParams.pollId 
       }, init);
 
-
+      console.log("POLL:", $scope.poll);
 
       $scope.result = {
         "answers": [],
@@ -658,6 +658,7 @@
       $scope.submit = function(){
         $scope.result.answers = $scope.poll.questions;
         Result.create($scope.result, function(){
+          
           $scope.pollFilled = true;
           Expert.prototype$updateAttributes(
                {id:    $stateParams.expertId},

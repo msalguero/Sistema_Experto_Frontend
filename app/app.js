@@ -13,7 +13,7 @@
     function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider) {
 
       LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
-
+      // LoopBackResourceProvider.setUrlBase('http://0.0.0.0:3000/api');
 
 
       var loginState = {
