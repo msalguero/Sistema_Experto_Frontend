@@ -18,6 +18,11 @@
           $scope.variables = Variable.find({ 
             filter: { where: { investigationId: poll.investigationId } }
           }, function(){
+            for (var i = 0; i < $scope.variables.length; i++) {
+              $scope.variables[i].dimensions = $scope.variables[i].dimensions.map(function(element){
+                return {name: element, important: false};
+              });
+            };
             $scope.currentVariable = $scope.variables[currentVariableNumber];
           });
         }
@@ -27,8 +32,6 @@
       $scope.poll = Poll.findById({ 
         id: $stateParams.pollId 
       }, init);
-
-      console.log("POLL:", $scope.poll);
 
       $scope.result = {
         "answers": [],
@@ -50,11 +53,7 @@
       };
 
       $scope.next = function(){
-        setAnswers();
-        getAnswers();
-        console.log($scope.answers);
-        console.log($scope.radioButtons);
-
+        console.log($scope.variables);
         $scope.currentVariable = $scope.variables[++currentVariableNumber];
         if(currentVariableNumber + 1 === $scope.variables.length){
           $scope.isFinalVariable = true;
@@ -62,39 +61,12 @@
         $scope.isFirstVariable = false;
       }
       $scope.back = function(){
-        getAnswers();
-        console.log($scope.answers);
-        console.log($scope.radioButtons);
+        console.log($scope.variables);
         $scope.currentVariable = $scope.variables[--currentVariableNumber];
         if(currentVariableNumber === 0){
           $scope.isFirstVariable = true;
         }
         $scope.isFinalVariable = false;
-      }
-
-      var getAnswerIndex = function(){
-        var answerIndex = 0;
-        for (var i = 0; i < currentVariableNumber; i++) {
-          answerIndex += $scope.variables[i].dimensions.length;
-        };
-        return answerIndex;
-      }
-
-      var setAnswers = function(){
-        var answerIndex = getAnswerIndex();
-        for (var i = 0; i < $scope.radioButtons.length; i++) {
-          $scope.answers[i+answerIndex] = $scope.radioButtons[i];
-        };
-        $scope.radioButtons.length = 0;
-      }
-
-      var getAnswers = function(){
-        var answerIndex = getAnswerIndex();
-        if(answerIndex + $scope.radioButtons.length > $scope.answers.length)
-          return;
-        for (var i = 0; i < $scope.radioButtons.length; i++) {
-          $scope.radioButtons[i] = $scope.answers[i+answerIndex];
-        };
       }
     }
   ]);

@@ -21,9 +21,9 @@
 					</thead>
 					<tbody >
 						<tr  ng-repeat="item in currentVariable.dimensions track by $index">
-							<th>{{ item }}</th>
-							<td><input type="radio" name="{{item}}" value="notImportant"> </td>
-							<td><input type="radio" ng-model="radioButtons[$index]"  name="{{item}}" value="important"> </td>
+							<th>{{ item.name }}</th>
+							<td><input type="radio" name="{{item.name}}" ng-model="item.important" value="notImportant"> </td>
+							<td><input type="radio" ng-model="item.important"  name="{{item.name}}" value="important"> </td>
 						</tr>
 					</tbody>
 				</table>
