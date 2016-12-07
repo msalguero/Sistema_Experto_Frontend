@@ -17,7 +17,7 @@
         value: 1
       };
       $scope.steps = [
-        {title: "Create Reserch Study", description: "Create and fill investigation data"},
+        {title: "Create Research Study", description: "Create and fill investigation data"},
         {title: "Select Experts", description: "Ranking poll to eliminate experts"},
         {title: "Find Dimensions", description: ""},
         {title: "Assign Weights", description: ""}
