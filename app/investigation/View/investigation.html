@@ -25,7 +25,7 @@
 		    		<h4>Select Experts</h4>
 		    		<p>Add variables and experts to research study. Variables will be used in the poll as items for the experts to rank. The result of the experts' answers will determine which experts show agreement. Click on <b>Next Step</b> to create the ranking poll or click on <b>Skip Step</b> to select experts without sending the poll. This step uses Kendall's Coefficient Algorithm.</p>
 		    		<button ng-click="CreatePoll(1)" class="btn btn-warning">Next Step</button>
-		    		<a >Skip Step</a>
+		    		<a ng-click="ClosePoll()">Skip Step</a>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '2'" class="panel-body">
 		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered</h4>

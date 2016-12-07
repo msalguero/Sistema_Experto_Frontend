@@ -5,13 +5,27 @@
   angular.module('InvestigationApp')
 
   .controller('RemoveExperts', [
-    '$scope', '$state', '$stateParams' , 'Investigation', 'Expert',
-    function($scope, $state, $stateParams, Investigation, Expert) {
+    '$scope', '$state', '$stateParams' , 'Investigation', 'Expert', 'Poll',
+    function($scope, $state, $stateParams, Investigation, Expert, Poll) {
       var ctrl = this;
 
       $scope.investigation = Investigation.findById({
         id: $stateParams.id,
-        filter:{include:  ['experts']}
+        filter:{include:  ['experts', 'polls']}
+      }, function(investigation){
+        if(investigation.polls && investigation.polls.length === 1){
+          Poll.getSuggestions({id: investigation.polls[0].id}, 
+            function(result){
+              var suggestedExperts = result.data.suggestion;
+              for (var i = 0; i < suggestedExperts.length; i++) {
+                for (var j = 0; j < $scope.investigation.experts.length; j++) {
+                  if($scope.investigation.experts[j].id === suggestedExperts[i].id){
+                    $scope.investigation.experts[j].checked = true;
+                  }
+                };
+              };
+            });
+        }
       });
 
       $scope.submit =function(){
