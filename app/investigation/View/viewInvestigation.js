@@ -131,7 +131,8 @@
       }
 
       $scope.CreatePoll = function(type){
-        $state.go('main.createPoll', {id: $stateParams.id, type: type});
+        if(validPoll(type))
+          $state.go('main.createPoll', {id: $stateParams.id, type: type});
       }
       $scope.ClosePoll = function(){
         $state.go('main.removeExperts', {id: $stateParams.id});
@@ -156,6 +157,35 @@
             $("body").css({"overflow":""});
           });
           $("body").css({"overflow":"initial"});
+      }
+
+      var validPoll = function(type){
+        if(type === 1){
+          if($scope.variables.length < 2 || $scope.experts.length < 2){
+            showWarning("Not enough variables or experts to conduct research study.")
+            return false;
+          }
+        }else if(type === 2){
+          for (var i = 0; i < $scope.variables.length; i++) {
+            if(!$scope.variables[i].dimensions || $scope.variables[i].dimensions.length < 2){
+              showWarning("Variable has minimum of 2 dimensions.")
+              return false;
+            }
+          };
+        }
+        return true;
+      }
+
+      var showWarning = function(text){
+        $mdDialog.show(
+          $mdDialog.alert()
+            .parent(angular.element(document.querySelector('body')))
+            .clickOutsideToClose(true)
+            .title('Warning')
+            .textContent(text)
+            .ariaLabel('Alert Dialog Demo')
+            .ok('Ok')
+        );
       }
     }
   ]);
