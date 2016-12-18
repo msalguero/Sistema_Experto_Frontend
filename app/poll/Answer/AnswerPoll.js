@@ -42,7 +42,9 @@
       $scope.itemInput = "";
 
       $scope.submit = function(){
-        $scope.result.answers = $scope.poll.questions;
+        $scope.result.answers = $scope.poll.questions.map(function(element){
+          return { value: element};
+        });
         Result.create($scope.result, function(){
           $scope.pollFilled = true;
           Expert.prototype$updateAttributes(

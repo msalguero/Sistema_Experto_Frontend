@@ -15,7 +15,14 @@
     </div>
     <div class="form-group">
       <label >References:</label>
-      <input ng-model="investigation.references" type="text" class="form-control" >
+      <div class="note-list">
+        <ul>
+          <li ng-repeat="note in investigation.notes"><a >{{note}}</a></li>
+          <li><a ng-show="!showNewNote" ng-click="showNewNote = !showNewnote">Add new note...</a>
+              <input ng-model="itemInput" ng-show="showNewNote" ng-keypress="addItem()"></input>
+          </li>
+        </ul>
+      </div>
     </div>
     <button ng-click="submit()" type="button" class="btn btn-primary">Submit</button>
   </form>

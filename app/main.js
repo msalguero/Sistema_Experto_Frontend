@@ -12,8 +12,8 @@
     '$locationProvider',
     function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider) {
 
-      // LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
-      LoopBackResourceProvider.setUrlBase('http://0.0.0.0:3000/api');
+      LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
+      // LoopBackResourceProvider.setUrlBase('http://0.0.0.0:3000/api');
 
 
       var loginState = {
@@ -401,7 +401,8 @@
     '$scope', '$state', 'Investigation', 'Account',
     function($scope, $state, Investigation, Account) {
       var ctrl = this;
-      $scope.investigation = {step:1};
+      $scope.investigation = {step:1, notes:[]};
+      $scope.itemInput = "";
       Account.getCurrent(
           function(user) {
               $scope.investigation.accountId = user.id;
@@ -412,6 +413,15 @@
           function(){
             $state.go("main.investigations");
           });
+      };
+
+      $scope.addItem = function(){
+        if(event.which === 13) {
+          $scope.investigation.notes.push($scope.itemInput);
+          $scope.showNewNote = false;
+          $scope.itemInput = "";
+          
+        }
       };
     }
   ]);
@@ -424,13 +434,27 @@
   angular.module('InvestigationApp')
 
   .controller('RemoveExperts', [
-    '$scope', '$state', '$stateParams' , 'Investigation', 'Expert',
-    function($scope, $state, $stateParams, Investigation, Expert) {
+    '$scope', '$state', '$stateParams' , 'Investigation', 'Expert', 'Poll',
+    function($scope, $state, $stateParams, Investigation, Expert, Poll) {
       var ctrl = this;
 
       $scope.investigation = Investigation.findById({
         id: $stateParams.id,
-        filter:{include:  ['experts']}
+        filter:{include:  ['experts', 'polls']}
+      }, function(investigation){
+        if(investigation.polls && investigation.polls.length === 1){
+          Poll.getSuggestions({id: investigation.polls[0].id}, 
+            function(result){
+              var suggestedExperts = result.data.suggestion;
+              for (var i = 0; i < suggestedExperts.length; i++) {
+                for (var j = 0; j < $scope.investigation.experts.length; j++) {
+                  if($scope.investigation.experts[j].id === suggestedExperts[i].id){
+                    $scope.investigation.experts[j].checked = true;
+                  }
+                };
+              };
+            });
+        }
       });
 
       $scope.submit =function(){
@@ -471,7 +495,7 @@
         value: 1
       };
       $scope.steps = [
-        {title: "Create Investigation", description: "Create and fill investigation data"},
+        {title: "Create Research Study", description: "Create and fill investigation data"},
         {title: "Select Experts", description: "Ranking poll to eliminate experts"},
         {title: "Find Dimensions", description: ""},
         {title: "Assign Weights", description: ""}
@@ -635,6 +659,11 @@
           $scope.variables = Variable.find({ 
             filter: { where: { investigationId: poll.investigationId } }
           }, function(){
+            for (var i = 0; i < $scope.variables.length; i++) {
+              $scope.variables[i].dimensions = $scope.variables[i].dimensions.map(function(element){
+                return {name: element, important: false};
+              });
+            };
             $scope.currentVariable = $scope.variables[currentVariableNumber];
           });
         }
@@ -645,8 +674,6 @@
         id: $stateParams.pollId 
       }, init);
 
-      console.log("POLL:", $scope.poll);
-
       $scope.result = {
         "answers": [],
         "expertId": $stateParams.expertId ,
@@ -656,9 +683,10 @@
       $scope.itemInput = "";
 
       $scope.submit = function(){
-        $scope.result.answers = $scope.poll.questions;
+        $scope.result.answers = $scope.poll.questions.map(function(element){
+          return { value: element};
+        });
         Result.create($scope.result, function(){
-          
           $scope.pollFilled = true;
           Expert.prototype$updateAttributes(
                {id:    $stateParams.expertId},
@@ -668,11 +696,7 @@
       };
 
       $scope.next = function(){
-        setAnswers();
-        getAnswers();
-        console.log($scope.answers);
-        console.log($scope.radioButtons);
-
+        console.log($scope.variables);
         $scope.currentVariable = $scope.variables[++currentVariableNumber];
         if(currentVariableNumber + 1 === $scope.variables.length){
           $scope.isFinalVariable = true;
@@ -680,39 +704,12 @@
         $scope.isFirstVariable = false;
       }
       $scope.back = function(){
-        getAnswers();
-        console.log($scope.answers);
-        console.log($scope.radioButtons);
+        console.log($scope.variables);
         $scope.currentVariable = $scope.variables[--currentVariableNumber];
         if(currentVariableNumber === 0){
           $scope.isFirstVariable = true;
         }
         $scope.isFinalVariable = false;
-      }
-
-      var getAnswerIndex = function(){
-        var answerIndex = 0;
-        for (var i = 0; i < currentVariableNumber; i++) {
-          answerIndex += $scope.variables[i].dimensions.length;
-        };
-        return answerIndex;
-      }
-
-      var setAnswers = function(){
-        var answerIndex = getAnswerIndex();
-        for (var i = 0; i < $scope.radioButtons.length; i++) {
-          $scope.answers[i+answerIndex] = $scope.radioButtons[i];
-        };
-        $scope.radioButtons.length = 0;
-      }
-
-      var getAnswers = function(){
-        var answerIndex = getAnswerIndex();
-        if(answerIndex + $scope.radioButtons.length > $scope.answers.length)
-          return;
-        for (var i = 0; i < $scope.radioButtons.length; i++) {
-          $scope.radioButtons[i] = $scope.answers[i+answerIndex];
-        };
       }
     }
   ]);
