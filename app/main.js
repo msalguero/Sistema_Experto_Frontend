@@ -148,6 +148,7 @@
       var ctrl = this;
       $scope.editInvestigationModel = {};
       $scope.deleteInvestigationModel = {};
+      $scope.loadingInvestigations = true;
       var userId;
       $scope.investigations = [];
       $scope.Create = function(){
@@ -159,8 +160,10 @@
       };
 
       var loadInvestigations = function(){
+        $scope.loadingInvestigations = true;
         Investigation.find({filter:{where: { accountId: userId }, include:  ['experts', 'variables']}},
           function(investigations){
+            $scope.loadingInvestigations = false;
             $scope.investigations = investigations.slice().reverse();
           });
       }
@@ -483,8 +486,8 @@
   angular.module('InvestigationApp')
 
   .controller('ViewInvestigation', [
-    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert', '$mdDialog',
-    function($scope, $state, Investigation, $stateParams, Variable, Expert, $mdDialog) {
+    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert', '$mdDialog', 'Result',
+    function($scope, $state, Investigation, $stateParams, Variable, Expert, $mdDialog, Result) {
       var ctrl = this;
       $scope.variablePanelExpanded = true;
       $scope.expertPanelExpanded = true;
@@ -546,7 +549,7 @@
       }
 
       $scope.addExpert = function(){
-        showDialog();
+        showDialog('#add-expert-dialog');
       }
 
       $scope.saveVariable = function(){
@@ -587,13 +590,13 @@
           variable.dimensions.push(variable.newDimensionName);
         else
           variable.dimensions = [variable.newDimensionName];
+        variable.showNewDimension = false;
+        variable.newDimensionName = "";
         Variable.prototype$updateAttributes(
                {id:    variable.id},
                {dimensions: variable.dimensions}
             , function(){
-              variable.showNewDimension = false;
-              variable.newDimensionName = "";
-              loadVariables();
+              
             });
       }
 
@@ -617,13 +620,15 @@
       }
 
       $scope.closeDialog = function() {
+        $scope.answers = [];
+        $scope.showAnswers = false;
         $mdDialog.hide();
       }
 
-      function showDialog() {
+      function showDialog(contentId) {
 
         $scope.alert = $mdDialog.alert({
-          contentElement: '#add-expert-dialog',
+          contentElement: contentId,
           parent: angular.element(document.body),
           ok: 'Close'
         });
@@ -665,9 +670,20 @@
             .ok('Ok')
         );
       }
-    }
-  ]);
 
+      $scope.ShowExperts = function(){
+        showDialog("#experts-list-dialog");
+      }
+
+      $scope.ShowExpertAnswers = function(id){
+        $scope.loadingAnswers = true;
+         Result.findOne({filter:{where: { expertId: id }}}, function(result){
+          $scope.loadingAnswers = false;
+          $scope.answers = result.answers;
+          $scope.showAnswers = true;
+        });
+      }
+  }]);
 }());
 (function () {
 
@@ -716,6 +732,25 @@
         $scope.result.answers = $scope.poll.questions.map(function(element){
           return { value: element};
         });
+        Result.create($scope.result, function(){
+          $scope.pollFilled = true;
+          Expert.prototype$updateAttributes(
+               {id:    $stateParams.expertId},
+               {filled_poll: true}
+            );
+        });
+      };
+
+      $scope.submitDichotomic = function(){
+        $scope.result.answers = [];
+        for (var i = 0; i < $scope.variables.length; i++) {
+          let variableValue = { value: []};
+          for (var j = 0; j < $scope.variables[i].dimensions.length; j++) {
+            let isDimensionImportant = $scope.variables[i].dimensions[j].important === 'important';
+            variableValue.value.push({name: $scope.variables[i].dimensions[j].name, important: isDimensionImportant});
+          };
+          $scope.result.answers.push(variableValue);
+        };
         Result.create($scope.result, function(){
           $scope.pollFilled = true;
           Expert.prototype$updateAttributes(

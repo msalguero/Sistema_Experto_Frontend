@@ -10,6 +10,7 @@
       var ctrl = this;
       $scope.editInvestigationModel = {};
       $scope.deleteInvestigationModel = {};
+      $scope.loadingInvestigations = true;
       var userId;
       $scope.investigations = [];
       $scope.Create = function(){
@@ -21,8 +22,10 @@
       };
 
       var loadInvestigations = function(){
+        $scope.loadingInvestigations = true;
         Investigation.find({filter:{where: { accountId: userId }, include:  ['experts', 'variables']}},
           function(investigations){
+            $scope.loadingInvestigations = false;
             $scope.investigations = investigations.slice().reverse();
           });
       }

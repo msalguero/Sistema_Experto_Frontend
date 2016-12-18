@@ -28,7 +28,7 @@
 		    		<a ng-click="ClosePoll()">Skip Step</a>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '2'" class="panel-body">
-		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered</h4>
+		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered <a ng-click="ShowExperts()">Details...</a></h4> 
 		    		<p>Wait for experts to answer Poll. If you don't want to wait any longer or if you have enough data click on <b>Close poll with current answers</b> to finish.</p>
 		    		<button ng-click="ClosePoll()" class="btn btn-warning">Close Poll with current answers</button>
 		    	</div>
@@ -118,5 +118,26 @@
 	      </div>
 	    </md-dialog>
 	  </div>
+	</div>
+	<div style="visibility:hidden">
+		<div class="md-dialog-container" id="experts-list-dialog">
+			<md-dialog>
+				<div ng-show="!showAnswers && !loadingAnswers" class="list-group-item " ng-repeat="expert in experts">
+				    <span >{{expert.name}}</span>
+				    <span ng-show="expert.filled_poll">Answered <a ng-click="ShowExpertAnswers(expert.id)">See Answers</a></span>
+				    <span ng-show="!expert.filled_poll">Not Answered</span>
+				</div>
+				<md-progress-circular md-mode="indeterminate" ng-show="loadingAnswers"></md-progress-circular>
+				<div ng-show="showAnswers">
+					<div>
+						The answers of the ranking poll were.
+						<div ng-repeat="answer in answers track by $index">
+							{{$index + 1 + ". " + answer.value}} 
+						</div>
+					</div>
+				</div>
+				<button class="btn btn-danger" ng-click="closeDialog()">Close</button>
+			  </md-dialog>
+		</div>
 	</div>
 </div>

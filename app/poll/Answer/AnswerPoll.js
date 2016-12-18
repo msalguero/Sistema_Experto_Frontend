@@ -54,6 +54,25 @@
         });
       };
 
+      $scope.submitDichotomic = function(){
+        $scope.result.answers = [];
+        for (var i = 0; i < $scope.variables.length; i++) {
+          let variableValue = { value: []};
+          for (var j = 0; j < $scope.variables[i].dimensions.length; j++) {
+            let isDimensionImportant = $scope.variables[i].dimensions[j].important === 'important';
+            variableValue.value.push({name: $scope.variables[i].dimensions[j].name, important: isDimensionImportant});
+          };
+          $scope.result.answers.push(variableValue);
+        };
+        Result.create($scope.result, function(){
+          $scope.pollFilled = true;
+          Expert.prototype$updateAttributes(
+               {id:    $stateParams.expertId},
+               {filled_poll: true}
+            );
+        });
+      };
+
       $scope.next = function(){
         console.log($scope.variables);
         $scope.currentVariable = $scope.variables[++currentVariableNumber];
