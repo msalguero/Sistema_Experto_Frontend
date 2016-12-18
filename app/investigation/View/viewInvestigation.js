@@ -141,6 +141,7 @@
       $scope.closeDialog = function() {
         $scope.answers = [];
         $scope.showAnswers = false;
+        $scope.selectedExpert = null;
         $mdDialog.hide();
       }
 
@@ -194,13 +195,21 @@
         showDialog("#experts-list-dialog");
       }
 
-      $scope.ShowExpertAnswers = function(id){
+      $scope.ShowExpertAnswers = function(expert){
         $scope.loadingAnswers = true;
-         Result.findOne({filter:{where: { expertId: id }}}, function(result){
+         Result.findOne({filter:{where: { expertId: expert.id }}}, function(result){
           $scope.loadingAnswers = false;
           $scope.answers = result.answers;
           $scope.showAnswers = true;
+          $scope.selectedExpert = expert;
         });
+      }
+
+      $scope.BackToExpertList = function(){
+          $scope.loadingAnswers = false;
+          $scope.answers = [];
+          $scope.showAnswers = false;
+          $scope.selectedExpert = null;
       }
   }]);
 }());

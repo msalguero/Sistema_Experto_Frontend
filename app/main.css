@@ -267,6 +267,30 @@
 .expert-dialog .dialog-button {
   margin-top: 2%;
 }
+.expert-dialog p {
+  margin: 13px 0 0px;
+}
+.expert-data-input {
+  width: 100%;
+}
+.expert-answers {
+  width: 350px;
+  height: 198px;
+}
+.expert-answers .state {
+  float: right;
+}
+.expert-answers .answer-list-content {
+  margin: 5%;
+  margin-top: 2%;
+}
+.expert-answers .glyphicon-arrow-left {
+  margin-left: 4%;
+  margin-top: 3%;
+}
+.expert-answers .glyphicon-arrow-left:hov {
+  cursosr: pointer;
+}
 .remove-experts-container {
   margin-top: 4%;
   padding: 3%;
@@ -360,8 +384,8 @@
 }
 .new-poll-container {
   margin-top: 4%;
-  margin-left: 2%;
-  width: 90%;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 .new-poll-container .title {
   padding-top: 2%;
@@ -371,6 +395,12 @@
 }
 .new-poll-container .submit {
   margin-bottom: 3%;
+}
+.new-poll-container .form-wrapper {
+  background-color: white;
+  padding: 4%;
+  box-shadow: 7px 3px 20px #888888;
+  border-radius: 10px;
 }
 .answer-poll-container {
   height: 100%;
