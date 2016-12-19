@@ -43,7 +43,7 @@
 
       $scope.submit = function(){
         $scope.result.answers = $scope.poll.questions.map(function(element){
-          return { value: element};
+          return element;
         });
         Result.create($scope.result, function(){
           $scope.pollFilled = true;
@@ -57,10 +57,10 @@
       $scope.submitDichotomic = function(){
         $scope.result.answers = [];
         for (var i = 0; i < $scope.variables.length; i++) {
-          let variableValue = { value: []};
+          let variableValue = [];
           for (var j = 0; j < $scope.variables[i].dimensions.length; j++) {
             let isDimensionImportant = $scope.variables[i].dimensions[j].important === 'important';
-            variableValue.value.push({name: $scope.variables[i].dimensions[j].name, important: isDimensionImportant});
+            variableValue.push({name: $scope.variables[i].dimensions[j].name, important: isDimensionImportant});
           };
           $scope.result.answers.push(variableValue);
         };
