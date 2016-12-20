@@ -1,29 +1,31 @@
 <div class="new-investigation-container">
-  <h2>Create New Research Study</h2>
-  <form>
-    <div class="form-group">
-      <label >Name:</label>
-      <input ng-model="investigation.name" type="text" class="form-control" >
-    </div>
-    <div class="form-group">
-      <label >Description:</label>
-      <textarea ng-model="investigation.description" class="form-control" rows="5" ></textarea>
-    </div>
-    <div class="form-group">
-      <label >Website:</label>
-      <input ng-model="investigation.website" type="text" class="form-control" >
-    </div>
-    <div class="form-group">
-      <label >References:</label>
-      <div class="note-list">
-        <ul>
-          <li ng-repeat="note in investigation.notes"><a >{{note}}</a></li>
-          <li><a ng-show="!showNewNote" ng-click="showNewNote = !showNewnote">Add new note...</a>
-              <input ng-model="itemInput" ng-show="showNewNote" ng-keypress="addItem()"></input>
-          </li>
-        </ul>
+  <div class="wrapper">
+    <h2>Create New Research Study</h2>
+    <form>
+      <div class="form-group">
+        <label >Name:</label>
+        <input ng-model="investigation.name" type="text" class="form-control" >
       </div>
-    </div>
-    <button ng-click="submit()" type="button" class="btn btn-primary">Submit</button>
-  </form>
+      <div class="form-group">
+        <label >Description:</label>
+        <textarea ng-model="investigation.description" class="form-control" rows="5" ></textarea>
+      </div>
+      <div class="form-group">
+        <label >Website:</label>
+        <input ng-model="investigation.website" type="text" class="form-control" >
+      </div>
+      <div class="form-group">
+        <label >References:</label>
+        <div class="note-list">
+          <ul>
+            <li ng-repeat="note in investigation.notes"><a >{{note}}</a></li>
+            <li><a ng-show="!showNewNote" ng-click="showNewNote = !showNewnote">Add new note...</a>
+                <input ng-model="itemInput" ng-show="showNewNote" ng-keypress="addItem()"></input>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <button ng-click="submit()" type="button" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
 </div>
