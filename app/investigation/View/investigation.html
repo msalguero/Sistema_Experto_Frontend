@@ -63,10 +63,12 @@
 			    				{{dimension}}
 			    			</li>
 			    		</ul>
-			    		<div ng-show="variable.showNewDimension">
-					    	<input  placeholder="Name" class="new-variable-button" ng-model="variable.newDimensionName" type="text" class="form-control" >
-					    	<button ng-click="cancelSaveDimension(variable)" type="button" class="glyphicon glyphicon-remove"></button>
-					    	<button ng-click="saveDimension(variable)" type="button" class="glyphicon glyphicon-ok"></button>
+			    		<div class="row" ng-show="variable.showNewDimension">
+					    	<input class="col-md-9" placeholder="Name" class="new-variable-button" ng-model="variable.newDimensionName" type="text" class="form-control" >
+					    	<div class="col-md-3">
+					    		<button ng-click="cancelSaveDimension(variable)" type="button" class="glyphicon glyphicon-remove"></button>
+					    		<button ng-click="saveDimension(variable)" type="button" class="glyphicon glyphicon-ok"></button>
+					    	</div>
 					    </div>
 		    		</div>
 		    	</li>
