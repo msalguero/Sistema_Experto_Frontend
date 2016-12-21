@@ -5,13 +5,14 @@
   angular.module('InvestigationApp')
 
   .controller('ViewInvestigation', [
-    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert', '$mdDialog', 'Result',
-    function($scope, $state, Investigation, $stateParams, Variable, Expert, $mdDialog, Result) {
+    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert', 'Poll', '$mdDialog', 'Result',
+    function($scope, $state, Investigation, $stateParams, Variable, Expert, Poll, $mdDialog, Result) {
       var ctrl = this;
       $scope.variablePanelExpanded = true;
       $scope.expertPanelExpanded = true;
       $scope.variables = [];
       $scope.experts = [];
+      $scope.currentKappa = 0;
       $scope.pollsAnsweredByExperts = 0;
       $scope.activeStep = {
         value: 1
@@ -23,6 +24,20 @@
         {title: "Assign Weights", description: ""}
       ];
 
+      var loadKappa = function(){
+        Poll.findOne({filter:{where: { and:[{ investigationId: $stateParams.id}, {type: "2"}]}}},function(poll){
+          try{
+            console.log(Poll.sendEmailsToExperts);
+            Poll.getConcordance({ id: poll.id },function(data){
+              $scope.currentKappa = data.kappa.toFixed(2);
+              });
+          }catch(e){
+            console.log("Error, ",e);
+          }
+          
+        });
+      }
+
       var loadExperts = function(){
         $scope.experts = Investigation.experts({
           id: $stateParams.id
@@ -31,6 +46,8 @@
             if(entry.filled_poll)
             $scope.pollsAnsweredByExperts++;
           });
+          if($scope.pollsAnsweredByExperts>1)
+            loadKappa();
         });
       }
 
@@ -39,6 +56,8 @@
           filter: { where: { investigationId: $stateParams.id } }
         });
       }
+
+      
 
       $scope.investigation = Investigation.find({ 
         filter: { where: { id: $stateParams.id } }
@@ -50,6 +69,9 @@
 
       loadExperts();
       loadVariables();
+      // if(pollsAnsweredByExperts>1)
+      //   loadKappa();
+
 
       $scope.newVariable = {"weight": 0, "investigationId": $stateParams.id};
       $scope.newDimension = {};

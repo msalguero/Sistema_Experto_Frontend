@@ -38,8 +38,9 @@
 		    		<button ng-click="CreatePoll(2)" class="btn btn-warning">Next Step</button>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '4'" class="panel-body">
-		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered</h4>
+		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered <a ng-click="ShowExperts()">Details...</a></h4>
 		    		<p>Wait for experts to answer Poll.</p>
+		    		<h4>Current Kappa: {{currentKappa}}</h4>
 		    		<button ng-click="ClosePoll()" class="btn btn-warning">Close Poll with current answers</button>
 		    	</div>
 			</div>
