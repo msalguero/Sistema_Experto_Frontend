@@ -61,11 +61,11 @@
 		    		<div class="dimension-container" ng-show="variable.showDimension">
 		    			<ul class="list-group">
 			    			<li class="list-group-item" ng-repeat="dimension in variable.dimensions">
-			    				{{dimension}}
+			    				{{dimension.name}}
 			    			</li>
 			    		</ul>
 			    		<div class="row" ng-show="variable.showNewDimension">
-					    	<input class="col-md-9" placeholder="Name" class="new-variable-button" ng-model="variable.newDimensionName" type="text" class="form-control" >
+					    	<input class="col-md-9" ng-keyup="$event.keyCode == 13 ? saveDimension(variable) : null" placeholder="Name" class="new-variable-button" ng-model="variable.newDimensionName" type="text" class="form-control" >
 					    	<div class="col-md-3">
 					    		<button ng-click="cancelSaveDimension(variable)" type="button" class="glyphicon glyphicon-remove"></button>
 					    		<button ng-click="saveDimension(variable)" type="button" class="glyphicon glyphicon-ok"></button>
@@ -75,7 +75,7 @@
 		    	</li>
 		    </ul>
 		    <div ng-show="newVariable.show">
-		    	<input  placeholder="Name" class="new-variable-button" ng-model="newVariable.name" type="text" class="form-control" >
+		    	<input  placeholder="Name" ng-keyup="$event.keyCode == 13 ? saveVariable() : null" class="new-variable-button" ng-model="newVariable.name" type="text" class="form-control" >
 		    	<button ng-click="saveVariable()" type="button" class="btn btn-primary">Save</button>
 		    </div>
 		    

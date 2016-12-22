@@ -127,11 +127,16 @@
       }
 
       $scope.saveDimension = function(variable){
+        var _dimension = {
+          name: variable.newDimensionName,
+          weight: 0,
+          votes: 0
+        }
         if(variable.dimensions)
-          variable.dimensions.push(variable.newDimensionName);
+          variable.dimensions.push(_dimension);
         else
-          variable.dimensions = [variable.newDimensionName];
-        variable.showNewDimension = false;
+          variable.dimensions = [_dimension];
+        variable.showNewDimension = true;
         variable.newDimensionName = "";
         Variable.prototype$updateAttributes(
                {id:    variable.id},
