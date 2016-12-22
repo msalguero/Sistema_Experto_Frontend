@@ -136,6 +136,7 @@
           variable.dimensions.push(_dimension);
         else
           variable.dimensions = [_dimension];
+        console.log("dimensions ", variable.dimensions);
         variable.showNewDimension = true;
         variable.newDimensionName = "";
         Variable.prototype$updateAttributes(
