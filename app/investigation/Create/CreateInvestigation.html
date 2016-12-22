@@ -1,6 +1,6 @@
 <div class="new-investigation-container">
   <div class="wrapper">
-    <h2>Create New Research Study</h2>
+    <h2>Create new research study</h2>
     <form>
       <div class="form-group">
         <label >Name:</label>
@@ -25,7 +25,16 @@
           </ul>
         </div>
       </div>
-      <button ng-click="submit()" type="button" class="btn btn-primary">Submit</button>
+      
+      <div style="display:flex; justify-content: space-around;">
+        <div class="submit-button-wrapper">
+          <button ng-click="" type="button" class="submit-button btn btn-success"><h4>Create survey</h2></button>
+        </div>
+        <h4 class="or-label"> or </h4>
+        <div class="submit-button-wrapper">
+            <button ng-click="submit()" type="button" class="submit-button btn btn-info"><h4>Create rubric</h2></button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
