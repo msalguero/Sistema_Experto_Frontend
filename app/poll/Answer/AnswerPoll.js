@@ -60,7 +60,7 @@
           let variableValue = [];
           for (var j = 0; j < $scope.variables[i].dimensions.length; j++) {
             let isDimensionImportant = $scope.variables[i].dimensions[j].important === 'important';
-            variableValue.push({name: $scope.variables[i].dimensions[j].name, important: isDimensionImportant});
+            variableValue.push({name: $scope.variables[i].dimensions[j].name.name, important: isDimensionImportant});
           };
           $scope.result.answers.push(variableValue);
         };
