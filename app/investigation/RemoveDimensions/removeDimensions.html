@@ -1,0 +1,18 @@
+<div class="remove-dimensions-container">
+	<div class="box">
+		<h1>Select dimensions that will continue to the next phase</h1>
+		<p>The dimensions that have been selected are the ones that are important according to the experts. You might to want to use them to continue the study.</p>
+		<div class="variable-list" ng-repeat="variable in investigation.variables">
+			<h4>{{variable.name}}</h4>
+			<div class="dimension-container col-md-12">
+				<div class="dimension" ng-repeat="dimension in variable.dimensions">
+					<div class="dimension-wrapper">
+						<input ng-model="expert.checked" type="checkbox"/>
+						<p>{{dimension.name}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<button ng-click="submit()" class="btn btn-success">Submit</button>
+	</div>
+</div>

@@ -31,6 +31,7 @@
 		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered <a ng-click="ShowExperts()">Details...</a></h4> 
 		    		<p>Wait for experts to answer Poll. If you don't want to wait any longer or if you have enough data click on <b>Close poll with current answers</b> to finish.</p>
 		    		<button ng-click="ClosePoll()" class="btn btn-warning">Close Poll with current answers</button>
+
 		    	</div>
 		    	<div ng-if="investigation[0].step === '3'" class="panel-body">
 		    		<h4>Find Dimensions</h4>
@@ -41,7 +42,10 @@
 		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered <a ng-click="ShowExperts()">Details...</a></h4>
 		    		<p>Wait for experts to answer Poll.</p>
 		    		<h4>Current Kappa: {{currentKappa}}</h4>
-		    		<button ng-click="ClosePoll()" class="btn btn-warning">Close Poll with current answers</button>
+		    		<div>
+		    			<button ng-click="goToSelectDimensions()" class="btn btn-warning">Close Poll with current answers</button>
+		    			<button ng-click="ResendPoll()" class="btn btn-info">I want to resend Poll to experts</button>
+		    		</div>
 		    	</div>
 			</div>
 		</div>

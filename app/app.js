@@ -94,6 +94,13 @@
         controller: 'Register'
       }
 
+      var removeDimensionsState = { 
+        name: 'main.removeDimensions', 
+        url: 'remove-dimensions/:id', 
+        templateUrl: "./investigation/RemoveDimensions/removeDimensions.html",
+        controller: 'RemoveDimensions'
+      };
+
 
       $urlRouterProvider.otherwise('/');
 
@@ -109,7 +116,7 @@
       $stateProvider.state(answerPollAbstractState);
       $stateProvider.state(answerPollState);
       $stateProvider.state(removeExpertsState);
-
+      $stateProvider.state(removeDimensionsState);
       $locationProvider.html5Mode({
         enabled: true,
         requireBase: false

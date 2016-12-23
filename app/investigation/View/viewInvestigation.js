@@ -27,7 +27,6 @@
       var loadKappa = function(){
         Poll.findOne({filter:{where: { and:[{ investigationId: $stateParams.id}, {type: "2"}]}}},function(poll){
           try{
-            console.log(Poll.sendEmailsToExperts);
             Poll.getConcordance({ id: poll.id },function(data){
               $scope.currentKappa = data.kappa.toFixed(2);
               });
@@ -69,8 +68,7 @@
 
       loadExperts();
       loadVariables();
-      // if(pollsAnsweredByExperts>1)
-      //   loadKappa();
+
 
 
       $scope.newVariable = {"weight": 0, "investigationId": $stateParams.id};
@@ -162,6 +160,16 @@
         if(validPoll(type))
           $state.go('main.createPoll', {id: $stateParams.id, type: type});
       }
+
+      $scope.ResendPoll = function(){
+        $state.go('main.removeDimensions', {id: $stateParams.id});
+      }
+
+
+      $scope.goToSelectDimensions = function(){
+        $state.go('main.removeDimensions', {id: $stateParams.id});
+      }
+
       $scope.ClosePoll = function(){
         $state.go('main.removeExperts', {id: $stateParams.id});
       }

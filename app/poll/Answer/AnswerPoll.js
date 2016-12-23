@@ -57,10 +57,12 @@
       $scope.submitDichotomic = function(){
         $scope.result.answers = [];
         for (var i = 0; i < $scope.variables.length; i++) {
-          let variableValue = [];
+          let variableValue = {};
+          variableValue.values = []
+          variableValue.variableId = $scope.variables[i].id;
           for (var j = 0; j < $scope.variables[i].dimensions.length; j++) {
             let isDimensionImportant = $scope.variables[i].dimensions[j].important === 'important';
-            variableValue.push({name: $scope.variables[i].dimensions[j].name.name, important: isDimensionImportant});
+            variableValue.values.push({name: $scope.variables[i].dimensions[j].name.name, important: isDimensionImportant});
           };
           $scope.result.answers.push(variableValue);
         };
