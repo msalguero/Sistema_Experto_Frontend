@@ -63,6 +63,8 @@
       }, function(investigation){
         if(investigation[0].step === "3" || investigation[0].step === "4"){
           $scope.activeStep.value++;
+        }else if(investigation[0].step === "5"){
+          $scope.activeStep.value = 4;
         }
       });
 
