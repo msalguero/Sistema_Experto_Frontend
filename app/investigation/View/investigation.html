@@ -44,7 +44,7 @@
 		    		<h4>Current Kappa: {{currentKappa}}</h4>
 		    		<div style="display: flex;">
 		    			<button ng-click="closeDelphiMethod()" class="btn btn-warning col-lg-6" style="margin:4px;white-space:normal;">Close Poll with current answers</button>
-		    			<button ng-click="ResendPoll()" class="btn btn-info col-lg-6" style="margin:4px;white-space:normal;">I want to resend Poll to experts</button>
+		    			<button ng-click="ResendPollPressed()" class="btn btn-info col-lg-6" style="margin:4px;white-space:normal;">I want to resend Poll to experts</button>
 		    		</div>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '5'" class="panel-body">
@@ -143,6 +143,23 @@
 		      	<p>{{closePollMessage}}</p>
 		      	<md-dialog-actions style="display: flex; justify-content: center;">
 			      	<button class="btn btn-success" ng-click="goToSelectDimensions()">Close poll and continue with my study</button>
+		      	</md-dialog-actions>
+		      </div>	
+		  </md-dialog-content>
+	    </md-dialog>
+	  </div>
+	</div>
+
+
+	<div style="visibility: hidden">
+	  <div class="md-dialog-container" id="resend-alert-dialog">
+	    <md-dialog >
+	    	<md-dialog-content class="dialog-confirm-close-delphi">
+		      <div class="expert-dialog">
+		      	<center><h4>You're about to send another round of the poll to find dimensions</h4></center>
+		      	<p>Are you sure you want to send the poll to all the experts again?</p>
+		      	<md-dialog-actions style="display: flex; justify-content: center;">
+			      	<button class="btn btn-success" ng-click="ResendPoll()">Resend Poll</button>
 		      	</md-dialog-actions>
 		      </div>	
 		  </md-dialog-content>
