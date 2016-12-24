@@ -13,19 +13,37 @@
       $scope.answers = [];
       $scope.radioButtons = [];
 
+      var loadOldAnswers = function(){
+        console.log("param: ",$stateParams.expertId);
+        console.log("param2: ",$stateParams.pollId);
+        console.log("iteration: ", $scope.poll.iteration-1);
+        Result.find({
+          filter: {
+            where:{
+              and: [{expertId:  $stateParams.expertId}, {pollId:$stateParams.pollId}, {iteration: $scope.poll.iteration-1}]
+            } 
+          }
+        },function(result){
+          console.log("old result: ", result);
+        })
+      }
+
       var init = function(poll){
         if(poll.type === "2"){
           $scope.variables = poll.questions;
-          console.log(poll);
           $scope.currentVariable = $scope.variables[currentVariableNumber];
+          if(poll.iteration > 0){
+            loadOldAnswers();
+          }
         }
       }
+
 
       $scope.hideItemInput = true;
       $scope.poll = Poll.findById({ 
         id: $stateParams.pollId 
       }, init);
-
+      console.log("POLL: ",$scope.poll);
       $scope.result = {
         "answers": [],
         "expertId": $stateParams.expertId ,
@@ -59,6 +77,7 @@
           };
           $scope.result.answers.push(variableValue);
         };
+        $scope.result.iteration = $scope.poll.iteration;
         Result.create($scope.result, function(){
           $scope.pollFilled = true;
           Expert.prototype$updateAttributes(
