@@ -1,3 +1,5 @@
+
+
 (function () {
 
 'use strict';
@@ -12,11 +14,14 @@
       $scope.expertPanelExpanded = true;
       $scope.variables = [];
       $scope.experts = [];
+      $scope.poll = {};
       $scope.currentKappa = 0;
       $scope.pollsAnsweredByExperts = 0;
       $scope.activeStep = {
         value: 1
       };
+      $scope.poll;
+      $scope.closePollMessage = "Your kappa is too low, are you sure you want to close the poll?"
       $scope.steps = [
         {title: "Create Research Study", description: "Create and fill investigation data"},
         {title: "Select Experts", description: "Ranking poll to eliminate experts"},
@@ -28,6 +33,8 @@
       var loadKappa = function(){
         Poll.findOne({filter:{where: { and:[{ investigationId: $stateParams.id}, {type: "2"}]}}},function(poll){
           try{
+            console.log("cargando poll ",poll);
+            $scope.poll = poll;
             Poll.getConcordance({ id: poll.id },function(data){
               $scope.currentKappa = data.kappa.toFixed(2);
               });
@@ -166,8 +173,20 @@
           $state.go('main.createPoll', {id: $stateParams.id, type: type});
       }
 
+      $scope.ResendPollPressed = function(){
+        showDialog('#resend-alert-dialog');
+      }
+
       $scope.ResendPoll = function(){
-        $state.go('main.removeDimensions', {id: $stateParams.id});
+        console.log("current poll: ",$scope.poll.id);
+
+        Poll.prototype$updateAttributes(
+               {id: $scope.poll.id},
+               {iteration: ++$scope.poll.iteration}
+            ,function(pollUpdated, cb){
+              Poll.sendEmails({ id: $scope.poll.id });
+            });
+        $mdDialog.hide();
       }
 
 
@@ -177,6 +196,14 @@
 
       $scope.GoToAssignWeights = function(){
         $state.go('main.assignWeights', {id: $stateParams.id});
+      }
+      
+      $scope.closeDelphiMethod = function(){
+        if($scope.currentKappa < 0.5){
+          showDialog('#kappa-alert-dialog');
+        }else{
+          $scope.goToSelectDimensions();
+        }
       }
 
       $scope.ClosePoll = function(){
@@ -193,6 +220,7 @@
       function showDialog(contentId) {
 
         $scope.alert = $mdDialog.alert({
+          clickOutsideToClose: true,
           contentElement: contentId,
           parent: angular.element(document.body),
           ok: 'Close'
