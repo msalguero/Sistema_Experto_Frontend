@@ -21,6 +21,8 @@
         $scope.pollName = "Ranking";
       else if($scope.type === "2")
         $scope.pollName = "Dichotomic";
+      else if ($scope.type === "3") 
+        $scope.pollName = "Likert";
 
       $scope.submit = function(){
         Investigation.polls.create(
@@ -61,14 +63,26 @@
          Investigation.variables({
           id: $stateParams.id
         }, function(variables){
-          console.log(variables);
-          $scope.poll.questions = variables.map(function(variable){
-            return variable.name;
-          });
+          if($scope.type === "1")
+            loadRankingQuestions(variables);
+          else if($scope.type === "2" || $scope.type === "3")
+            loadDichotomicQuestions(variables);
         });
       }
 
       loadVariables();
+
+      var loadRankingQuestions = function(variables){
+        $scope.poll.questions = variables.map(function(variable){
+            return { text: variable.name };
+          });
+      }
+
+      var loadDichotomicQuestions = function(variables){
+        $scope.poll.questions = variables.map(function(variable){
+            return { name: variable.name, id: variable.id,  items: variable.dimensions.map(function(dimension){return {name: dimension.name, important: false}}) };
+          });
+      }
     }
   ]);
 
