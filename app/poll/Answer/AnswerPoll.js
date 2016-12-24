@@ -15,16 +15,9 @@
 
       var init = function(poll){
         if(poll.type === "2"){
-          $scope.variables = Variable.find({ 
-            filter: { where: { investigationId: poll.investigationId } }
-          }, function(){
-            for (var i = 0; i < $scope.variables.length; i++) {
-              $scope.variables[i].dimensions = $scope.variables[i].dimensions.map(function(element){
-                return {name: element, important: false};
-              });
-            };
-            $scope.currentVariable = $scope.variables[currentVariableNumber];
-          });
+          $scope.variables = poll.questions;
+          console.log(poll);
+          $scope.currentVariable = $scope.variables[currentVariableNumber];
         }
       }
 
@@ -43,7 +36,7 @@
 
       $scope.submit = function(){
         $scope.result.answers = $scope.poll.questions.map(function(element){
-          return element;
+          return element.text;
         });
         Result.create($scope.result, function(){
           $scope.pollFilled = true;
@@ -60,9 +53,9 @@
           let variableValue = {};
           variableValue.values = []
           variableValue.variableId = $scope.variables[i].id;
-          for (var j = 0; j < $scope.variables[i].dimensions.length; j++) {
-            let isDimensionImportant = $scope.variables[i].dimensions[j].important === 'important';
-            variableValue.values.push({name: $scope.variables[i].dimensions[j].name.name, important: isDimensionImportant});
+          for (var j = 0; j < $scope.variables[i].items.length; j++) {
+            let isDimensionImportant = $scope.variables[i].items[j].important === 'important';
+            variableValue.values.push({name: $scope.variables[i].items[j].name, important: isDimensionImportant});
           };
           $scope.result.answers.push(variableValue);
         };

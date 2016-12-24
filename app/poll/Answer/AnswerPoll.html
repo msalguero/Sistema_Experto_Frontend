@@ -5,7 +5,7 @@
 			<p>{{poll.instructions}}</p>
 			<div ng-show="poll.type === '1'">
 				<ul class="list-group" ui-sortable ng-model="poll.questions">
-				  <li class="draggable-question list-group-item" ng-repeat="item in poll.questions">{{ item }}</li>
+				  <li class="draggable-question list-group-item" ng-repeat="item in poll.questions">{{ item.text }}</li>
 				</ul>
 				<button class="btn btn-primary" ng-click="submit()">Submit</button>
 			</div>
@@ -20,8 +20,8 @@
 						</tr>
 					</thead>
 					<tbody >
-						<tr  ng-repeat="item in currentVariable.dimensions track by $index">
-							<th>{{ item.name.name }}</th>
+						<tr  ng-repeat="item in currentVariable.items track by $index">
+							<th>{{ item.name }}</th>
 							<td><input type="radio" name="{{item.name}}" ng-model="item.important" value="notImportant"> </td>
 							<td><input type="radio" ng-model="item.important"  name="{{item.name}}" value="important"> </td>
 						</tr>

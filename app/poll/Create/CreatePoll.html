@@ -16,14 +16,19 @@
     </div>
     <div class="form-group">
       <label >Items:</label>
-      <div class="list-group">
-  		  <button ng-repeat="item in poll.questions track by $index" type="button" class="list-group-item">{{item}}</button>
+      <div ng-show="type === '1'"  class="list-group">
+  		  <button ng-repeat="item in poll.questions track by $index" type="button" class="list-group-item">{{item.text}}</button>
   		  <!--<button ng-click="showItemInput()" ng-hide="!hideItemInput" type="button" class="list-group-item add-question-button">Add new item...</button>
   		  <input ng-model="itemInput" ng-keypress="addItem()" ng-hide="hideItemInput" class="list-group-item " id="new-item-input">-->
   		</div>
     </div>
-    <div ng-show="type === '2'" class"form-group">
-
+    <div ng-show="type === '2'" class="list-group">
+        <button ng-repeat="category in poll.questions track by $index" type="button" class="list-group-item">
+          <div>{{category.name}}</div>
+          <ol>
+              <li ng-repeat="item in category.items">{{item.name}}</li>
+          </ol> 
+        </button>
     </div>
     <button ng-click="submit()" type="button" class="submit btn btn-primary">Submit</button>
   </form>
