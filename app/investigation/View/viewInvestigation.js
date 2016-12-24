@@ -1,3 +1,5 @@
+
+
 (function () {
 
 'use strict';
@@ -17,6 +19,7 @@
       $scope.activeStep = {
         value: 1
       };
+      $scope.closePollMessage = "Your kappa is too low, are you sure you want to close the poll?"
       $scope.steps = [
         {title: "Create Research Study", description: "Create and fill investigation data"},
         {title: "Select Experts", description: "Ranking poll to eliminate experts"},
@@ -172,6 +175,14 @@
         $state.go('main.removeDimensions', {id: $stateParams.id});
       }
 
+      $scope.closeDelphiMethod = function(){
+        if($scope.currentKappa < 0.5){
+          showDialog('#kappa-alert-dialog');
+        }else{
+          $scope.goToSelectDimensions();
+        }
+      }
+
       $scope.ClosePoll = function(){
         $state.go('main.removeExperts', {id: $stateParams.id});
       }
@@ -186,6 +197,7 @@
       function showDialog(contentId) {
 
         $scope.alert = $mdDialog.alert({
+          clickOutsideToClose: true,
           contentElement: contentId,
           parent: angular.element(document.body),
           ok: 'Close'
