@@ -1,18 +1,22 @@
 <div class="new-poll-container">
   <h2 class="title">New {{pollName}} Poll</h2>
-  <p>Fill in the poll information</p>
+  <p>Fill in the poll information <span class="preview-link"><a ><span class="glyphicon glyphicon-search"></span>Preview</a></span></p>
   <form class="form-wrapper">
     <div class="form-group">
       <label >Title:</label>
       <input ng-model="poll.title" type="text" class="form-control" >
     </div>
     <div class="form-group">
-      <label >Description:</label>
+      <label >Message (The experts will see this message on the email that will be sent):</label>
       <textarea ng-model="poll.description" class="form-control" rows="5" ></textarea>
     </div>
     <div class="form-group">
       <label >Instructions:</label>
       <textarea ng-model="poll.instructions" class="form-control" rows="5" ></textarea>
+    </div>
+    <div ng-repeat="option in poll.options track by $index" class="form-group">
+      <label >Option {{$index + 1}}:</label>
+      <input ng-model="option" type="text" class="form-control" >
     </div>
     <div class="form-group">
       <label >Items:</label>
@@ -22,7 +26,7 @@
   		  <input ng-model="itemInput" ng-keypress="addItem()" ng-hide="hideItemInput" class="list-group-item " id="new-item-input">-->
   		</div>
     </div>
-    <div ng-show="type === '2'" class="list-group">
+    <div ng-show="type === '2' || type === '3'" class="list-group">
         <button ng-repeat="category in poll.questions track by $index" type="button" class="list-group-item">
           <div>{{category.name}}</div>
           <ol>

@@ -11,18 +11,33 @@
       $scope.hideItemInput = true;
       $scope.poll = {
         questions:[],
+        options: [],
         type: $stateParams.type
       };
       console.log($stateParams);
       $scope.itemInput = "";
       $scope.type = $stateParams.type;
 
-      if($scope.type === "1")
+      if($scope.type === "1"){
         $scope.pollName = "Ranking";
-      else if($scope.type === "2")
+        $scope.poll.instructions = "Drag and drop answer choices in order of preference."
+      }
+      else if($scope.type === "2"){
         $scope.pollName = "Dichotomic";
-      else if ($scope.type === "3") 
+        $scope.poll.instructions = "Choose if the dimensions are important or not."
+        $scope.poll.options[0] = "Important";
+        $scope.poll.options[1] = "Not Important";
+      }
+      else if ($scope.type === "3"){
         $scope.pollName = "Likert";
+        $scope.poll.instructions = "Please rate how important you feel each dimension or variable to be."
+        $scope.poll.options[0] = "Not Important";
+        $scope.poll.options[1] = "Somewhat Important";
+        $scope.poll.options[2] = "Important";
+        $scope.poll.options[3] = "Very Important";
+        $scope.poll.options[4] = "Extremely Important";
+      }
+        
 
       $scope.submit = function(){
         Investigation.polls.create(
@@ -32,6 +47,8 @@
             var nextStep = 2;
             if($scope.type === "2")
               nextStep = 4;
+            else if($scope.type === "3")
+              nextStep = 6;
 
             Investigation.prototype$updateAttributes(
                {id:    $stateParams.id},

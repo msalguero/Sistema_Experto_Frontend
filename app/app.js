@@ -12,8 +12,8 @@
     '$locationProvider',
     function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider) {
 
-      //LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
-      LoopBackResourceProvider.setUrlBase('http://localhost:3000/api');
+      LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
+      //LoopBackResourceProvider.setUrlBase('http://localhost:3000/api');
 
 
       var loginState = {
@@ -101,6 +101,12 @@
         controller: 'RemoveDimensions'
       };
 
+      var assignWeightsState = { 
+        name: 'main.assignWeights', 
+        url: 'assign-weights/:id', 
+        templateUrl: "./investigation/AssignWeights/assignWeights.html",
+        controller: 'AssignWeights'
+      };
 
       $urlRouterProvider.otherwise('/');
 
@@ -117,6 +123,7 @@
       $stateProvider.state(answerPollState);
       $stateProvider.state(removeExpertsState);
       $stateProvider.state(removeDimensionsState);
+      $stateProvider.state(assignWeightsState);
       $locationProvider.html5Mode({
         enabled: true,
         requireBase: false

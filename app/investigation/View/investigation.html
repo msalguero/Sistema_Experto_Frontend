@@ -49,9 +49,19 @@
 		    	</div>
 		    	<div ng-if="investigation[0].step === '5'" class="panel-body">
 		    		<h3>Assign weights</h3>
+		    		<p>Send poll to all experts in order to assign weights to dimensions and variables.</p>
 		    		<div>
-		    			<button ng-click="" class="btn btn-warning">Send Poll to Assign Weights</button>
+		    			<button ng-click="CreatePoll(3)" class="btn btn-warning">Send Poll to Assign Weights</button>
 		    		</div>
+		    	</div>
+		    	<div ng-if="investigation[0].step === '6'" class="panel-body">
+		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered <a ng-click="ShowExperts()">Details...</a></h4> 
+		    		<p>Wait for experts to answer Poll. If you don't want to wait any longer or if you have enough data click on <b>Close poll with current answers</b> to finish.</p>
+		    		<button ng-click="GoToAssignWeights()" class="btn btn-warning">Close Poll with current answers</button>
+		    	</div>
+		    	<div ng-if="investigation[0].step === '7'" class="panel-body">
+		    		<h4>Finished</h4> 
+		    		<p>The research study is finished and an evaluation rubric has been established.</p>
 		    	</div>
 			</div>
 		</div>
@@ -66,8 +76,8 @@
 		    		<span ng-show="investigation[0].step >= '3'" ng-click="variable.showDimension = !variable.showDimension"
 		    				ng-class="variable.showDimension ? 'glyphicon glyphicon-chevron-right' : 'glyphicon glyphicon-chevron-down'"></span>
 		    		{{variable.name}}
-		    		<span ng-click="DeleteVariable(variable.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-		    		<span ng-show="investigation[0].step >= '3'" ng-click="addDimension(variable)" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		    		<span ng-show="investigation[0].step != '7'"  ng-click="DeleteVariable(variable.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+		    		<span ng-show="investigation[0].step >= '3' && investigation[0].step != '7'" ng-click="addDimension(variable)" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 		    		<div class="dimension-container" ng-show="variable.showDimension">
 		    			<ul class="list-group">
 			    			<li class="list-group-item" ng-repeat="dimension in variable.dimensions">
@@ -89,7 +99,7 @@
 		    	<button ng-click="saveVariable()" type="button" class="btn btn-primary">Save</button>
 		    </div>
 		    
-		    <button class="add-variable-button btn btn-primary" ng-click="addVariable()" type="button" class="btn btn-primary">Add Variable</button>
+		    <button ng-show="investigation[0].step != '7'" class="add-variable-button btn btn-primary" ng-click="addVariable()" type="button" class="btn btn-primary">Add Variable</button>
     	</div>
 	</div>
 	<div class="panel panel-primary">
@@ -99,12 +109,12 @@
     	<div ng-show="expertPanelExpanded"  class="panel-body">
     		<div class="list-group">
 			  <div class="list-group-item " ng-repeat="expert in experts">
-			  	<span ng-click="DeleteExpert(expert.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			  	<span ng-show="investigation[0].step != '7'" ng-click="DeleteExpert(expert.id)" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 			    <h4 class="list-group-item-heading">{{expert.name}}</h4>
 			    <p class="list-group-item-text">{{expert.email}}</p>
 			  </div>
 			</div>
-		    <button class="add-variable-button btn btn-primary" ng-click="addExpert()" type="button" class="btn btn-primary">Add Expert</button>
+		    <button ng-show="investigation[0].step != '7'" class="add-variable-button btn btn-primary" ng-click="addExpert()" type="button" class="btn btn-primary">Add Expert</button>
     	</div>
 	</div>
 	<div style="visibility: hidden">

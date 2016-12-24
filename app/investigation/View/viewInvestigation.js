@@ -21,7 +21,8 @@
         {title: "Create Research Study", description: "Create and fill investigation data"},
         {title: "Select Experts", description: "Ranking poll to eliminate experts"},
         {title: "Find Dimensions", description: ""},
-        {title: "Assign Weights", description: ""}
+        {title: "Assign Weights", description: ""},
+        {title: "Rubric Finished", description: ""}
       ];
 
       var loadKappa = function(){
@@ -65,6 +66,9 @@
           $scope.activeStep.value++;
         }else if(investigation[0].step === "5"){
           $scope.activeStep.value = 4;
+        }
+        else if(investigation[0].step === "7"){
+          $scope.activeStep.value = 5;
         }
       });
 
@@ -136,7 +140,6 @@
           variable.dimensions.push(_dimension);
         else
           variable.dimensions = [_dimension];
-        console.log("dimensions ", variable.dimensions);
         variable.showNewDimension = true;
         variable.newDimensionName = "";
         Variable.prototype$updateAttributes(
@@ -170,6 +173,10 @@
 
       $scope.goToSelectDimensions = function(){
         $state.go('main.removeDimensions', {id: $stateParams.id});
+      }
+
+      $scope.GoToAssignWeights = function(){
+        $state.go('main.assignWeights', {id: $stateParams.id});
       }
 
       $scope.ClosePoll = function(){
@@ -209,7 +216,7 @@
         }else if(type === 2){
           for (var i = 0; i < $scope.variables.length; i++) {
             if(!$scope.variables[i].dimensions || $scope.variables[i].dimensions.length < 2){
-              showWarning("Variable has minimum of 2 dimensions.")
+              showWarning("Variable has a minimum limit of 2 dimensions.")
               return false;
             }
           };

@@ -15,8 +15,8 @@
 					<thead>
 						<tr class="Answers" aria-hidden="true">  
 							<td width="61%">  &nbsp;  </td>    
-							<th width="21%">No es importante </th>  
-							<th width="13%">Importante </th>  
+							<th class="option" width="21%">{{poll.options[1]}}</th>  
+							<th class="option" width="13%">{{poll.options[0]}}</th>  
 						</tr>
 					</thead>
 					<tbody >
@@ -32,28 +32,32 @@
 				<button ng-show="isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="submitDichotomic()">Submit</button>
 			</div>
 			<div class="row" ng-show="poll.type === '3'">
+				<h3>{{ currentVariable.name }}</h3>
 				<table>
 					<thead>
 						<tr class="Answers" aria-hidden="true">  
 							<td width="61%">  &nbsp;  </td>    
-							<th width="21%">No es importante </th>
-							<th width="21%">Es un poco importante </th>
-							<th width="21%">Es importante </th>  
-							<th width="13%">Es muy Importante </th>  
-							<th width="21%">Es lo mas importante </th>
+							<th width="21%">{{poll.options[0]}}</th>
+							<th width="21%">{{poll.options[1]}}</th>
+							<th width="21%">{{poll.options[2]}}</th>  
+							<th width="21%">{{poll.options[3]}}</th>  
+							<th width="21%">{{poll.options[4]}}</th>
 						</tr>
 					</thead>
 					<tbody >
-						<tr  ng-repeat="item in poll.questions">
-							<th>{{ item }}</th>
-							<td><input type="radio" name="{{item}}" value="notImportant"> </td>
-							<td><input type="radio" name="{{item}}" value="important"> </td>
-							<td><input type="radio" name="{{item}}" value="important"> </td>
-							<td><input type="radio" name="{{item}}" value="important"> </td>
-							<td><input type="radio" name="{{item}}" value="important"> </td>
+						<tr  ng-repeat="item in currentVariable.items track by $index">
+							<th>{{ item.name }}</th>
+							<td><input type="radio" ng-model="item.weight" value="1"> </td>
+							<td><input type="radio" ng-model="item.weight" value="2"> </td>
+							<td><input type="radio" ng-model="item.weight" value="3"> </td>
+							<td><input type="radio" ng-model="item.weight" value="4"> </td>
+							<td><input type="radio" ng-model="item.weight" value="5"> </td>
 						</tr>
 					</tbody>
 				</table>
+				<button ng-show="!isFirstVariable" class="btn btn-primary" ng-click="back()">Back</button>
+				<button ng-show="!isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="next()">Next</button>
+				<button ng-show="isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="submitLikert()">Submit</button>
 			</div>
 		</div>
 		<div ng-show="pollFilled">

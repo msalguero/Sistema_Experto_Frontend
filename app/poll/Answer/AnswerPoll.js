@@ -14,9 +14,8 @@
       $scope.radioButtons = [];
 
       var init = function(poll){
-        if(poll.type === "2"){
+        if(poll.type === "2" || poll.type === "3"){
           $scope.variables = poll.questions;
-          console.log(poll);
           $scope.currentVariable = $scope.variables[currentVariableNumber];
         }
       }
@@ -68,8 +67,27 @@
         });
       };
 
+      $scope.submitLikert = function(){
+        $scope.result.answers = $scope.poll.questions.map(function(element){
+          return {
+            id: element.id,
+            name: element.name,
+            items: element.items.map(function(item){
+              return {name: item.name, weight: parseInt(item.weight)}
+            })
+          };
+        });
+        console.log($scope.result.answers);
+        Result.create($scope.result, function(){
+          $scope.pollFilled = true;
+          Expert.prototype$updateAttributes(
+               {id:    $stateParams.expertId},
+               {filled_poll: true}
+            );
+        });
+      };
+
       $scope.next = function(){
-        console.log($scope.variables);
         $scope.currentVariable = $scope.variables[++currentVariableNumber];
         if(currentVariableNumber + 1 === $scope.variables.length){
           $scope.isFinalVariable = true;
@@ -77,7 +95,6 @@
         $scope.isFirstVariable = false;
       }
       $scope.back = function(){
-        console.log($scope.variables);
         $scope.currentVariable = $scope.variables[--currentVariableNumber];
         if(currentVariableNumber === 0){
           $scope.isFirstVariable = true;
