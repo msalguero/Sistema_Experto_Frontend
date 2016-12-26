@@ -3,6 +3,7 @@
 		<div ng-show="!pollFilled">
 			<h2>{{poll.title}}</h2>
 			<p>{{poll.instructions}}</p>
+			<p ng-show="poll.iteration > 0">This is the iteration <b>#{{poll.iteration+1}}</b>. You will see that your previous answers will be marked. You can review your answers and change them or leave them as they were, after you finish reviewing them you can submit.</p>
 			<div ng-show="poll.type === '1'">
 				<ul class="list-group" ui-sortable ng-model="poll.questions">
 				  <li class="draggable-question list-group-item" ng-repeat="item in poll.questions">{{ item.text }}</li>

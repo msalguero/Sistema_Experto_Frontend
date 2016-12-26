@@ -13,27 +13,43 @@
       $scope.answers = [];
       $scope.radioButtons = [];
 
+      var setPreviusAnswers = function(_currentVariableNumber){
+        try{
+          $scope.variables[_currentVariableNumber].items.map((item, idx)=>{
+            if($scope.oldResult[0].answers[_currentVariableNumber].values[idx].important)
+              item.important = 'important';
+            else
+              item.important = 'notImportant';
+            
+          });
+
+        }catch(e){
+          console.log(e);
+        }
+      }
+
       var loadOldAnswers = function(){
-        console.log("param: ",$stateParams.expertId);
-        console.log("param2: ",$stateParams.pollId);
-        console.log("iteration: ", $scope.poll.iteration-1);
         Result.find({
           filter: {
             where:{
               and: [{expertId:  $stateParams.expertId}, {pollId:$stateParams.pollId}, {iteration: $scope.poll.iteration-1}]
             } 
           }
-        },function(result){
-          console.log("old result: ", result);
+        },function(oldResult){
+          $scope.oldResult = oldResult;
+          setPreviusAnswers(currentVariableNumber);
         })
       }
 
       var init = function(poll){
+        console.log("POLL ",poll);
         if(poll.type === "2" || poll.type === "3"){
           $scope.variables = poll.questions;
           $scope.currentVariable = $scope.variables[currentVariableNumber];
+          
           if(poll.iteration > 0){
             loadOldAnswers();
+            
           }
         }
       }
@@ -43,7 +59,6 @@
       $scope.poll = Poll.findById({ 
         id: $stateParams.pollId 
       }, init);
-      console.log("POLL: ",$scope.poll);
       $scope.result = {
         "answers": [],
         "expertId": $stateParams.expertId ,
@@ -109,6 +124,7 @@
 
       $scope.next = function(){
         $scope.currentVariable = $scope.variables[++currentVariableNumber];
+        setPreviusAnswers(currentVariableNumber);
         if(currentVariableNumber + 1 === $scope.variables.length){
           $scope.isFinalVariable = true;
         }
@@ -116,6 +132,7 @@
       }
       $scope.back = function(){
         $scope.currentVariable = $scope.variables[--currentVariableNumber];
+        setPreviusAnswers(currentVariableNumber);
         if(currentVariableNumber === 0){
           $scope.isFirstVariable = true;
         }
