@@ -52,6 +52,20 @@
         controller: 'ViewInvestigation'
       };
 
+      var surveyDashboardState = { 
+        name: 'main.surveyDashboard', 
+        url: 'open-investigation/:id', 
+        templateUrl: "./investigation/Survey/surveyList.html",
+        controller: 'SurveyList'
+      };
+
+      var choosePollTypeState = { 
+        name: 'main.pollType', 
+        url: 'choose-poll-type/:id', 
+        templateUrl: "./investigation/Survey/choosePollType.html",
+        controller: 'ChoosePollType'
+      };
+
       var pollState = { 
         name: 'main.poll', 
         url: 'polls', 
@@ -115,6 +129,8 @@
       $stateProvider.state(loginState);
       $stateProvider.state(mainState);
       $stateProvider.state(investigationState);
+      $stateProvider.state(surveyDashboardState);
+      $stateProvider.state(choosePollTypeState);
       $stateProvider.state(createInvestigationState);
       $stateProvider.state(viewInvestigationState);
       $stateProvider.state(pollState);
@@ -143,9 +159,5 @@
 
     });
   })
-
-  // .use(function(req, res){
-  //   res.sendFile('index.html', {root : './'})
-  // });
 
 }());

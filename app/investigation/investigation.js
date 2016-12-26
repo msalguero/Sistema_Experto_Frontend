@@ -17,8 +17,12 @@
         $state.go('main.createInvestigation');
       };
 
-      $scope.ViewDetails = function(id){
-        $state.go('main.viewInvestigation',{id: id} );
+      $scope.ViewDetails = function(investigation){
+        console.log("investigation.type= "+investigation.type);
+        if(!investigation.type || investigation.type === "rubric")
+          $state.go('main.viewInvestigation',{id: investigation.id} );
+        else if(investigation.type === "survey")
+          $state.go('main.surveyDashboard',{id: investigation.id} );
       };
 
       var loadInvestigations = function(){

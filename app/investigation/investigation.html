@@ -1,6 +1,8 @@
 <div class="investigation-list">
     <div class="button-banner">
-        <button ng-click="Create()" type="button" class=" add-investigation-button btn btn-primary">Add new research study</button>
+        <button ng-click="Create()" type="button" class="add-investigation-button btn btn-success">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new research study
+        </button>
     </div>
 	<div id="grid-container">
         <md-progress-circular class="investigation-modal" md-mode="indeterminate" ng-show="loadingInvestigations"></md-progress-circular>
@@ -46,7 +48,7 @@
                         <div data-toggle="tooltip" title="Edit" class="col-md-4" >
                             <span ng-click="editInvestigation(investigation)" class="option1 glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span>
                         </div>
-                        <div data-toggle="tooltip" title="Work" class="col-md-4 option2" ng-click="ViewDetails(investigation.id)" >
+                        <div data-toggle="tooltip" title="Work" class="col-md-4 option2" ng-click="ViewDetails(investigation)" >
                             <span class="option2 glyphicon glyphicon glyphicon-wrench" aria-hidden="true"></span>
                         </div>
                         <div data-toggle="tooltip" title="Delete" class="col-md-4" ng-click="DeleteDialog(investigation)">
