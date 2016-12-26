@@ -15,6 +15,7 @@
 
       var setPreviusAnswers = function(_currentVariableNumber){
         try{
+          if(!$scope.oldResult)return;
           $scope.variables[_currentVariableNumber].items.map((item, idx)=>{
             if($scope.oldResult[0].answers[_currentVariableNumber].values[idx].important)
               item.important = 'important';
@@ -37,6 +38,7 @@
           }
         },function(oldResult){
           $scope.oldResult = oldResult;
+          console.log("oldResult ", oldResult);
           setPreviusAnswers(currentVariableNumber);
         })
       }

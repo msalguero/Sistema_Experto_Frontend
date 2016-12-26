@@ -15,7 +15,8 @@
               $scope.investigation.accountId = user.id;
             });
 
-      $scope.submit = function(){
+      $scope.submit = function(type){
+        $scope.investigation.type = type;
         Investigation.create($scope.investigation, 
           function(){
             $state.go("main.investigations");
