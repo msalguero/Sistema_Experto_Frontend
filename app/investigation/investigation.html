@@ -7,7 +7,7 @@
 	<div id="grid-container">
         <md-progress-circular class="investigation-modal" md-mode="indeterminate" ng-show="loadingInvestigations"></md-progress-circular>
         <div id="no-more-tables row">
-            <div class="investigation col-md-4"   ng-repeat="investigation in investigations">
+            <div ng-click="ViewDetails(investigation)" class="investigation col-md-4"   ng-repeat="investigation in investigations">
 
                 <div id="content">
                     <div class="header">
