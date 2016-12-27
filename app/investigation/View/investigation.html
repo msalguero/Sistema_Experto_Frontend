@@ -2,7 +2,7 @@
 	<h2>{{investigation[0].name}}</h2>
 	<step-progress-bar steps="steps" active-step="activeStep.value"></step-progress-bar>
 	<div class="row">
-		<div class="col-md-6">
+		<div ng-if="investigation[0].step !== '7'" class="col-md-6">
 			<!-- <div class="form-group">
 		      <label >Name: </label>
 		      <span>{{investigation[0].name}}</span>
@@ -16,7 +16,7 @@
 		      <span>{{investigation[0].website}}</span>
 		    </div>
 		</div>
-		<div class="col-md-6" >
+		<div ng-if="investigation[0].step !== '7'" class="col-md-6">
 			<div class="panel panel-warning">
 				<div  class="panel-heading">
 		    		<h5 class="panel-title">Current Step</h3>
@@ -63,6 +63,19 @@
 		    		<h4>Finished</h4> 
 		    		<p>The research study is finished and an evaluation rubric has been established.</p>
 		    	</div>
+			</div>
+		</div>
+		<div ng-if="investigation[0].step === '7'" class="col-md-12">
+			<div class="panel panel-success">
+				<div class="panel-heading"><h4>Final Results</h4></div>
+					<div class="panel-body">
+						<div ng-repeat="data in myChartObject">
+							<div style="display: flex; justify-content: center;">
+								<div style="width:70%;" google-chart chart="data">
+							  </div>
+							</div>
+						</div>
+					</div>
 			</div>
 		</div>
 	</div>

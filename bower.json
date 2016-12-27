@@ -25,6 +25,7 @@
     "font-awesome": "fontawesome#^4.6.3",
     "angular-ui-router": "^0.3.1",
     "angular-resource": "^1.5.8",
-    "AdminLTE": "admin-lte#^2.3.7"
+    "AdminLTE": "admin-lte#^2.3.7",
+    "angular-google-chart": "^0.1.0"
   }
 }

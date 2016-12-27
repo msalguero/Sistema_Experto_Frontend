@@ -3,13 +3,16 @@
 (function () {
 
 'use strict';
-
+  // var randomColor = require('./randomColor');
   angular.module('InvestigationApp')
 
   .controller('ViewInvestigation', [
     '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert', 'Poll', '$mdDialog', 'Result',
     function($scope, $state, Investigation, $stateParams, Variable, Expert, Poll, $mdDialog, Result) {
       var ctrl = this;
+$scope.myChartObject = [];
+    
+
       $scope.variablePanelExpanded = true;
       $scope.expertPanelExpanded = true;
       $scope.variables = [];
@@ -29,6 +32,55 @@
         {title: "Assign Weights", description: ""},
         {title: "Rubric Finished", description: ""}
       ];
+      $scope.nfLines = {};
+
+      var parseChartData = function(variables){
+        var getRandomColor = function() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++ ) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        try{
+          $scope.myChartObject = variables.map((variable,idx)=>{
+          return {
+              name: variable.name,
+              type: 'PieChart',
+
+              options: {
+                'title': variable.name,
+                colors: variable.dimensions.map((dimension)=> getRandomColor()),
+                "displayExactValues": true,
+                "height": 400,
+                "is3D": true,
+              },
+              data: {
+                  "cols": [
+                    {id: "t", label: "Dimension", type: "string"},
+                    {id: "s", label: "Weight", type: "number"},
+                ], 
+                "rows": variable.dimensions.map((dimension)=>{
+                  return{
+                    c:[
+                      {v: dimension.name},
+                      {v: dimension.weight},
+                    ]}
+                })
+              }
+            }
+        });
+
+          console.log("myChartObject ",$scope.myChartObject);
+          
+        }catch(e){
+          console.log(e);
+        }
+
+
+      }
+     
 
       var loadKappa = function(){
         Poll.findOne({filter:{where: { and:[{ investigationId: $stateParams.id}, {type: "2"}]}}},function(poll){
@@ -59,8 +111,12 @@
       }
 
       var loadVariables = function(){
-        $scope.variables = Variable.find({ 
+        Variable.find({ 
           filter: { where: { investigationId: $stateParams.id } }
+        },(result)=>{
+          $scope.variables = result;
+          console.log("variables: ", result);
+          parseChartData(result);
         });
       }
 

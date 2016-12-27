@@ -3,7 +3,7 @@
 'use strict';
 
 
-  angular.module('InvestigationApp', ['ngAnimate', 'ngAria', 'ui.router', 'lbServices', 'ui.sortable', 'ngMaterial'])
+  angular.module('InvestigationApp', ['ngAnimate', 'ngAria', 'ui.router', 'lbServices', 'ui.sortable', 'ngMaterial', "googlechart"])
 
   .config([
     '$stateProvider',
@@ -13,7 +13,7 @@
     function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider) {
 
       LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
-      //LoopBackResourceProvider.setUrlBase('http://localhost:3000/api');
+      // LoopBackResourceProvider.setUrlBase('http://localhost:3000/api');
 
 
       var loginState = {

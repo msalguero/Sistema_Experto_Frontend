@@ -33,7 +33,7 @@
       }
 
       $scope.init();
-      $state.go("main.investigations");
+      // $state.go("main.investigations");
     }
   ]);
 
