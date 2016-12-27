@@ -33,6 +33,7 @@
       }
 
       $scope.init();
+      $state.go("main.investigations");
     }
   ]);
 
