@@ -2,42 +2,42 @@
 	<div class="row main">
 		<div class="panel-heading">
            <div class="panel-title text-center">
-           		<h1 class="title">Login</h1>
+           		<h1 class="title"><div translate="LOGIN"/></h1>
            		<hr />
            	</div>
         </div> 
 		<div class="main-login main-center">
 			<div ng-show="error" class="alert alert-danger alert-dismissible" role="alert">
 			  <button ng-click="error = false" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			  Invalid email/password combination. Please try again.
+			  <div translate="LOGIN_ERROR"/>
 			</div>
 			<form class="form-horizontal" method="post" action="#">
 
 				<div class="form-group">
-					<label for="email" class="cols-sm-2 control-label"> Email</label>
+					<label for="email" class="cols-sm-2 control-label"> <div translate="EMAIL"/></label>
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-							<input ng-model="credentials.email" type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
+							<input ng-model="credentials.email" type="text" class="form-control" name="email" id="email"/>
 						</div>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label for="password" class="cols-sm-2 control-label">Password</label>
+					<label for="password" class="cols-sm-2 control-label"><div translate="PASSWORD"/></label>
 					<div class="cols-sm-10">
 						<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-							<input ng-model="credentials.password" type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+							<input ng-model="credentials.password" type="password" class="form-control" name="password" id="password"/>
 						</div>
 					</div>
 				</div>
 
 				<div class="form-group ">
-					<button type="button" ng-click="submit()" class="btn btn-primary btn-lg btn-block login-button">Login</button>
+					<button type="button" ng-click="submit()" class="btn btn-primary btn-lg btn-block login-button"><div translate="LOGIN"/></button>
 				</div>
 				<div class="login-register">
-		            <a ng-click="register()">Create account</a>
+		            <a ng-click="register()"><div translate="CREATE_ACCOUNT"/></a>
 		         </div>
 			</form>
 		</div>

@@ -1,4 +1,29 @@
 {
   "BUTTON_LANG_ES": "Spanish",
-  "BUTTON_LANG_EN": "English"
+  "BUTTON_LANG_EN": "English",
+  "SIGN_OUT": "Sign Out",
+  "LOGIN": "Login",
+  "LOGIN_ERROR": "Invalid email/password combination. Please try again.",
+  "EMAIL": "Email",
+  "PASSWORD": "Password",
+  "CREATE_ACCOUNT": "Create account",
+  "LBL_INSTRUCTION_1": "This is the iteration",
+  "LBL_INSTRUCTION_2": "You will see that your previous answers will be marked. You can review your answers and change them or leave them as they were, after you finish reviewing them you can submit",
+  "SUBMIT": "Submit",
+  "BACK": "Back",
+  "NEXT": "Next",
+  "THANKS_FOR_FILLING_THE_POLL": "Thanks for filling the poll",
+  "NEW": "New",
+  "POLL": "Poll",
+  "FILL_POLL_INFORMATION": "Fill in the poll information",
+  "PREVIEW": "Preview",
+  "TITLE": "Title",
+  "LBL_DESCRIPTION_CREATE_POLL":"Message (The experts will see this message on the email that will be sent)",
+  "INSTRUCTIONS": "Instructions",
+  "OPTION": "Option",
+  "ADD_NEW_POLL": " Add new poll",
+  "REGISTER":"Register",
+  "YOUR_NAME":"Your name",
+  "YOUR_EMAIL": "Your email"
+
 }
