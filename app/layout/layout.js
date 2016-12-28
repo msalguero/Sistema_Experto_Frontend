@@ -5,10 +5,14 @@
   angular.module('InvestigationApp')
 
   .controller('Layout', [
-    '$rootScope', '$scope', '$state', 'Account',
-    function($rootScope, $scope, $state, Account) {
+    '$rootScope', '$scope', '$state', 'Account', '$translate',
+    function($rootScope, $scope, $state, Account, $translate) {
       var ctrl = this;
       
+      $scope.changeLanguage = function(langKey) {
+        $translate.use(langKey);
+      };
+
       $scope.logout = function(){
         Account.logout(
           function() {

@@ -3,17 +3,26 @@
 'use strict';
 
 
-  angular.module('InvestigationApp', ['ngAnimate', 'ngAria', 'ui.router', 'lbServices', 'ui.sortable', 'ngMaterial', "googlechart"])
+  angular.module('InvestigationApp', ['ngAnimate', 'ngAria', 'ui.router', 'lbServices', 'ui.sortable', 'ngMaterial', "googlechart", 'pascalprecht.translate'])
 
   .config([
     '$stateProvider',
     'LoopBackResourceProvider',
     '$urlRouterProvider',
     '$locationProvider',
-    function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider) {
+    '$translateProvider',
+    function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider,$translateProvider) {
 
       LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
       // LoopBackResourceProvider.setUrlBase('http://localhost:3000/api');
+
+      $translateProvider
+      .useStaticFilesLoader({
+        prefix: '/translations/',
+        suffix: '.json'
+      })
+      .preferredLanguage('es')
+      .useMissingTranslationHandlerLog();
 
 
       var loginState = {
@@ -150,12 +159,20 @@
 
 
   .run(function ($rootScope, Account, $state ) {
+    $rootScope.lang = "es";
     $rootScope.$on('$stateChangeStart', function (event, next) {
       var authorizedUser = Account.isAuthenticated();
       if (!authorizedUser && next.name !== 'login') {
         $state.go("login");
         
       }
+
+    });
+
+    $rootScope.$on('$translateChangeSuccess', function(event, data) {
+      var language = data.language;
+
+      $rootScope.lang = language;
 
     });
   })
