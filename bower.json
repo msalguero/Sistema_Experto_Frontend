@@ -26,6 +26,8 @@
     "angular-ui-router": "^0.3.1",
     "angular-resource": "^1.5.8",
     "AdminLTE": "admin-lte#^2.3.7",
-    "angular-google-chart": "^0.1.0"
+    "angular-google-chart": "^0.1.0",
+    "angular-translate": "^2.13.1",
+    "angular-translate-loader-static-files": "^2.13.1"
   }
 }

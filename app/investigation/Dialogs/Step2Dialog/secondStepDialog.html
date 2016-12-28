@@ -1,0 +1,22 @@
+<div class="md-dialog-container">
+	<md-dialog  ng-controller="SecondStepDialog as stepCtrl">
+		<div class="second-step-results">
+			<div class="box">
+				<h4>Second Step Results</h4>
+				<p>Experts that have the highest agreement according to the kendalls' coefficient of concordance value.</p>
+				<div class="suggested-expert-list">
+					<div class="expert" ng-repeat="expert in suggestedExperts">
+						<span>{{expert.name}}</span>
+					</div>
+				</div>
+				<p>Experts that have the lowest agreement according to the kendalls' coefficient of concordance value.</p>
+				<div class="expert-list">
+					<div class="expert" ng-repeat="expert in discardedExperts">
+						<span>{{expert.name}}</span>
+					</div>
+				</div>
+			</div>
+			<button class="btn btn-danger" ng-click="closeDialog()">Close</button>
+		</div>
+    </md-dialog>
+</div>
