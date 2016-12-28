@@ -24,5 +24,6 @@
   "ADD_NEW_POLL": "Agregar nueva encuesta",
   "REGISTER": "Registrarse",
   "YOUR_NAME":"Su nombre",
-  "YOUR_EMAIL":"Su correo"
+  "YOUR_EMAIL":"Su correo",
+  "TYPE_POLL_CREATEPOLL":"tipo"
 }

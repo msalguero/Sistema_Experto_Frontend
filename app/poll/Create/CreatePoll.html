@@ -1,25 +1,25 @@
 <div class="new-poll-container">
-  <h2 class="title"><div translate="NEW"/> {{pollName}} <div translate="POLL"/></h2>
+  <h2 class="title"><span translate="NEW"/> <span translate="POLL"/> <span translate="TYPE"/> {{pollName}} </h2>
   <p><div translate="FILL_POLL_INFORMATION"/>  <span class="preview-link"><a ><span class="glyphicon glyphicon-search"></span><div translate="PREVIEW"/></a></span></p>
   <form class="form-wrapper">
     <div class="form-group">
-      <label ><div translate="TITLE"/>:</label>
+      <label ><div translate="TITLE"/></label>
       <input ng-model="poll.title" type="text" class="form-control" >
     </div>
     <div class="form-group">
-      <label ><div translate="LBL_DESCRIPTION_CREATE_POLL"/>:</label>
+      <label ><div translate="LBL_DESCRIPTION_CREATE_POLL"/></label>
       <textarea ng-model="poll.description" class="form-control" rows="5" ></textarea>
     </div>
     <div class="form-group">
-      <label ><div translate="INSTRUCTIONS"/>:</label>
+      <label ><div translate="INSTRUCTIONS"/></label>
       <textarea ng-model="poll.instructions" class="form-control" rows="5" ></textarea>
     </div>
     <div ng-repeat="option in poll.options track by $index" class="form-group">
-      <label ><div translate="OPTION"/> {{$index + 1}}:</label>
+      <label ><span translate="OPTION"/> {{$index + 1}}</label>
       <input ng-model="option" type="text" class="form-control" >
     </div>
     <div class="form-group">
-      <label >Items:</label>
+      <label >Items</label>
       <div ng-show="type === '1'"  class="list-group">
   		  <button ng-repeat="item in poll.questions track by $index" type="button" class="list-group-item">{{item.text}}</button>
   		  <!--<button ng-click="showItemInput()" ng-hide="!hideItemInput" type="button" class="list-group-item add-question-button">Add new item...</button>

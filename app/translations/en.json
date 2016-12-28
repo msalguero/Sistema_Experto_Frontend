@@ -24,6 +24,7 @@
   "ADD_NEW_POLL": " Add new poll",
   "REGISTER":"Register",
   "YOUR_NAME":"Your name",
-  "YOUR_EMAIL": "Your email"
+  "YOUR_EMAIL": "Your email",
+  "TYPE_POLL_CREATEPOLL":"type"
 
 }
