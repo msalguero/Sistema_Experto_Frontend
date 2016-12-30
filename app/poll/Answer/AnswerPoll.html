@@ -3,12 +3,12 @@
 		<div ng-show="!pollFilled">
 			<h2>{{poll.title}}</h2>
 			<p>{{poll.instructions}}</p>
-			<p ng-show="poll.iteration > 0">This is the iteration <b>#{{poll.iteration+1}}</b>. You will see that your previous answers will be marked. You can review your answers and change them or leave them as they were, after you finish reviewing them you can submit.</p>
+			<p ng-show="poll.iteration > 0"><div translate="LBL_INSTRUCTION_1"/><b>#{{poll.iteration+1}}</b>. <div translate="LBL_INSTRUCTION_2"/>.</p>
 			<div ng-show="poll.type === '1'">
 				<ul class="list-group" ui-sortable ng-model="poll.questions">
 				  <li class="draggable-question list-group-item" ng-repeat="item in poll.questions">{{ item.text }}</li>
 				</ul>
-				<button class="btn btn-primary" ng-click="submit()">Submit</button>
+				<button class="btn btn-primary" ng-click="submit()"><div translate="SUBMIT"/></button>
 			</div>
 			<div class="row" ng-show="poll.type === '2'">
 				<h3>{{ currentVariable.name }}</h3>
@@ -28,9 +28,9 @@
 						</tr>
 					</tbody>
 				</table>
-				<button ng-show="!isFirstVariable" class="btn btn-primary" ng-click="back()">Back</button>
-				<button ng-show="!isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="next()">Next</button>
-				<button ng-show="isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="submitDichotomic()">Submit</button>
+				<button ng-show="!isFirstVariable" class="btn btn-primary" ng-click="back()"><div translate="BACK"/></button>
+				<button ng-show="!isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="next()"><div translate="NEXT"/></button>
+				<button ng-show="isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="submitDichotomic()"><div translate="SUBMIT"/></button>
 			</div>
 			<div class="row" ng-show="poll.type === '3'">
 				<h3>{{ currentVariable.name }}</h3>
@@ -56,13 +56,13 @@
 						</tr>
 					</tbody>
 				</table>
-				<button ng-show="!isFirstVariable" class="btn btn-primary" ng-click="back()">Back</button>
-				<button ng-show="!isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="next()">Next</button>
-				<button ng-show="isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="submitLikert()">Submit</button>
+				<button ng-show="!isFirstVariable" class="btn btn-primary" ng-click="back()"><div translate="BACK"/></button>
+				<button ng-show="!isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="next()"><div translate="NEXT"/></button>
+				<button ng-show="isFinalVariable" class="dichotomic-button btn btn-primary" ng-click="submitLikert()"><div translate="SUBMIT"/></button>
 			</div>
 		</div>
 		<div ng-show="pollFilled">
-			Thanks for filling the poll!
+			<div translate="THANKS_FOR_FILLING_THE_POLL"/>!
 		</div>
 	</div>
 </div>

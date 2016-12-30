@@ -38,13 +38,11 @@
           }
         },function(oldResult){
           $scope.oldResult = oldResult;
-          console.log("oldResult ", oldResult);
           setPreviusAnswers(currentVariableNumber);
         })
       }
 
       var init = function(poll){
-        console.log("POLL ",poll);
         if(poll.type === "2" || poll.type === "3"){
           $scope.variables = poll.questions;
           $scope.currentVariable = $scope.variables[currentVariableNumber];

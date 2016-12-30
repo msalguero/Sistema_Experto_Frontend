@@ -7,11 +7,12 @@
 	<div id="grid-container">
         <md-progress-circular class="investigation-modal" md-mode="indeterminate" ng-show="loadingInvestigations"></md-progress-circular>
         <div id="no-more-tables row">
-            <div class="investigation col-md-4"   ng-repeat="poll in investigation.polls">
+            <div class="survey col-md-4" ng-repeat="poll in investigation.polls" ng-style="setStyle(poll)">
                 <div id="content">
                     <div class="header">
-                        <!-- <h2>Current Status</h2> -->
-                        <h1 class="investigation-name">{{poll.title}}</h1>
+                        <p class="type-label">{{poll.type == '1' ? 'Ranking': (poll.type == "2" ? "Dicotomic" : "Likert")}}</p class="type-label">
+                        <h4 class="poll-name">{{poll.title}}</h4>
+                        
                     </div>
                 </div>
             </div>
