@@ -1,7 +1,7 @@
 <div class="investigation-list">
     <div class="button-banner">
         <button ng-click="CreateSurvey()" type="button" class="add-investigation-button btn btn-success">
-          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Survey
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span translate="ADD-SURVEY"></span>
         </button>
     </div>
 	<div id="grid-container">
@@ -53,6 +53,4 @@
     </div>
 </div>
 
-<div ng-show="investigation.polls.length === 0">
-                You have 0 Polls
-            </div>
+<div translate="YOU_HAVE_NO_POLLS" ng-show="investigation.polls.length === 0"></div>

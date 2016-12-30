@@ -1,25 +1,25 @@
 <div class="new-investigation-container">
   <div class="wrapper">
-    <h2>Create new research study</h2>
+    <h2 translate="CREATE_NEW_RESEARCH_STUDY"></h2>
     <form>
       <div class="form-group">
-        <label >Name:</label>
+        <label translate="NAME"></label>:
         <input ng-model="investigation.name" type="text" class="form-control" >
       </div>
       <div class="form-group">
-        <label >Description:</label>
+        <label translate="DESCRIPTION"></label>:
         <textarea ng-model="investigation.description" class="form-control" rows="5" ></textarea>
       </div>
       <div class="form-group">
-        <label >Website:</label>
+        <label translate="WEBSITE" ></label>:
         <input ng-model="investigation.website" type="text" class="form-control" >
       </div>
       <div class="form-group">
-        <label >References:</label>
+        <label translate="REFERENCES"></label>
         <div class="note-list">
           <ul>
             <li ng-repeat="note in investigation.notes"><a >{{note}}</a></li>
-            <li><a ng-show="!showNewNote" ng-click="showNewNote = !showNewnote">Add new note...</a>
+            <li><a translate="ADD_NEW_REFERENCE" ng-show="!showNewNote" ng-click="showNewNote = !showNewnote"></a>
                 <input ng-model="itemInput" ng-show="showNewNote" ng-keypress="addItem()"></input>
             </li>
           </ul>
@@ -28,11 +28,11 @@
       
       <div style="display:flex; justify-content: space-around;">
         <div class="submit-button-wrapper">
-          <button ng-click="submit('survey')" type="button" class="submit-button btn btn-success"><h4>Create survey</h2></button>
+          <button ng-click="submit('survey')" type="button" class="submit-button btn btn-success"><h4 translate="CREATE_SURVEY"></h4></button>
         </div>
-        <h4 class="or-label"> or </h4>
+        <h4 translate="OR" class="or-label"></h4>
         <div class="submit-button-wrapper">
-            <button ng-click="submit('rubric')" type="button" class="submit-button btn btn-info"><h4>Create rubric</h2></button>
+            <button ng-click="submit('rubric')" type="button" class="submit-button btn btn-info"><h4 translate="CREATE_RUBRIC"></h4></button>
         </div>
       </div>
     </form>

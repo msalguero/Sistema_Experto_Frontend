@@ -1,7 +1,7 @@
 <div class="weight-dimensions-container">
 	<div class="box">
-		<h1>Assign weights to the Dimensions and Variables</h1>
-		<p>The weights currently displayed are the ones that were calculated using the experts answers.</p>
+		<h1 translate="ASSIGN-WEIGHT-TITLE"></h1>
+		<p translate="ASSIGN-WEIGHT-MSG"></p>
 		<div class="variable-list" ng-repeat="variable in investigation.variables">
 			<h4>{{variable.name}}</h4>
 			<div class="dimension-container col-md-12">
@@ -13,6 +13,6 @@
 				</div>
 			</div>
 		</div>
-		<button ng-click="submit()" class="btn btn-success">Submit</button>
+		<button translate="SUBMIT" ng-click="submit()" class="btn btn-success"></button>
 	</div>
 </div>

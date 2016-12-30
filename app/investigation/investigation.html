@@ -1,7 +1,7 @@
 <div class="investigation-list">
     <div class="button-banner">
         <button ng-click="Create()" type="button" class="add-investigation-button btn btn-success">
-          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new research study
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span translate="ADD_NEW_RESEARCH_STUDY"></span>
         </button>
     </div>
 	<div id="grid-container">
@@ -14,8 +14,8 @@
                         <!-- <h2>Current Status</h2> -->
                         <h1 class="investigation-name">{{investigation.name}}</h1>
                         <a href="http://{{investigation.website}}">{{investigation.website}}</a>
-                        <span ng-show="investigation.website === undefined">
-                           No website
+                        <span translate="NO_WEBSITE" ng-show="investigation.website === undefined">
+                           
                         </span>
                     </div>
                     <div class="body">
@@ -27,7 +27,7 @@
                                     {{investigation.variables.length}}
                                 </span>
                                 <div class="col-md-8">
-                                    <h4>VARIABLES</h4>
+                                    <h4 translate="VARIABLES"></h4>
                                 </div>
                             </div>
                             <div class="col-md-4 experts-section">
@@ -35,7 +35,7 @@
                                     {{investigation.experts.length}}
                                 </span>
                                 <div class="col-md-8">
-                                    <h4>EXPERTS PARTICIPATING</h4>
+                                    <h4 translate="EXPERTS_PARTICIPATING"></h4>
                                 </div>
                                 
                             </div>
@@ -56,8 +56,7 @@
                         </div>
                     </div>
             </div>
-            <div ng-show="investigation.length === 0">
-                You have 0 Investigations
+            <div translate="YOU_HAVE_NO_INVESTIGATIONS" ng-show="investigation.length === 0">
             </div>
         </div>
     </div>
@@ -65,16 +64,16 @@
       <div class="md-dialog-container" id="edit-investigation-dialog">
         <md-dialog>
           <div class="expert-dialog">
-            <h4>Edit Research studies</h4>
-            <p>Name</p>
+            <h4 translate="EDIT_RESEARCH_STUDIES"></h4>
+            <p translate="NAME"></p>
             <input ng-model="editInvestigationModel.name">
-            <p>Description</p>
+            <p translate="DESCRIPTION"></p>
             <input ng-model="editInvestigationModel.description">
-            <p>Website</p>
+            <p translate="WEBSITE"></p>
             <input ng-model="editInvestigationModel.website">
             <div class="dialog-button">
-                <button class="btn btn-primary" ng-click="updateInvestigation()">Update</button>
-                <button class="btn btn-danger" ng-click="closeDialog()">Cancel</button>
+                <button translate="UPDATE" class="btn btn-primary" ng-click="updateInvestigation()"></button>
+                <button translate="CANCEL" class="btn btn-danger" ng-click="closeDialog()"></button>
             </div>
           </div>
         </md-dialog>
@@ -84,10 +83,10 @@
       <div class="md-dialog-container" id="delete-investigation-dialog">
         <md-dialog>
           <div class="expert-dialog">
-            <h4>Delete {{deleteInvestigationModel.name}}</h4>
+            <h4>{{ ::("DELETE") | translate }} {{deleteInvestigationModel.name}}</h4>
             <div class="dialog-button">
-                <button class="btn btn-primary" ng-click="Delete(deleteInvestigationModel.id)">Delete</button>
-                <button class="btn btn-danger" ng-click="closeDialog()">Cancel</button>
+                <button translate="DELETE" class="btn btn-primary" ng-click="Delete(deleteInvestigationModel.id)"></button>
+                <button translate="CANCEL" class="btn btn-danger" ng-click="closeDialog()"></button>
             </div>
           </div>
         </md-dialog>

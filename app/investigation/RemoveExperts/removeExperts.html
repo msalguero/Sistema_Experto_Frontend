@@ -1,13 +1,13 @@
 <div class="remove-experts-container">
 	<div class="box">
-		<h4>Select experts that will continue on further analysis</h4>
-		<p>The experts that have been selected are the ones that have the highest agreement according to the kendalls' coefficient of concordance value. You might to want to use them as your experts to continue the study.</p>
+		<h4 translate="REMOVE-EXPERTS-TITLE"></h4>
+		<p translate="REMOVE-EXPERTS-MSG"></p>
 		<div class="expert-list">
 			<div class="expert" ng-repeat="expert in investigation.experts">
 				<input ng-model="expert.checked" type="checkbox"/>
 				<span>{{expert.name}}</span>
 			</div>
 		</div>
-		<button ng-click="submit()" class="btn btn-primary">Submit</button>
+		<button translate="SUBMIT" ng-click="submit()" class="btn btn-primary"></button>
 	</div>
 </div>

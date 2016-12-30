@@ -8,66 +8,66 @@
 		      <span>{{investigation[0].name}}</span>
 		    </div> -->
 		    <div class="form-group">
-		      <label >Description: </label>
+		      <label translate="DESCRIPTION"></label>:
 		      <span>{{investigation[0].description}}</span>
 		    </div>
 		    <div class="form-group">
-		      <label >Website: </label>
+		      <label translate="WEBSITE"> </label>:
 		      <span>{{investigation[0].website}}</span>
 		    </div>
 		</div>
 		<div ng-if="investigation[0].step !== '7'" class="col-md-6">
 			<div class="panel panel-warning">
 				<div  class="panel-heading">
-		    		<h5 class="panel-title">Current Step</h3>
+		    		<h5 translate="CURRENT-STEP" class="panel-title"></h3>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '1'" class="panel-body">
-		    		<h4>Select Experts</h4>
-		    		<p>Add variables and experts to research study. Variables will be used in the poll as items for the experts to rank. The result of the experts' answers will determine which experts show agreement. Click on <b>Next Step</b> to create the ranking poll or click on <b>Skip Step</b> to select experts without sending the poll. This step uses Kendall's Coefficient Algorithm.</p>
-		    		<button ng-click="CreatePoll(1)" class="btn btn-warning">Next Step</button>
-		    		<a ng-click="ClosePoll()">Skip Step</a>
+		    		<h4 translate="SELECT-EXPERTS"></h4>
+		    		<p translate="SELECT-EXPERTS-MSG"></p>
+		    		<button translate="NEXT-STEP" ng-click="CreatePoll(1)" class="btn btn-warning"></button>
+		    		<a translate="SKIP-STEP" ng-click="ClosePoll()"></a>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '2'" class="panel-body">
-		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered <a ng-click="ShowExperts()">Details...</a></h4> 
-		    		<p>Wait for experts to answer Poll. If you don't want to wait any longer or if you have enough data click on <b>Close poll with current answers</b> to finish.</p>
-		    		<button ng-click="ClosePoll()" class="btn btn-warning">Close Poll with current answers</button>
+		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} <span translate="EXPERTS_HAVE_ANSWERED"></span> <a translate="DETAILS" ng-click="ShowExperts()"></a></h4> 
+		    		<p translate="WAIT-FOR-EXPERTS"></p>
+		    		<button translate="CLOSE-POLL" ng-click="ClosePoll()" class="btn btn-warning"></button>
 
 		    	</div>
 		    	<div ng-if="investigation[0].step === '3'" class="panel-body">
-		    		<h4>Find Dimensions</h4>
-		    		<p>Add Dimensions to the variables. Using the + buttons add dimensions, then click <b>Next Step</b> to send poll to all experts in order to find the most important dimensions and discard the non important ones. This step uses Fleiss' Kappa Algorithm. The poll will be sent again to the experts if agreement is not achieved.</p>
-		    		<button ng-click="CreatePoll(2)" class="btn btn-warning">Next Step</button>
+		    		<h4 translate="FIND-DIMENSIONS"></h4>
+		    		<p translate="FIND-DIMENSIONS-MSG"></p>
+		    		<button translate="NEXT-STEP" ng-click="CreatePoll(2)" class="btn btn-warning"></button>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '4'" class="panel-body">
-		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered <a ng-click="ShowExperts()">Details...</a></h4>
-		    		<p>Wait for experts to answer Poll.</p>
-		    		<h4>Current Kappa: {{currentKappa}}</h4>
+		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} <span translate="EXPERTS_HAVE_ANSWERED"></span> <a translate="DETAILS" ng-click="ShowExperts()"></a></h4>
+		    		<p translate="WAIT-FOR-EXPERTS"></p>
+		    		<h4><span translate="CURRENT-KAPPA"></span>: {{currentKappa}}</h4>
 		    		<div style="display: flex;">
-		    			<button ng-click="closeDelphiMethod()" class="btn btn-warning col-lg-6" style="margin:4px;white-space:normal;">Close Poll with current answers</button>
-		    			<button ng-click="ResendPollPressed()" class="btn btn-info col-lg-6" style="margin:4px;white-space:normal;">I want to resend Poll to experts</button>
+		    			<button translate="CLOSE-POLL" ng-click="closeDelphiMethod()" class="btn btn-warning col-lg-6" style="margin:4px;white-space:normal;"></button>
+		    			<button translate="RESEND-POLL" ng-click="ResendPollPressed()" class="btn btn-info col-lg-6" style="margin:4px;white-space:normal;"></button>
 		    		</div>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '5'" class="panel-body">
-		    		<h3>Assign weights</h3>
-		    		<p>Send poll to all experts in order to assign weights to dimensions and variables.</p>
+		    		<h3 translate="ASSIGN-WEIGHTS"></h3>
+		    		<p translate="SEND-POLL-TO-ASSIGN"></p>
 		    		<div>
-		    			<button ng-click="CreatePoll(3)" class="btn btn-warning">Send Poll to Assign Weights</button>
+		    			<button translate="SEND-POLL-TO-ASSIGN-BTN" ng-click="CreatePoll(3)" class="btn btn-warning"></button>
 		    		</div>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '6'" class="panel-body">
-		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}} Experts have answered <a ng-click="ShowExperts()">Details...</a></h4> 
-		    		<p>Wait for experts to answer Poll. If you don't want to wait any longer or if you have enough data click on <b>Close poll with current answers</b> to finish.</p>
-		    		<button ng-click="GoToAssignWeights()" class="btn btn-warning">Close Poll with current answers</button>
+		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}}  <span translate="EXPERTS_HAVE_ANSWERED"></span> <a ng-click="ShowExperts()">Details...</a></h4> 
+		    		<p translate="WAIT-FOR-EXPERTS"></p>
+		    		<button translate="CLOSE-POLL" ng-click="GoToAssignWeights()" class="btn btn-warning"></button>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '7'" class="panel-body">
-		    		<h4>Finished</h4> 
-		    		<p>The research study is finished and an evaluation rubric has been established.</p>
+		    		<h4 translate="FINISHED"></h4> 
+		    		<p translate="FINISHED-MSG"></p>
 		    	</div>
 			</div>
 		</div>
 		<div ng-if="investigation[0].step === '7'" class="col-md-12">
 			<div class="panel panel-success">
-				<div class="panel-heading"><h4>Final Results</h4></div>
+				<div class="panel-heading"><h4 translate="FINAL-RESULT"></h4></div>
 					<div class="panel-body">
 						<div ng-repeat="data in myChartObject">
 							<div style="display: flex; justify-content: center;">
@@ -81,7 +81,7 @@
 	</div>
     <div class="panel panel-primary">
     	<div ng-click="toggleVariablePanel()" class="panel-heading">
-    		<h3 class="panel-title">Variables</h3>
+    		<h3 translate="VARIABLES" class="panel-title"></h3>
     	</div>
     	<div ng-show="variablePanelExpanded"  class="panel-body">
     		<ul class="list-group" >
@@ -109,15 +109,15 @@
 		    </ul>
 		    <div ng-show="newVariable.show">
 		    	<input  placeholder="Name" ng-keyup="$event.keyCode == 13 ? saveVariable() : null" class="new-variable-button" ng-model="newVariable.name" type="text" class="form-control" >
-		    	<button ng-click="saveVariable()" type="button" class="btn btn-primary">Save</button>
+		    	<button translate="SAVE" ng-click="saveVariable()" type="button" class="btn btn-primary"></button>
 		    </div>
 		    
-		    <button ng-show="investigation[0].step != '7'" class="add-variable-button btn btn-primary" ng-click="addVariable()" type="button" class="btn btn-primary">Add Variable</button>
+		    <button translate="ADD-VARIABLE" ng-show="investigation[0].step != '7'" class="add-variable-button btn btn-primary" ng-click="addVariable()" type="button" class="btn btn-primary"></button>
     	</div>
 	</div>
 	<div class="panel panel-primary">
     	<div ng-click="toggleExpertPanel()" class="panel-heading">
-    		<h3 class="panel-title">Experts</h3>
+    		<h3 translate="EXPERTS" class="panel-title"></h3>
     	</div>
     	<div ng-show="expertPanelExpanded"  class="panel-body">
     		<div class="list-group">
@@ -127,29 +127,29 @@
 			    <p class="list-group-item-text">{{expert.email}}</p>
 			  </div>
 			</div>
-		    <button ng-show="investigation[0].step != '7'" class="add-variable-button btn btn-primary" ng-click="addExpert()" type="button" class="btn btn-primary">Add Expert</button>
+		    <button translate="ADD-EXPERT" ng-show="investigation[0].step != '7'" class="add-variable-button btn btn-primary" ng-click="addExpert()" type="button" class="btn btn-primary"></button>
     	</div>
 	</div>
 	<div style="visibility: hidden">
 	  <div class="md-dialog-container" id="add-expert-dialog">
 	    <md-dialog clickOutsideToClose="true">
 	      <div class="expert-dialog">
-	      	<h4>Add Expert</h4>
-	      	<p>Name</p>
+	      	<h4 translate="ADD-EXPERT"></h4>
+	      	<p translate="NAME"></p>
 	      	<input class="expert-data-input" ng-model="newExpert.name">
-	      	<p>Email</p>
+	      	<p translate="EMAIL"></p>
 	      	<input class="expert-data-input" ng-model="newExpert.email">
-	      	<p>Field of Expertise</p>
+	      	<p translate="FIELD-OF-EXPERTISE"></p>
 	      	<input class="expert-data-input" ng-model="newExpert.field">
-	      	<p>Workplace</p>
+	      	<p translate="WORKPLACE"></p>
 	      	<input class="expert-data-input" ng-model="newExpert.workplace">
-	      	<p>Years of Experience</p>
+	      	<p translate="YEARS-OF-EXPERIENCE"></p>
 	      	<input class="expert-data-input" ng-model="newExpert.years_experience">
-	      	<p>Job Position</p>
+	      	<p translate="JOB-EXPERIENCE"></p>
 	      	<input class="expert-data-input" ng-model="newExpert.job_position">
 	      	<div class="dialog-button">
-	      		<button class="btn btn-primary" ng-click="saveExpert()">Save</button>
-	      		<button class="btn btn-danger" ng-click="closeDialog()">Cancel</button>
+	      		<button translate="SAVE" class="btn btn-primary" ng-click="saveExpert()"></button>
+	      		<button translate="CANCEL" class="btn btn-danger" ng-click="closeDialog()"></button>
 	      	</div>
 	      </div>
 	    </md-dialog>
@@ -162,10 +162,10 @@
 	    <md-dialog >
 	    	<md-dialog-content class="dialog-confirm-close-delphi">
 		      <div class="expert-dialog">
-		      	<center><h4>Low Kappa</h4></center>
+		      	<center><h4 translate="LOW-KAPPA"></h4></center>
 		      	<p>{{closePollMessage}}</p>
 		      	<md-dialog-actions style="display: flex; justify-content: center;">
-			      	<button class="btn btn-success" ng-click="goToSelectDimensions()">Close poll and continue with my study</button>
+			      	<button translate="CLOSE-AND-CONTINUE" class="btn btn-success" ng-click="goToSelectDimensions()"></button>
 		      	</md-dialog-actions>
 		      </div>	
 		  </md-dialog-content>
@@ -179,10 +179,10 @@
 	    <md-dialog >
 	    	<md-dialog-content class="dialog-confirm-close-delphi">
 		      <div class="expert-dialog">
-		      	<center><h4>You're about to send another round of the poll to find dimensions</h4></center>
-		      	<p>Are you sure you want to send the poll to all the experts again?</p>
+		      	<center><h4 translate="SEND-ROUND"></h4></center>
+		      	<p translate="SURE-TO-SEND"></p>
 		      	<md-dialog-actions style="display: flex; justify-content: center;">
-			      	<button class="btn btn-success" ng-click="ResendPoll()">Resend Poll</button>
+			      	<button translate="RESEND-POLL-BTN" class="btn btn-success" ng-click="ResendPoll()"></button>
 		      	</md-dialog-actions>
 		      </div>	
 		  </md-dialog-content>
@@ -197,20 +197,20 @@
 				<div class="expert-answers">
 					<div ng-show="!showAnswers && !loadingAnswers" class="list-group-item " ng-repeat="expert in experts">
 					    <span >{{expert.name}}</span>
-					    <span class="state" ng-show="expert.filled_poll">Answered <a ng-click="ShowExpertAnswers(expert)">See Answers</a></span>
-					    <span class="state" ng-show="!expert.filled_poll">Not Answered</span>
+					    <span class="state" ng-show="expert.filled_poll"><span translate="ANSWERED"></span> <a translate="SEE-ANSWERS" ng-click="ShowExpertAnswers(expert)"></a></span>
+					    <span translate="NOT-ANSWERED" class="state" ng-show="!expert.filled_poll"></span>
 					</div>
 					<md-progress-circular md-mode="indeterminate" ng-show="loadingAnswers"></md-progress-circular>
 					<div ng-show="showAnswers">
 						<span ng-click="BackToExpertList()" class="glyphicon glyphicon-arrow-left"></span>
 						<div class="answer-list-content">
-							{{selectedExpert.name}} answers' of the ranking poll were.
+							{{selectedExpert.name}} <span translate="ANSWERS-RANKING"></span>
 							<div ng-repeat="answer in answers track by $index">
 								{{$index + 1 + ". " + answer.value}} 
 							</div>
 						</div>
 					</div>
-					<button class="btn btn-danger" ng-click="closeDialog()">Close</button>
+					<button translate="CLOSE" class="btn btn-danger" ng-click="closeDialog()"></button>
 				</div>
 			  </md-dialog>
 		</div>
