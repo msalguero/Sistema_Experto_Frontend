@@ -8,7 +8,7 @@
     '$scope', '$state', '$stateParams' , 'Investigation', 'Expert', 'Poll',
     function($scope, $state, $stateParams, Investigation, Expert, Poll) {
       var ctrl = this;
-
+      $scope.kendallsW = 0;
       $scope.investigation = Investigation.findById({
         id: $stateParams.id,
         filter:{include:  ['experts', 'polls']}
@@ -17,6 +17,7 @@
           Poll.getSuggestions({id: investigation.polls[0].id}, 
             function(result){
               var suggestedExperts = result.data.suggestion;
+              $scope.kendallsW = result.data.kendallsW;
               for (var i = 0; i < suggestedExperts.length; i++) {
                 for (var j = 0; j < $scope.investigation.experts.length; j++) {
                   if($scope.investigation.experts[j].id === suggestedExperts[i].id){
