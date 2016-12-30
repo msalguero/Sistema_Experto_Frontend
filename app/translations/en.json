@@ -31,7 +31,7 @@
   "SELECT-EXPERTS-MSG": "Add variables and experts to research study. Variables will be used in the poll as items for the experts to rank. The result of the experts' answers will determine which experts show agreement. Click on <b>Next Step</b> to create the ranking poll or click on <b>Skip Step</b> to select experts without sending the poll. This step uses Kendall's Coefficient Algorithm.",
   "NEXT-STEP": "Next Step",
   "SKIP-STEP": "Skip Step",
-  "EXPERTS-HAVE-ANSWERED": "Experts have answered",
+  "EXPERTS_HAVE_ANSWERED": "Experts have answered",
   "DETAILS": "Details...",
   "CLOSE-POLL": "Close poll with current answers",
   "WAIT-FOR-EXPERTS": "Wait for experts to answer Poll. If you don't want to wait any longer or if you have enough data click on <b>Close poll with current answers</b> to finish.",
@@ -92,5 +92,8 @@
   "REGISTER":"Register",
   "YOUR_NAME":"Your name",
   "YOUR_EMAIL": "Your email",
-  "TYPE_POLL_CREATEPOLL":"type"
+  "TYPE_POLL_CREATEPOLL":"type",
+  "CREATE_RESEARCH_STUDY": "Create Research Study",
+  "RUBRIC_FINISHED": "Rubric Finished"
+
 }

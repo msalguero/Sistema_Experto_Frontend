@@ -7,8 +7,8 @@
   angular.module('InvestigationApp')
 
   .controller('ViewInvestigation', [
-    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert', 'Poll', '$mdDialog', 'Result',
-    function($scope, $state, Investigation, $stateParams, Variable, Expert, Poll, $mdDialog, Result) {
+    '$scope', '$state', 'Investigation', '$stateParams', 'Variable', 'Expert', 'Poll', '$mdDialog', 'Result', '$translate','$rootScope',
+    function($scope, $state, Investigation, $stateParams, Variable, Expert, Poll, $mdDialog, Result, $translate, $rootScope) {
       var ctrl = this;
 $scope.myChartObject = [];
     
@@ -26,13 +26,22 @@ $scope.myChartObject = [];
       $scope.poll;
       $scope.closePollMessage = "Your kappa is too low, are you sure you want to close the poll?"
       $scope.steps = [
-        {title: "Create Research Study", description: "Create and fill investigation data"},
-        {title: "Select Experts", description: "Ranking poll to eliminate experts"},
-        {title: "Find Dimensions", description: ""},
-        {title: "Assign Weights", description: ""},
-        {title: "Rubric Finished", description: ""}
+        {title: $translate.instant('CREATE_RESEARCH_STUDY'), description: ""},
+        {title: $translate.instant('SELECT-EXPERTS'), description: "Ranking poll to eliminate experts"},
+        {title: $translate.instant('FIND-DIMENSIONS'), description: ""},
+        {title: $translate.instant('ASSIGN-WEIGHTS'), description: ""},
+        {title: $translate.instant('RUBRIC_FINISHED'), description: ""}
       ];
       $scope.nfLines = {};
+
+      $rootScope.$on('$translateChangeSuccess', function () {
+        $scope.steps[0] = $translate.instant('CREATE_RESEARCH_STUDY');
+        $scope.steps[1] = $translate.instant('SELECT-EXPERTS');
+        $scope.steps[2] = $translate.instant('FIND-DIMENSIONS');
+        $scope.steps[3] = $translate.instant('ASSIGN-WEIGHTS');
+        $scope.steps[4] = $translate.instant('RUBRIC_FINISHED');
+
+      });
 
       var parseChartData = function(variables){
         var getRandomColor = function() {
@@ -125,13 +134,14 @@ $scope.myChartObject = [];
       $scope.investigation = Investigation.find({ 
         filter: { where: { id: $stateParams.id } }
       }, function(investigation){
+        console.log(investigation[0].step);
         if(investigation[0].step === "3" || investigation[0].step === "4"){
           $scope.activeStep.value++;
-        }else if(investigation[0].step === "5"){
-          $scope.activeStep.value = 4;
+        }else if(investigation[0].step === "5" || investigation[0].step === "6"){
+          $scope.activeStep.value = 3;
         }
         else if(investigation[0].step === "7"){
-          $scope.activeStep.value = 5;
+          $scope.activeStep.value = 4;
         }
       });
 

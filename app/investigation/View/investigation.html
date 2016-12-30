@@ -55,7 +55,7 @@
 		    		</div>
 		    	</div>
 		    	<div ng-if="investigation[0].step === '6'" class="panel-body">
-		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}}  <span translate="EXPERTS_HAVE_ANSWERED"></span> <a ng-click="ShowExperts()">Details...</a></h4> 
+		    		<h4>{{pollsAnsweredByExperts}}/{{experts.length}}  <span translate="EXPERTS_HAVE_ANSWERED"></span> <a translate="DETAILS" ng-click="ShowExperts()"></a></h4> 
 		    		<p translate="WAIT-FOR-EXPERTS"></p>
 		    		<button translate="CLOSE-POLL" ng-click="GoToAssignWeights()" class="btn btn-warning"></button>
 		    	</div>

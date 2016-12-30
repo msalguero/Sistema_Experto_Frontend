@@ -31,7 +31,7 @@
   "SELECT-EXPERTS-MSG": "Agregar variables y expertos al estudio. Las variables se utilizaran en la encuesta como ítems que los expertos clasificaran. Las respuestas de los expertos determinaran  que expertos muestran acuerdo. Dar click en Siguiente Paso para crear la encuesta de Ranking o dar click en saltar paso para seleccionar expertos sin enviar la encuesta. Este paso usa el algoritmo de coeficiente de kendall.",
   "NEXT-STEP": "Siguiente Paso",
   "SKIP-STEP": "Saltar Paso",
-  "EXPERTS-HAVE-ANSWERED": "Expertos han contestado",
+  "EXPERTS_HAVE_ANSWERED": "Expertos han contestado",
   "DETAILS": "Detalles...", 
   "CLOSE-POLL": "Cerrar Encuesta con Respuestas Actuales",
   "WAIT-FOR-EXPERTS": "Espera a que los expertos contesten la Encuesta. Si ya no desea continuar esperando o si considera suficiente las respuestas ya obtenidas de click en Cerrar Encuesta con Respuestas Actuales para terminar.",
@@ -48,7 +48,7 @@
   "SAVE": "Guardar",
   "ADD-VARIABLE": "Agregar Variable",
   "EXPERTS": "Expertos",
-  "ADD-EXPERT": "Agregar Expert",
+  "ADD-EXPERT": "Agregar Experto",
   "FIELD-OF-EXPERTISE": "Especialidad",
   "WORKPLACE": "Lugar de Trabajo",
   "YEARS-OF-EXPERIENCE": "Años de experiencia",
@@ -92,5 +92,7 @@
   "REGISTER": "Registrarse",
   "YOUR_NAME":"Su nombre",
   "YOUR_EMAIL":"Su correo",
-  "TYPE_POLL_CREATEPOLL":"tipo"
+  "TYPE_POLL_CREATEPOLL":"tipo",
+  "CREATE_RESEARCH_STUDY": "Crear Estudio",
+  "RUBRIC_FINISHED": "Rubrica Finalizada"
 }
