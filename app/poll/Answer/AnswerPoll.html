@@ -8,7 +8,7 @@
 				<ul class="list-group" ui-sortable ng-model="poll.questions">
 				  <li class="draggable-question list-group-item" ng-repeat="item in poll.questions">{{ item.text }}</li>
 				</ul>
-				<button class="btn btn-primary" ng-click="submit()"><div translate="SUBMIT"/></button>
+				<button class="btn btn-primary" ng-click="submitRanking()"><div translate="SUBMIT"/></button>
 			</div>
 			<div class="row" ng-show="poll.type === '2'">
 				<h3>{{ currentVariable.name }}</h3>

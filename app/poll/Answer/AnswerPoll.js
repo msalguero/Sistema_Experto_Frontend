@@ -67,9 +67,9 @@
 
       $scope.itemInput = "";
 
-      $scope.submit = function(){
+      $scope.submitRanking = function(){
         $scope.result.answers = $scope.poll.questions.map(function(element){
-          return element.text;
+          return {value: element.text};
         });
         Result.create($scope.result, function(){
           $scope.pollFilled = true;
