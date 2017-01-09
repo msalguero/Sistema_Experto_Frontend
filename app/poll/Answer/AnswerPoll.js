@@ -5,7 +5,7 @@
   angular.module('InvestigationApp')
 
   .controller('AnswerPoll', [
-    '$scope', '$state', 'Poll', '$stateParams', 'Result', 'Expert', 'Variable',
+    '$scope', '$state', 'Poll', '$stateParams', 'Result', 'Expert', 'Variable', 
     function($scope, $state, Poll, $stateParams, Result, Expert, Variable) {
       var ctrl = this;
       var currentVariableNumber = 0;
@@ -15,23 +15,33 @@
 
       var setPreviusAnswers = function(_currentVariableNumber){
         try{
-          if(!$scope.oldResult)return;
+          if(!$scope.oldResult) return;
           $scope.variables[_currentVariableNumber].items.map((item, idx)=>{
-            if($scope.oldResult[0].answers[_currentVariableNumber].values[idx].important)
+            if($scope.oldResult.answers[_currentVariableNumber].values[idx].important)
               item.important = 'important';
             else
               item.important = 'notImportant';
             
           });
 
+
         }catch(e){
           console.log(e);
         }
       }
 
+      var setItemsWeights= function(_dimensions, weights){
+        _dimensions.map((dimen, index)=>{
+          if(dimen.name === weights[index].name){
+            dimen.weight = weights[index].votes;
+          }
+        });
+      }
+
       var loadOldAnswers = function(){
-        Result.find({
+        Result.findOne({
           filter: {
+            include: ['poll'],
             where:{
               and: [{expertId:  $stateParams.expertId}, {pollId:$stateParams.pollId}, {iteration: $scope.poll.iteration-1}]
             } 
@@ -39,7 +49,33 @@
         },function(oldResult){
           $scope.oldResult = oldResult;
           setPreviusAnswers(currentVariableNumber);
-        })
+
+          Variable.find({
+            filter: {
+              where: {
+                investigationId: oldResult.poll.investigationId
+              }
+            }
+          }, function(variables){
+            console.log("variables: ", variables);
+            console.log("$scope.variables: ", $scope.variables);
+            $scope.variables.map((_variable, index)=>{
+              if(_variable.id === variables[index].id){
+                setItemsWeights(_variable.items, variables[index].dimensions );
+              }
+              
+            });
+          })
+
+        });
+
+
+        
+
+      // Poll.getConcordance({ id: $stateParams.pollId}, function(data){
+      //       $scope.votes = data.kappa.toFixed(2);
+      //       console.log($scope.votes);
+      //       });
       }
 
       var init = function(poll){
@@ -47,8 +83,9 @@
           $scope.variables = poll.questions;
           $scope.currentVariable = $scope.variables[currentVariableNumber];
           
-          if(poll.iteration > 0){
+          if(poll.iteration > 0 && poll.type !== "3"){
             loadOldAnswers();
+
             
           }
         }

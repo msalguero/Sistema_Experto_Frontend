@@ -94,6 +94,7 @@
   "YOUR_EMAIL": "Your email",
   "TYPE_POLL_CREATEPOLL":"type",
   "CREATE_RESEARCH_STUDY": "Create Research Study",
-  "RUBRIC_FINISHED": "Rubric Finished"
+  "RUBRIC_FINISHED": "Rubric Finished",
+  "EXPERTS_WHO_CONSIDER_IMPORTANT": "Times that were voted important"
 
 }

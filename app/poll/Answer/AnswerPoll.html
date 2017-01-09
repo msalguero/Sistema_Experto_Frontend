@@ -19,6 +19,7 @@
 							<td width="61%">  &nbsp;  </td>    
 							<th class="option" width="21%">{{poll.options[1]}}</th>  
 							<th class="option" width="13%">{{poll.options[0]}}</th>  
+							<th ng-show="poll.iteration > 0" class="option" width="13%"><div translate="EXPERTS_WHO_CONSIDER_IMPORTANT"/></th> 
 						</tr>
 					</thead>
 					<tbody >
@@ -26,6 +27,7 @@
 							<th>{{ item.name }}</th>
 							<td><input type="radio" name="{{item.name}}" ng-model="item.important" value="notImportant"> </td>
 							<td><input type="radio" ng-model="item.important"  name="{{item.name}}" value="important"> </td>
+							<td ng-show="poll.iteration > 0">{{item.weight}}</td>
 						</tr>
 					</tbody>
 				</table>
