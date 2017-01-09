@@ -3,14 +3,15 @@
 		<div ng-show="!pollFilled">
 			<h2>{{poll.title}}</h2>
 			<p>{{poll.instructions}}</p>
-			<p ng-show="poll.iteration > 0"><div translate="LBL_INSTRUCTION_1"/><b>#{{poll.iteration+1}}</b>. <div translate="LBL_INSTRUCTION_2"/>.</p>
+			
 			<div ng-show="poll.type === '1'">
 				<ul class="list-group" ui-sortable ng-model="poll.questions">
 				  <li class="draggable-question list-group-item" ng-repeat="item in poll.questions">{{ item.text }}</li>
 				</ul>
-				<button class="btn btn-primary" ng-click="submit()"><div translate="SUBMIT"/></button>
+				<button class="btn btn-primary" ng-click="submitRanking()"><div translate="SUBMIT"/></button>
 			</div>
 			<div class="row" ng-show="poll.type === '2'">
+				<p ng-show="poll.iteration > 0"><div translate="LBL_INSTRUCTION_1"/><b>#{{poll.iteration+1}}</b>. <div translate="LBL_INSTRUCTION_2"/>.</p>
 				<h3>{{ currentVariable.name }}</h3>
 				<table>
 					<thead>
