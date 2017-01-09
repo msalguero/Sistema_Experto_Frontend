@@ -5,8 +5,8 @@
   angular.module('InvestigationApp')
 
   .controller('InvestigationList', [
-    '$scope', '$state', 'Investigation', '$mdDialog', 'Account',
-    function($scope, $state, Investigation, $mdDialog, Account) {
+    '$scope', '$state', 'Investigation', '$mdDialog', 'Account', '$translate',
+    function($scope, $state, Investigation, $mdDialog, Account, $translate) {
       var ctrl = this;
       $scope.editInvestigationModel = {};
       $scope.deleteInvestigationModel = {};
@@ -31,6 +31,17 @@
           function(investigations){
             $scope.loadingInvestigations = false;
             $scope.investigations = investigations.slice().reverse();
+            for (let i = 0; i < $scope.investigations.length; i++) {
+              $scope.investigations[i].currentStep = $translate.instant('SELECT-EXPERTS');
+              if($scope.investigations[i].step === "3" || $scope.investigations[i].step === "4"){
+                $scope.investigations[i].currentStep = $translate.instant('FIND-DIMENSIONS');
+              }else if($scope.investigations[i].step === "5" || $scope.investigations[i].step === "6"){
+                $scope.investigations[i].currentStep =  $translate.instant('ASSIGN-WEIGHTS');
+              }
+              else if($scope.investigations[i].step === "7"){
+                $scope.investigations[i].currentStep = $translate.instant('RUBRIC_FINISHED');
+              }
+            };
           });
       }
 

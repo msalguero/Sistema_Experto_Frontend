@@ -19,8 +19,9 @@
         <div class="note-list">
           <ul>
             <li ng-repeat="note in investigation.notes"><a >{{note}}</a></li>
-            <li><a translate="ADD_NEW_REFERENCE" ng-show="!showNewNote" ng-click="showNewNote = !showNewnote"></a>
-                <input ng-model="itemInput" ng-show="showNewNote" ng-keypress="addItem()"></input>
+            <li>
+              <a translate="ADD_NEW_REFERENCE" ng-show="!showNewNote" ng-click="showInput()"></a>
+                <input ng-model="itemInput" ng-show="showNewNote" ng-keypress="addItem()">
             </li>
           </ul>
         </div>

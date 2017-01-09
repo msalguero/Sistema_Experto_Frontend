@@ -15,6 +15,12 @@
 		      <label translate="WEBSITE"> </label>:
 		      <span>{{investigation[0].website}}</span>
 		    </div>
+		    <label translate="REFERENCES"></label>
+		    <ul class="list-group note-list">
+    			<li class="list-group-item" ng-repeat="note in investigation[0].notes">
+    				{{note}}
+    			</li>
+    		</ul>
 		</div>
 		<div ng-if="investigation[0].step !== '7'" class="col-md-6">
 			<div class="panel panel-warning">

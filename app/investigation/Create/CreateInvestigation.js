@@ -10,6 +10,7 @@
       var ctrl = this;
       $scope.investigation = {step:1, notes:[]};
       $scope.itemInput = "";
+      $scope.showNewNote = false;
       Account.getCurrent(
           function(user) {
               $scope.investigation.accountId = user.id;
@@ -30,6 +31,10 @@
           $scope.itemInput = "";
           
         }
+      };
+
+      $scope.showInput = function(){
+        $scope.showNewNote = true;
       };
     }
   ]);

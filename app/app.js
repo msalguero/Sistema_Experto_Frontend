@@ -14,7 +14,7 @@
     function($stateProvider, LoopBackResourceProvider,$urlRouterProvider,$locationProvider,$translateProvider) {
 
       LoopBackResourceProvider.setUrlBase('https://rubric-expert.herokuapp.com/api');
-      // LoopBackResourceProvider.setUrlBase('http://localhost:3000/api');
+      //LoopBackResourceProvider.setUrlBase('http://localhost:3000/api');
 
       $translateProvider
       .useStaticFilesLoader({
