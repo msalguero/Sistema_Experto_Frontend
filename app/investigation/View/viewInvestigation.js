@@ -292,8 +292,7 @@ $scope.myChartObject = [];
           ok: 'Close'
         });
 
-        $mdDialog
-          .show( $scope.alert )
+        $mdDialog.show( $scope.alert )
           .finally(function() {
             $scope.alert = undefined;
             $("body").css({"overflow":""});

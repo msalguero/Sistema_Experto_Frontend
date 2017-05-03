@@ -61,6 +61,7 @@
 
       $scope.DeleteDialog = function(investigation){
         $scope.deleteInvestigationModel = angular.copy(investigation);
+        console.log("mdDialog: ", $mdDialog)
         $scope.alert = $mdDialog.alert({
           contentElement: '#delete-investigation-dialog',
           parent: angular.element(document.body),
